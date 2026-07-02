@@ -21,6 +21,7 @@ DEFAULT_ACTION = {
     # is probably wrong, not just a numeric slip.
     "answer_shape": "reformalize",
     "assignment_shape": "reformalize",
+    "formalization_shape": "reformalize",  # formalizer produced no usable spec at all
     # Fabricated certainty (claiming sat/unsat against the evidence) is a
     # strategy error, not an arithmetic one.
     "unsat_claim": "reformalize",

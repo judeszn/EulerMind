@@ -55,3 +55,35 @@ good case and one communicates the brand risk.)
 | L0-L1 | 0% | n/a | n/a |
 | L2 | ? | ? | ? |
 | L3 | ? | ? | ? |
+
+## H0 — formalization accuracy (measured 2026-07-02, n=60, llama3.2:1b)
+
+| Metric | Value | vs threshold (≥90%) |
+|---|---|---|
+| Overall Schema Accuracy | 74.0% | below |
+| Unit Normalization Accuracy | **28.3%** | well below — worst metric |
+| Variable Extraction Accuracy | 83.2% | below |
+| Numeric Extraction Accuracy | 72.3% | below |
+| Field Association Accuracy | 93.1% | at/near |
+| Constraint Extraction Accuracy | 66.7% | below |
+
+Decision: **PIVOT** to deterministic parser-first extraction (Stage B).
+Full report: [research/H0_formalization/RESULTS.md](research/H0_formalization/RESULTS.md).
+H1 and H3 both blocked on this clearing threshold — see `whitepaper/HYPOTHESES.md`.
+
+## H1 — the bet, as one number (not two rows to mentally subtract)
+
+`policy=None` (B2) vs `policy=DeterministicPolicy()` (B3), same kernel,
+same executor, same verifier — see `kernel/loop.py`. Metric is
+**verified-correct rate** (Verified label AND `benchmark.metrics.grade()`
+agrees), not bare solve rate, so a policy can't win by guessing more
+without any of it being properly verified. Decision by
+`compare_paired` (McNemar), never raw subtraction.
+
+| Arm | Verified-Correct Rate | n | McNemar p | Δ (B3−B2) | Verdict |
+|---|---|---|---|---|---|
+| B2 (blind retry) | ? | ? | — | — | — |
+| B3 (guided retry) | ? | ? | ? | ? | ? |
+
+Kill threshold (`whitepaper/HYPOTHESES.md` H1): Δ ≥ 7pts, p < 0.05.
+Verdict labeled "Edge AI Optimizer only" until measured on ≥2 categories.

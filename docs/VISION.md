@@ -118,7 +118,7 @@ Two deliberate corrections to earlier drafts, frozen here:
 | Formalizer | Natural language → executable mathematics (variables, constraints, objective, unknowns, units) | Confidence is **derived** (back-translation / redundant-formalization agreement), never self-reported by the model |
 | Reasoning Kernel | Attempt → Execute → Observe → Update → Retry | The only loop in the system |
 | Verifier | SymPy / Z3 / OR-Tools checks | Returns **failure signals** (which constraint, where), never a bare "wrong" |
-| Teacher | Explanation | Never reasons. Explains **from the logged trace, citing artifacts** — a free-generating explainer is a fabrication channel |
+| ExplanationRenderer | Explanation | Never reasons. Renders **from the logged trace, citing artifacts** — a free-generating explainer is a fabrication channel. Named for what it does, not what it might tempt someone to make it into. |
 
 ## Guardrails (mandatory)
 

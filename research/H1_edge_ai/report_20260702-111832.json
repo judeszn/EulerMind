@@ -1,0 +1,48 @@
+{
+  "summary": {
+    "n": 1,
+    "model": "llama3.2:1b",
+    "budget": {
+      "attempts": 3,
+      "timeout_s": 180.0,
+      "ram_gb": 4.0
+    },
+    "b2_verified_correct_rate": 0.0,
+    "b3_verified_correct_rate": 0.0,
+    "delta": 0.0,
+    "mcnemar_p": 1.0,
+    "verdict": "indistinguishable"
+  },
+  "b2": [
+    {
+      "id": "edge-00000-messy",
+      "base_id": "edge-00000",
+      "category": "edge_ai_deployment",
+      "variant": "messy",
+      "split": "dev",
+      "trust_label": "Open",
+      "raw_correct": false,
+      "verified_correct": false,
+      "correct": false,
+      "attempts": 3,
+      "duration_s": 0.0,
+      "peak_rss_bytes": 0
+    }
+  ],
+  "b3": [
+    {
+      "id": "edge-00000-messy",
+      "base_id": "edge-00000",
+      "category": "edge_ai_deployment",
+      "variant": "messy",
+      "split": "dev",
+      "trust_label": "Open",
+      "raw_correct": false,
+      "verified_correct": false,
+      "correct": false,
+      "attempts": 3,
+      "duration_s": 0.0,
+      "peak_rss_bytes": 0
+    }
+  ]
+}

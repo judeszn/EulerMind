@@ -1,0 +1,29 @@
+{
+  "n": 60,
+  "spec_present_rate": 0.8833,
+  "variable_extraction_accuracy": 0.8317,
+  "numeric_extraction_accuracy": 0.7225,
+  "field_association_accuracy": 0.9305,
+  "unit_normalization_accuracy": 0.2833,
+  "constraint_extraction_accuracy": 0.6667,
+  "objective_extraction_accuracy": null,
+  "overall_schema_accuracy": 0.7403,
+  "by_variant": {
+    "clean": {
+      "n": 30,
+      "overall_schema_accuracy": 0.7474,
+      "spec_present_rate": 0.8333
+    },
+    "messy": {
+      "n": 30,
+      "overall_schema_accuracy": 0.7332,
+      "spec_present_rate": 0.9333
+    }
+  },
+  "error_taxonomy_totals": {
+    "correct": 843,
+    "swapped": 29,
+    "fabricated": 112,
+    "missing_models": 54
+  }
+}

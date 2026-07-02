@@ -1,0 +1,16 @@
+B2 (blind retry) on 20 problems...
+B3 (guided retry) on 20 problems...
+{
+  "n": 20,
+  "model": "llama3.2:1b",
+  "budget": {
+    "attempts": 3,
+    "timeout_s": 180.0,
+    "ram_gb": 4.0
+  },
+  "b2_verified_correct_rate": 0.0,
+  "b3_verified_correct_rate": 0.0,
+  "delta": 0.0,
+  "mcnemar_p": 1.0,
+  "verdict": "indistinguishable"
+}

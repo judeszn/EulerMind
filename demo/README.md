@@ -19,7 +19,10 @@ about the actual thesis. The recorded/rehearsed run must show a genuine
 the pinned instance, either because the target model naturally needs more
 than one attempt, or via a rehearsed fallback take if it doesn't.
 
-Explanation ("Teacher") is a deterministic template over
+Explanation (`ExplanationRenderer` — named for what it does, not
+"Teacher," which invites someone six months from now to make it smarter
+i.e. LLM-backed, in the one place that would be worst) is a deterministic
+template over
 `ExecutionState.to_dict()` — no LLM call, no new frozen protocol. Given
 Law 1, the one place we can't afford a hallucination risk is the
 explanation of how certain we are.

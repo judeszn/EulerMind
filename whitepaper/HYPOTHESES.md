@@ -12,6 +12,40 @@ Rules (frozen):
 
 ---
 
+## H0 — Can a compact offline model accurately formalize optimization problems?
+
+**Hypothesis.** A ~1-2B offline model can extract our schema (variables,
+budgets/constraints, thresholds) from natural-language problems reliably
+enough to trust downstream measurements built on top of it.
+**Root of the dependency graph** — H1 and H3 are both blocked on H0
+clearing its threshold, since both would otherwise be measuring retry
+policy or checking mechanisms on top of noisy, unmeasured input quality.
+
+```
+H0
+├──► H1  (blind retry vs guided retry - meaningless on corrupted input)
+└──► H3  (formalization checking - needs to know what's left to check)
+```
+
+**Metrics.** Field-by-field, no solving/retry/policy/executor/verifier —
+Variable Extraction Accuracy (model-name F1), Numeric Extraction Accuracy,
+Field Association Accuracy (a correct value on the wrong entity, isolated
+from outright fabrication), Unit Normalization Accuracy, Constraint
+Extraction Accuracy, Overall Schema Accuracy.
+**Kill threshold.** overall_schema_accuracy ≥ 90% AND
+unit_normalization_accuracy ≥ 90% before H1/H3 measurements are trusted.
+**Status.** Measured 2026-07-02, n=60 (`research/H0_formalization/RESULTS.md`):
+overall 74.0%, unit normalization 28.3% — below threshold.
+**Decision: PIVOT** to deterministic parser-first extraction (Stage B) —
+not a change of direction, confirmation that the already-planned next
+step targets the actual measured problem. Dominant failure modes:
+fabrication (11.0%) and missing models (5.3%) outweigh field-association
+errors (2.9%) roughly 6:1 — the error is concentrated in mechanical
+transcription of explicit structured/digit-bearing text, not in semantic
+misunderstanding of which number belongs to which entity.
+
+---
+
 ## H1 — Feedback beats blind retry (THE BET)
 
 **Hypothesis.** Structured verifier feedback (which constraint failed, where) placed
@@ -65,7 +99,15 @@ machine-verified against a *wrong* formalization.
 variants; clean-vs-messy robustness delta.
 **Kill threshold.** Must reduce verified-wrong rate without cutting overall
 verified-correct rate; else delete.
-**Status.** Registered. Blocked on Phase 1 formalizer.
+**Status.** Registered. **Blocked on H0** (not "Phase 1 formalizer" generically
+— H0's 2026-07-02 measurement shows the dominant errors are mechanical
+(fabrication, missing models, unit conversion), which Stage B's
+deterministic extraction targets directly, not H3's checking mechanism.
+H3's actual remaining scope, once Stage B lands, is the smaller residual:
+field-association errors (2.9% measured) that survive mechanical
+extraction — semantic misattribution, not transcription failure. Sequencing:
+H0 reduces deterministic formalization errors → H3 reduces the semantic
+formalization errors left over).
 
 ## H4 — Typed IR beats raw Python
 

@@ -103,14 +103,44 @@ see `demo/README.md` for the file-by-file update discipline — pinned to a
 a demo instance gets rehearsed on every commit, so it can never be the
 holdout copy).
 
-**Phase 1C exit criterion:** not merely "a Verified result" — the
-recorded run must show a genuine attempt → fail → FailureSignal → Policy
-repair → verified sequence (a lucky first-try success proves nothing
-about the thesis). Explanation is a deterministic template over
-`ExecutionState`, not a new LLM-backed protocol — no frozen `Teacher`
-stage exists in `kernel/api.py`, and Law 1 argues against inventing one
-for the one place hallucination would be worst. False Verification Rate
-on the pinned instance must be 0% before release (see `scoreboard.md`).
+**Phase 1C exit criterion — corrected:** repair *capability* and repair
+*shown live* are different requirements, and conflating them made the
+exit criterion unsatisfiable the moment the system gets good (a
+first-try success would "fail" a rule requiring failure — backwards).
+- Capability: proven by tests (already true — Oracle Mode's 28/28
+  selftest covers policy-driven repair; Phase 1C re-validates it against
+  the real, non-cheating pipeline as ordinary build-and-test work).
+- Shown live: a curation decision for `demo/`, not a blocking gate on the
+  pinned instance. Use it if it naturally needs a retry; pair it with a
+  second rehearsed clip if it doesn't. The engine never intentionally
+  fails to satisfy a requirement.
+
+Explanation is a deterministic template over `ExecutionState`, called
+`ExplanationRenderer` — not "Teacher," which invites someone to make it
+LLM-backed later, in the one place a hallucination would be worst. No new
+frozen protocol; `kernel/api.py`'s five stages are unchanged. False
+Verification Rate on the pinned instance must be 0% before release (see
+`scoreboard.md`).
+
+## Milestones (judge-facing framing of the same phases)
+
+| Milestone | Maps to | What a judge can watch |
+|---|---|---|
+| 1. Kernel works | Policy wired, Oracle-validated | 28/28 mechanical selftest |
+| 2. Kernel solves Edge AI | Phase 1C, B2 (blind retry) | Formalize → attempt → verify, real model |
+| 3. Kernel repairs itself | Phase 1C, B3 (guided retry) | FailureSignal → Policy → repair → verified |
+| 4. Kernel generalizes | Phase 1D | Same kernel, LP/CSP/calculus adapters |
+| 5. Research claim measured | Phase 1E, H1 | Δ Verified-Correct Rate, ≥2 categories |
+
+## Guardrail 14 (corrected to OR, matching Guardrail Zero)
+
+No feature is finished until it changes at least one of: `benchmark/`
+(a grader/generator), `demo/` (the pinned pitch), `scoreboard.md` (a
+cell). Not all three — a harness bug fix doesn't need new demo content to
+be real work. The requirement is *observability*, not omnipresence: if a
+change can't be measured, demonstrated, or scored anywhere, it didn't
+happen. Sharpens Guardrail Zero's existing "artifact required" clause;
+doesn't replace it.
 
 **API/protocol discipline continues, not suspended:** no new speculative
 architecture discussions, but `kernel/api.py`'s existing freeze rule
