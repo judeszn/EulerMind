@@ -1,0 +1,11 @@
+[project]
+name = "eulermind"
+version = "0.1.0"
+description = "Verification-guided mathematical reasoning engine for commodity hardware"
+requires-python = ">=3.10"
+# Phase 0 is deliberately dependency-free: the benchmark instrument must not
+# depend on the solvers it measures. Phase 1 adds llama-cpp-python, sympy, z3.
+dependencies = []
+
+[tool.setuptools]
+packages = ["benchmark", "benchmark.generator", "kernel"]

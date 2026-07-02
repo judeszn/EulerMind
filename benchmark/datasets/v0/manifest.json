@@ -1,0 +1,14 @@
+{
+  "n_problems": 240,
+  "per_category_bases": 40,
+  "unsat_fraction": 0.15,
+  "start_seed": 0,
+  "counts": {
+    "calculus_poly/dev": 62,
+    "calculus_poly/holdout": 18,
+    "constraint_csp/dev": 52,
+    "constraint_csp/holdout": 28,
+    "optimization_lp/dev": 58,
+    "optimization_lp/holdout": 22
+  }
+}
