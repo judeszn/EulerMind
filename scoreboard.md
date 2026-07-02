@@ -56,6 +56,23 @@ good case and one communicates the brand risk.)
 | L2 | ? | ? | ? |
 | L3 | ? | ? | ? |
 
+## Validation Phase 1 — first contract-valid result (2026-07-02, n=60)
+
+Deterministic solver + optimality-certifying verifier (contract v1.0),
+native `edge_ai_deployment` dev set, fully offline, peak RSS 27.6 MB.
+
+| System | Coverage (Verified) | False Certification | Verified-Correct |
+|---|---|---|---|
+| Intervention 2 (LLM attempter) | 5% (all wrong) | 5% | **0%** |
+| **Validation Phase 1 (solver + cert)** | **100%** | **0%** | **100%** |
+
+First Verified-Correct > 0 under the locked contract — saturating, at zero
+false certification. Every Verified answer carries a re-checkable
+optimality certificate; the checker provably rejects feasible-but-
+suboptimal answers (the exact H1-invalidating bug). Scope: structured
+inputs where 1B formalization is 100%; degrades on unstructured phrasing.
+**Decision: KEEP.** Full report: [research/V1_validation/RESULTS.md](research/V1_validation/RESULTS.md).
+
 ## H0 — formalization accuracy (measured 2026-07-02, n=60, llama3.2:1b)
 
 | Metric | Value | vs threshold (≥90%) |
