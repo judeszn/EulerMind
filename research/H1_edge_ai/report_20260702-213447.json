@@ -1,0 +1,162 @@
+{
+  "summary": {
+    "n": 4,
+    "model": "llama3.2:1b",
+    "budget": {
+      "attempts": 3,
+      "timeout_s": 120.0,
+      "ram_gb": 4.0
+    },
+    "b2": {
+      "verified_correct_rate": 0.0,
+      "false_verification_rate": 0.0,
+      "mean_attempts": 3.0,
+      "mean_latency_s": 5.0287,
+      "trust_label_breakdown": {
+        "Verified": 0,
+        "Derived": 0,
+        "Heuristic": 0,
+        "Open": 4
+      }
+    },
+    "b3": {
+      "verified_correct_rate": 0.0,
+      "false_verification_rate": 0.0,
+      "mean_attempts": 3.0,
+      "mean_latency_s": 3.5762,
+      "trust_label_breakdown": {
+        "Verified": 0,
+        "Derived": 0,
+        "Heuristic": 0,
+        "Open": 4
+      }
+    },
+    "delta_verified_correct_rate": 0.0,
+    "mcnemar_p": 1.0,
+    "verdict": "indistinguishable"
+  },
+  "b2": [
+    {
+      "id": "edge-00000-clean",
+      "base_id": "edge-00000",
+      "category": "edge_ai_deployment",
+      "variant": "clean",
+      "split": "dev",
+      "trust_label": "Open",
+      "raw_correct": false,
+      "verified_correct": false,
+      "false_verified": false,
+      "correct": false,
+      "attempts": 3,
+      "duration_s": 6.7067,
+      "peak_rss_bytes": 0
+    },
+    {
+      "id": "edge-00000-messy",
+      "base_id": "edge-00000",
+      "category": "edge_ai_deployment",
+      "variant": "messy",
+      "split": "dev",
+      "trust_label": "Open",
+      "raw_correct": false,
+      "verified_correct": false,
+      "false_verified": false,
+      "correct": false,
+      "attempts": 3,
+      "duration_s": 4.2242,
+      "peak_rss_bytes": 0
+    },
+    {
+      "id": "edge-00001-clean",
+      "base_id": "edge-00001",
+      "category": "edge_ai_deployment",
+      "variant": "clean",
+      "split": "dev",
+      "trust_label": "Open",
+      "raw_correct": false,
+      "verified_correct": false,
+      "false_verified": false,
+      "correct": false,
+      "attempts": 3,
+      "duration_s": 4.3376,
+      "peak_rss_bytes": 0
+    },
+    {
+      "id": "edge-00001-messy",
+      "base_id": "edge-00001",
+      "category": "edge_ai_deployment",
+      "variant": "messy",
+      "split": "dev",
+      "trust_label": "Open",
+      "raw_correct": false,
+      "verified_correct": false,
+      "false_verified": false,
+      "correct": false,
+      "attempts": 3,
+      "duration_s": 4.8464,
+      "peak_rss_bytes": 0
+    }
+  ],
+  "b3": [
+    {
+      "id": "edge-00000-clean",
+      "base_id": "edge-00000",
+      "category": "edge_ai_deployment",
+      "variant": "clean",
+      "split": "dev",
+      "trust_label": "Open",
+      "raw_correct": false,
+      "verified_correct": false,
+      "false_verified": false,
+      "correct": false,
+      "attempts": 3,
+      "duration_s": 2.9174,
+      "peak_rss_bytes": 0
+    },
+    {
+      "id": "edge-00000-messy",
+      "base_id": "edge-00000",
+      "category": "edge_ai_deployment",
+      "variant": "messy",
+      "split": "dev",
+      "trust_label": "Open",
+      "raw_correct": false,
+      "verified_correct": false,
+      "false_verified": false,
+      "correct": false,
+      "attempts": 3,
+      "duration_s": 2.9291,
+      "peak_rss_bytes": 0
+    },
+    {
+      "id": "edge-00001-clean",
+      "base_id": "edge-00001",
+      "category": "edge_ai_deployment",
+      "variant": "clean",
+      "split": "dev",
+      "trust_label": "Open",
+      "raw_correct": false,
+      "verified_correct": false,
+      "false_verified": false,
+      "correct": false,
+      "attempts": 3,
+      "duration_s": 4.2293,
+      "peak_rss_bytes": 0
+    },
+    {
+      "id": "edge-00001-messy",
+      "base_id": "edge-00001",
+      "category": "edge_ai_deployment",
+      "variant": "messy",
+      "split": "dev",
+      "trust_label": "Open",
+      "raw_correct": false,
+      "verified_correct": false,
+      "false_verified": false,
+      "correct": false,
+      "attempts": 3,
+      "duration_s": 4.2291,
+      "peak_rss_bytes": 0
+    }
+  ]
+}

@@ -116,6 +116,21 @@ guess), deliberately not chased to avoid template-overfitting. Gains on
 template-generated paraphrases are a lower bound on real-phrasing
 robustness, not proof. Full report: [research/I1b_structure/RESULTS.md](research/I1b_structure/RESULTS.md).
 
+## Intervention 2 — H1 measured (2026-07-02, n=60, StructuredFormalizer)
+
+| Arm | Verified-Correct | False Verification | Mean Attempts | Mean Latency |
+|---|---|---|---|---|
+| B2 (blind) | 0.0% | 5.0% | 2.90 | 4.28s |
+| B3 (guided) | 0.0% | 5.0% | 2.95 | 4.24s |
+
+Δ=0.0, McNemar p=1.0 — perfectly indistinguishable. **Decision: DEFER**
+(not DELETE — see full reasoning in [research/H1_edge_ai/RESULTS.md](research/H1_edge_ai/RESULTS.md)).
+97-99% of all attempts in both arms fail identically on
+`constraint_violation`; every Verified label in the run was a false
+verification (Verifier checks feasibility, not optimality — a scope gap,
+not a formalization or arithmetic bug). Both confounds swamp any room
+for the policy mechanism to show a difference.
+
 ## H1 — the bet, as one number (not two rows to mentally subtract)
 
 `policy=None` (B2) vs `policy=DeterministicPolicy()` (B3), same kernel,

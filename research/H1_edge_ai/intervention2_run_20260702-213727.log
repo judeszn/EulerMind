@@ -1,0 +1,38 @@
+B2 (blind retry) on 60 problems...
+B3 (guided retry) on 60 problems...
+{
+  "n": 60,
+  "model": "llama3.2:1b",
+  "budget": {
+    "attempts": 3,
+    "timeout_s": 180.0,
+    "ram_gb": 4.0
+  },
+  "b2": {
+    "verified_correct_rate": 0.0,
+    "false_verification_rate": 0.05,
+    "mean_attempts": 2.9,
+    "mean_latency_s": 4.278,
+    "trust_label_breakdown": {
+      "Verified": 3,
+      "Derived": 0,
+      "Heuristic": 0,
+      "Open": 57
+    }
+  },
+  "b3": {
+    "verified_correct_rate": 0.0,
+    "false_verification_rate": 0.05,
+    "mean_attempts": 2.95,
+    "mean_latency_s": 4.2439,
+    "trust_label_breakdown": {
+      "Verified": 3,
+      "Derived": 0,
+      "Heuristic": 0,
+      "Open": 57
+    }
+  },
+  "delta_verified_correct_rate": 0.0,
+  "mcnemar_p": 1.0,
+  "verdict": "indistinguishable"
+}

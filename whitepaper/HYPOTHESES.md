@@ -102,6 +102,18 @@ kind-to-action rule table; see H2 for whether the mapping itself is right).
 **Metrics.** Verified-correct rate; attempts-to-success distribution.
 **Kill threshold.** Feedback must beat resampling with McNemar p < 0.05 and a
 delta ≥ 7 points on dev. Otherwise VGS is dead and the project pivots.
+
+**Intervention 2 measured 2026-07-02** (`research/H1_edge_ai/RESULTS.md`),
+60 problems, StructuredFormalizer (1B): Δ=0.0, McNemar p=1.0 — no
+measurable difference. **Decision: DEFER, not DELETE.** The kill
+threshold's literal numbers would read as DELETE, but 97-99% of all
+attempts in both arms failed identically on `constraint_violation`
+(the Attempter can't reliably find a feasible integer combination,
+regardless of feedback), and every "Verified" label in the run (3/60
+each arm) was a false verification — `KnapsackVerifier` checks
+feasibility/consistency, not optimality, while `benchmark.metrics.grade()`
+requires exact match to the true optimum. Both confounds swamp any room
+for policy to matter; this run did not cleanly test the causal claim.
 **Status.** Kernel wiring complete and oracle-validated (Policy invoked,
 `reformalize` loops back to the Formalizer, repeated failures escalate —
 28/28 selftest). Blocked on Phase 1 real Formalizer/Attempter/Executor.
