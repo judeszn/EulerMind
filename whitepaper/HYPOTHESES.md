@@ -71,9 +71,18 @@ one exact phrasing, exactly as the prior turn's caveat predicted before
 this was tested. Not DELETE — the architecture (detector, parser,
 explicit fallback with correct splicing) behaved exactly as designed
 within its scope, and still delivers 100% on the benchmark's controlled
-phrasing. **H0/H1/H3 dependency status: still blocked** — the threshold
-is cleared only for text matching the parser's exact known format, not
-demonstrated to generalize.
+phrasing. H0/H1/H3 dependency status: still blocked at that point.
+
+**Intervention 1B (structure detection + matching extractors) measured
+2026-07-02** (`research/I1b_structure/RESULTS.md`): Parser Success Rate
+0% → **100% on all 3 paraphrase levels**, LLM fallback → 0%, fabrication
+0. Overall Schema Accuracy: L1 100%, L2 100%, L3 88.9% (residual is one
+diagnosed segmentation edge case, deliberately not chased to avoid
+template-overfitting). **Decision: KEEP — Intervention 1 complete.**
+**H0's threshold is now cleared for the structure types in scope**, with
+the standing caveat that gains on template-generated paraphrases are a
+lower bound on real-judge-phrasing robustness, not proof. H1/H3 are
+unblocked to the same degree — resume only with that caveat explicit.
 
 ---
 

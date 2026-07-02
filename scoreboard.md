@@ -100,6 +100,22 @@ in a targeted check vs 13/20 for the same data in table form). H0/H1/H3
 dependency: **still blocked** — the 100% result holds only for the
 benchmark's exact phrasing. Full report: [research/I1_validation/RESULTS.md](research/I1_validation/RESULTS.md).
 
+## Intervention 1B — structure detection + extractors (measured 2026-07-02)
+
+| Level | 1A validation | **1B** | Parser Success (1A→1B) |
+|---|---|---|---|
+| L1 (formatting) | 86.0% | **100%** | 0% → **100%** |
+| L2 (prose) | 93.7% | **100%** | 0% → **100%** |
+| L3 (mixed) | 52.8% | **88.9%** | 0% → **100%** |
+
+**Decision: KEEP — Intervention 1 complete.** Deterministic path now
+handles all 3 paraphrase levels with 0% LLM fallback and 0 fabrication.
+L3's residual 11% is one diagnosed segmentation edge case (prose asides
+sharing an unsplit region with a table → extractor correctly refuses to
+guess), deliberately not chased to avoid template-overfitting. Gains on
+template-generated paraphrases are a lower bound on real-phrasing
+robustness, not proof. Full report: [research/I1b_structure/RESULTS.md](research/I1b_structure/RESULTS.md).
+
 ## H1 — the bet, as one number (not two rows to mentally subtract)
 
 `policy=None` (B2) vs `policy=DeterministicPolicy()` (B3), same kernel,

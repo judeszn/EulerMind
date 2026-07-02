@@ -1,0 +1,98 @@
+{
+  "level1": {
+    "n": 30,
+    "spec_present_rate": 1.0,
+    "variable_extraction_accuracy": 1.0,
+    "numeric_extraction_accuracy": 1.0,
+    "field_association_accuracy": 1.0,
+    "unit_normalization_accuracy": 1.0,
+    "constraint_extraction_accuracy": 1.0,
+    "objective_extraction_accuracy": null,
+    "overall_schema_accuracy": 1.0,
+    "by_variant": {
+      "clean": {
+        "n": 0,
+        "overall_schema_accuracy": null,
+        "spec_present_rate": null
+      },
+      "messy": {
+        "n": 0,
+        "overall_schema_accuracy": null,
+        "spec_present_rate": null
+      }
+    },
+    "error_taxonomy_totals": {
+      "correct": 600,
+      "swapped": 0,
+      "fabricated": 0,
+      "missing_models": 0
+    },
+    "deterministic_success_rate": 1.0,
+    "llm_fallback_invocation_rate": 0.0,
+    "deterministic_route_accuracy": 1.0
+  },
+  "level2": {
+    "n": 30,
+    "spec_present_rate": 1.0,
+    "variable_extraction_accuracy": 1.0,
+    "numeric_extraction_accuracy": 1.0,
+    "field_association_accuracy": 1.0,
+    "unit_normalization_accuracy": 1.0,
+    "constraint_extraction_accuracy": 1.0,
+    "objective_extraction_accuracy": null,
+    "overall_schema_accuracy": 1.0,
+    "by_variant": {
+      "clean": {
+        "n": 0,
+        "overall_schema_accuracy": null,
+        "spec_present_rate": null
+      },
+      "messy": {
+        "n": 0,
+        "overall_schema_accuracy": null,
+        "spec_present_rate": null
+      }
+    },
+    "error_taxonomy_totals": {
+      "correct": 600,
+      "swapped": 0,
+      "fabricated": 0,
+      "missing_models": 0
+    },
+    "deterministic_success_rate": 1.0,
+    "llm_fallback_invocation_rate": 0.0,
+    "deterministic_route_accuracy": 1.0
+  },
+  "level3": {
+    "n": 30,
+    "spec_present_rate": 1.0,
+    "variable_extraction_accuracy": 0.5714,
+    "numeric_extraction_accuracy": 1.0,
+    "field_association_accuracy": 1.0,
+    "unit_normalization_accuracy": 1.0,
+    "constraint_extraction_accuracy": 1.0,
+    "objective_extraction_accuracy": null,
+    "overall_schema_accuracy": 0.8571,
+    "by_variant": {
+      "clean": {
+        "n": 0,
+        "overall_schema_accuracy": null,
+        "spec_present_rate": null
+      },
+      "messy": {
+        "n": 0,
+        "overall_schema_accuracy": null,
+        "spec_present_rate": null
+      }
+    },
+    "error_taxonomy_totals": {
+      "correct": 240,
+      "swapped": 0,
+      "fabricated": 0,
+      "missing_models": 90
+    },
+    "deterministic_success_rate": 1.0,
+    "llm_fallback_invocation_rate": 0.0,
+    "deterministic_route_accuracy": 0.0
+  }
+}
