@@ -58,7 +58,10 @@ RAM ≤ 4 GB and the per-problem time budget**. (Constrained objective — not a
 not "improve accuracy AND RAM AND latency", which nothing satisfies.) Features that
 don't move the primary metric within the constraints are deleted, including on ties.
 The measuring instruments (harness, generators, graders) are exempt — the ruler is
-not a hypothesis.
+not a hypothesis. Concretely: the **dataset is immutable** (new versions get new
+directories, see `benchmark/datasets/CHANGELOG.md`); the **harness code** may be
+bug-fixed, but any fix requires a documented reason and a rerun of affected
+historical scores, so nothing drifts silently.
 
 **Law 3 — Reasoning before generation.**
 The model never writes an answer. It builds one through execution. All arithmetic,

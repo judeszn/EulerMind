@@ -14,7 +14,9 @@ import json
 import time
 from dataclasses import asdict, dataclass, field
 
-STATE_SCHEMA_VERSION = 1  # bump on any serialized-field change; never break replay logs
+STATE_SCHEMA_VERSION = 2  # bump on any serialized-field change; never break replay logs
+# v2: FailureSignal shape changed from {"check": ...} to {"kind","location","evidence"};
+# history "attempt_done" records now include "failure_kinds". See docs/LOGGING.md.
 
 TRUST_LABELS = ("Verified", "Derived", "Heuristic", "Open")
 

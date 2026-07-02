@@ -104,35 +104,40 @@ class MechanicalVerifier:
         try:
             x, y, profit = float(answer["x"]), float(answer["y"]), float(answer["profit"])
         except (KeyError, TypeError, ValueError):
-            return [{"check": "answer_shape", "detail": "missing/non-numeric fields"}]
+            return [{"kind": "answer_shape", "location": "answer",
+                    "evidence": {"detail": "missing/non-numeric fields"}}]
         for name, (ca, cb, cap) in {"constraint_1": (m["a1"], m["b1"], m["c1"]),
                                     "constraint_2": (m["a2"], m["b2"], m["c2"])}.items():
             lhs = ca * x + cb * y
             if lhs > cap + self.TOL:
-                signals.append({"check": name, "lhs": lhs, "capacity": cap,
-                                "violated_by": lhs - cap})
+                signals.append({"kind": "constraint_violation", "location": name,
+                                "evidence": {"lhs": lhs, "capacity": cap,
+                                            "violated_by": lhs - cap}})
         if x < -self.TOL or y < -self.TOL:
-            signals.append({"check": "nonnegativity", "x": x, "y": y})
+            signals.append({"kind": "nonnegativity", "location": "answer",
+                            "evidence": {"x": x, "y": y}})
         if abs(m["p1"] * x + m["p2"] * y - profit) > self.TOL * max(1.0, abs(profit)):
-            signals.append({"check": "profit_consistency",
-                            "claimed": profit, "computed": m["p1"] * x + m["p2"] * y})
+            signals.append({"kind": "profit_consistency", "location": "profit",
+                            "evidence": {"claimed": profit,
+                                        "computed": m["p1"] * x + m["p2"] * y}})
         return signals
 
     def _check_calculus(self, spec, answer):
         fp = spec["fprime_coeffs"]  # integer coeffs, lowest degree first
         pts = answer.get("critical_points")
         if not isinstance(pts, list) or not pts:
-            return [{"check": "answer_shape", "detail": "missing critical_points"}]
+            return [{"kind": "answer_shape", "location": "critical_points",
+                    "evidence": {"detail": "missing critical_points"}}]
         signals = []
-        for p in pts:
+        for i, p in enumerate(pts):
             x = p.get("x")
             value = sum(c * x ** i for i, c in enumerate(fp))
             if abs(value) > self.TOL:
-                signals.append({"check": "fprime_zero", "x": x,
-                                "fprime_value": value})
+                signals.append({"kind": "fprime_zero", "location": f"critical_point_{i}",
+                                "evidence": {"x": x, "fprime_value": value}})
         if len(pts) != len(fp) - 1:  # simple roots: deg(f') critical points
-            signals.append({"check": "critical_point_count",
-                            "claimed": len(pts), "expected": len(fp) - 1})
+            signals.append({"kind": "critical_point_count", "location": "critical_points",
+                            "evidence": {"claimed": len(pts), "expected": len(fp) - 1}})
         return signals
 
     def _check_csp(self, spec, answer):
@@ -144,19 +149,23 @@ class MechanicalVerifier:
                 return []
             assignment = answer.get("assignment") or {}
             return self._check_assignment(spec, assignment) or \
-                [{"check": "unsat_claim", "detail": "claimed satisfiable on unsat instance"}]
+                [{"kind": "unsat_claim", "location": "satisfiable",
+                  "evidence": {"detail": "claimed satisfiable on unsat instance"}}]
         if sat_claim is not True:
-            return [{"check": "sat_claim", "detail": "instance is satisfiable"}]
+            return [{"kind": "sat_claim", "location": "satisfiable",
+                    "evidence": {"detail": "instance is satisfiable"}}]
         return self._check_assignment(spec, answer.get("assignment") or {})
 
     def _check_assignment(self, spec, assignment):
         signals = []
         engineers, tags = spec["engineers"], spec["project_tags"]
         if set(assignment) != set(engineers):
-            return [{"check": "assignment_shape", "detail": "wrong engineer set"}]
+            return [{"kind": "assignment_shape", "location": "assignment",
+                    "evidence": {"detail": "wrong engineer set"}}]
         values = list(assignment.values())
         if len(set(values)) != len(values):
-            signals.append({"check": "distinct_projects", "detail": "duplicate project"})
+            signals.append({"kind": "distinct_projects", "location": "assignment",
+                            "evidence": {"detail": "duplicate project"}})
         for i, con in enumerate(spec["constraints_spec"]):
             ok = True
             kind = con["kind"]
@@ -171,15 +180,19 @@ class MechanicalVerifier:
                 ok = (assignment[con["e1"]] != con["p1"]
                       or assignment[con["e2"]] == con["p2"])
             if not ok:
-                signals.append({"check": f"constraint_{i}", "kind": kind,
-                                "constraint": con})
+                signals.append({"kind": "constraint_violation", "location": f"constraint_{i}",
+                                "evidence": {"constraint_kind": kind, "constraint": con}})
         return signals
 
 
-def run_oracle_mode(problem: dict, *, attempter=None, budget=None, logger=None):
+def run_oracle_mode(problem: dict, *, attempter=None, policy=None, budget=None,
+                    logger=None):
     """Drive the real kernel loop with mechanical stages over a benchmark
     problem. Used by the selftest; the Phase 1 gate is: oracle mode must
-    score 100% verified through the actual loop machinery."""
+    score 100% verified through the actual loop machinery.
+
+    policy=None exercises the B2 control path (blind retry); pass a Policy
+    (e.g. kernel.policy.DeterministicPolicy()) to exercise B3."""
     from .api import Budget
     from .loop import run_kernel
 
@@ -197,6 +210,7 @@ def run_oracle_mode(problem: dict, *, attempter=None, budget=None, logger=None):
         attempter=attempter or OracleAttempter(),
         executor=OracleExecutor(),
         verifier=MechanicalVerifier(),
+        policy=policy,
         budget=budget or Budget(),
         logger=logger,
     )

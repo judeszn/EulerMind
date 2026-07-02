@@ -13,6 +13,9 @@ Checks:
    the retry path recovers from sabotaged attempts using verifier signals,
    budget exhaustion returns Open (Guardrail 5), and every attempt is
    logged with cost accounting + failure taxonomy (Guardrail 6).
+8. Policy wiring (B2 vs B3): FailureSignal shape (kind/location/evidence),
+   DeterministicPolicy's rule table, "reformalize" actually looping back
+   to the Formalizer, and repeated-failure escalation (patch -> rederive).
 """
 
 from __future__ import annotations
@@ -110,12 +113,64 @@ def main() -> int:
     check("oracle mode: failures carry taxonomy + signals",
           all(r["failure_type"] == "verification" and r["signals"]
               for r in flaky_logger.records if r["verification"] == "failed"))
+    check("oracle mode: FailureSignal shape is kind/location/evidence",
+          all({"kind", "location", "evidence"} <= set(sig)
+              for r in flaky_logger.records if r["verification"] == "failed"
+              for sig in r["signals"]))
 
     exhausted = run_oracle_mode(problems[0],
                                 attempter=FlakyOracleAttempter(99),
                                 budget=Budget(attempts=2))
     check("oracle mode: exhausted budget returns Open (Guardrail 5)",
           exhausted.trust_label == "Open" and exhausted.attempt == 2)
+
+    # Policy wiring: B2 (policy=None, blind retry) vs B3 (Policy decides).
+    from kernel.policy import DeterministicPolicy
+    from kernel.state import ExecutionState
+
+    class AlwaysReformalizePolicy:
+        def next_action(self, state):
+            return "stop" if state.verifier_result.get("ok") else "reformalize"
+
+    reform_logger = ListLogger()
+    lp_problem = next(p for p in problems if p["category"] == "optimization_lp")
+    reformed = run_oracle_mode(lp_problem, attempter=FlakyOracleAttempter(1),
+                               policy=AlwaysReformalizePolicy(), logger=reform_logger)
+    check("policy: 'reformalize' actually loops back to the Formalizer",
+          sum(1 for h in reformed.history if h["event"] == "reformalized") == 1
+          and reformed.trust_label == "Verified")
+    check("policy: the failed attempt's log records next_action == reformalize",
+          reform_logger.records[0]["next_action"] == "reformalize")
+
+    det = DeterministicPolicy()
+
+    def fake_state(kind, prior_kinds=(), attempt=1):
+        s = ExecutionState(problem_id="fake", problem_text="")
+        s.attempt = attempt
+        s.verifier_result = {"ok": False, "signals": [
+            {"kind": kind, "location": "x", "evidence": {}}]}
+        for i, pk in enumerate(prior_kinds, start=1):
+            s.record("attempt_done", ok=False, failure_kinds=[pk])
+            s.history[-1]["attempt"] = i  # simulate a strictly-prior attempt
+        return s
+
+    check("policy: answer_shape escalates straight to reformalize",
+          det.next_action(fake_state("answer_shape")) == "reformalize")
+    check("policy: fresh constraint_violation gets a patch, not an escalation",
+          det.next_action(fake_state("constraint_violation")) == "patch")
+    check("policy: repeated constraint_violation escalates patch -> rederive",
+          det.next_action(fake_state("constraint_violation",
+                                     prior_kinds=["constraint_violation"],
+                                     attempt=2)) == "rederive")
+    check("policy: unsat_claim (fabricated certainty) escalates to reformalize",
+          det.next_action(fake_state("unsat_claim")) == "reformalize")
+
+    det_logger = ListLogger()
+    det_run = run_oracle_mode(lp_problem, attempter=FlakyOracleAttempter(1),
+                              policy=det, logger=det_logger)
+    check("policy: DeterministicPolicy recovers an LP sabotage via patch",
+          det_run.trust_label == "Verified"
+          and det_logger.records[0]["next_action"] == "patch")
 
     # Statistics sanity.
     check("mcnemar: no discordant pairs -> p=1", mcnemar_exact(0, 0) == 1.0)
