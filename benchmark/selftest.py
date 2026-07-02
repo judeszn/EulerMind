@@ -22,7 +22,7 @@ from __future__ import annotations
 
 import sys
 
-from .generator import calculus, csp, lp
+from .generator import calculus, csp, edge_ai, lp
 from .metrics import compare_paired, grade, mcnemar_exact
 from .runner import NullSolver, OracleSolver, run
 
@@ -41,6 +41,11 @@ def main() -> int:
         problems += lp.generate(seed)
         problems += calculus.generate(seed)
         problems += csp.generate(seed, force_unsat=(seed >= 4))
+    # edge_ai_deployment is kept out of `problems`: kernel/oracle.py's Oracle
+    # Mode doesn't know the "knapsack" kind yet (deliberately deferred, see
+    # benchmark/generator/edge_ai.py's module docstring) - it gets its own
+    # grader-level check via benchmark.runner instead of kernel.oracle.
+    edge_problems = [p for seed in range(6) for p in edge_ai.generate(seed)]
 
     print("harness self-test")
     oracle_results = run(OracleSolver(), problems)
@@ -172,6 +177,25 @@ def main() -> int:
           det_run.trust_label == "Verified"
           and det_logger.records[0]["next_action"] == "patch")
 
+    # edge_ai_deployment: grader-level checks (OracleSolver/NullSolver,
+    # not kernel.oracle - see the module docstring note above).
+    edge_oracle_results = run(OracleSolver(), edge_problems)
+    check("edge_ai: oracle scores 100%", all(r["correct"] for r in edge_oracle_results))
+    edge_null_results = run(NullSolver(), edge_problems)
+    check("edge_ai: null scores 0%", not any(r["correct"] for r in edge_null_results))
+
+    edge_p = edge_problems[0]
+    egt = edge_p["ground_truth"]
+    check("knapsack: over-budget plan rejected",
+          not grade(edge_p, {"counts": {n: 99 for n in egt["models"]},
+                             "score": egt["score"]}))
+    check("knapsack: suboptimal-but-feasible plan rejected",
+          not grade(edge_p, {"counts": {n: 0 for n in egt["models"]}, "score": 0})
+          if egt["score"] > 0 else True)
+    inconsistent = dict(egt["counts"])
+    check("knapsack: score inconsistent with counts rejected",
+          not grade(edge_p, {"counts": inconsistent, "score": egt["score"] + 1}))
+
     # Statistics sanity.
     check("mcnemar: no discordant pairs -> p=1", mcnemar_exact(0, 0) == 1.0)
     check("mcnemar: 10-0 discordant is significant", mcnemar_exact(0, 10) < 0.05)
@@ -184,7 +208,8 @@ def main() -> int:
     check("generators deterministic",
           lp.generate(3) == lp.generate(3)
           and calculus.generate(3) == calculus.generate(3)
-          and csp.generate(3, force_unsat=True) == csp.generate(3, force_unsat=True))
+          and csp.generate(3, force_unsat=True) == csp.generate(3, force_unsat=True)
+          and edge_ai.generate(3) == edge_ai.generate(3))
 
     if FAILURES:
         print(f"\n{len(FAILURES)} FAILURE(S): {FAILURES}")

@@ -34,6 +34,8 @@ def grade(problem: dict, answer) -> bool:
             return _grade_calculus(problem, answer)
         if kind == "csp":
             return _grade_csp(problem, answer)
+        if kind == "knapsack":
+            return _grade_knapsack(problem, answer)
     except (TypeError, ValueError, KeyError):
         return False
     raise ValueError(f"unknown answer_spec type: {kind}")
@@ -76,6 +78,39 @@ def _grade_calculus(problem, answer):
             return False
         remaining.remove(match)
     return True
+
+
+def _grade_knapsack(problem, answer):
+    gt = problem["ground_truth"]
+    models = gt["models"]
+    counts = answer.get("counts")
+    score = _num(answer.get("score"))
+    if not isinstance(counts, dict) or score is None:
+        return False
+    if set(counts) - set(models):
+        return False  # unknown model name
+    resolved = {name: counts.get(name, 0) for name in models}
+    for c in resolved.values():
+        if not isinstance(c, (int, float)) or c < 0 or abs(c - round(c)) > TOL:
+            return False
+    resolved = {name: round(c) for name, c in resolved.items()}
+
+    ram = sum(c * models[n]["ram_gb"] for n, c in resolved.items())
+    flops = sum(c * models[n]["flops_g"] for n, c in resolved.items())
+    latency = sum(c * models[n]["latency_ms"] for n, c in resolved.items())
+    b = gt["budgets"]
+    if ram > b["ram_gb"] + TOL or flops > b["flops_g"] + TOL or latency > b["latency_ms"] + TOL:
+        return False
+
+    high_acc_units = sum(c for n, c in resolved.items()
+                         if models[n]["accuracy"] >= gt["high_acc_threshold"])
+    if high_acc_units < 1:
+        return False
+
+    computed_score = sum(c * models[n]["score"] for n, c in resolved.items())
+    if abs(computed_score - score) > TOL:
+        return False  # claimed score inconsistent with the claimed counts
+    return computed_score == gt["score"]  # must also be optimal
 
 
 def _grade_csp(problem, answer):

@@ -49,6 +49,8 @@ class OracleSolver:
             answer = {"satisfiable": gt["satisfiable"]}
             if gt["satisfiable"]:
                 answer["assignment"] = gt["example"]
+        elif kind == "knapsack":
+            answer = {"counts": gt["counts"], "score": gt["score"]}
         else:
             raise ValueError(kind)
         return {"answer": answer, "trust_label": "Verified", "attempts": 1}

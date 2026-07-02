@@ -14,7 +14,7 @@ import json
 import os
 
 from ..schema import write_jsonl
-from . import calculus, csp, lp
+from . import calculus, csp, edge_ai, lp
 
 
 def build(per_category: int, unsat_fraction: float, start_seed: int) -> list[dict]:
@@ -22,6 +22,7 @@ def build(per_category: int, unsat_fraction: float, start_seed: int) -> list[dic
     for i in range(per_category):
         problems += lp.generate(start_seed + i)
         problems += calculus.generate(start_seed + i)
+        problems += edge_ai.generate(start_seed + i)
     n_unsat = round(per_category * unsat_fraction)
     for i in range(per_category):
         problems += csp.generate(start_seed + i,
