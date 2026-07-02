@@ -3,6 +3,24 @@
 **Date:** 2026-07-02 · 60-problem `edge_ai_deployment` dev set · fully
 offline · peak RSS 27.6 MB. Run under locked Research Contract v1.0.
 
+## 0. Provenance & reproduction
+
+Executed, not asserted. The pipeline was run via the shell in-session; the
+report JSON (`report_20260702-230958.json`) is on disk. A fresh re-run
+reproduced every correctness figure bit-identically (Verified-Correct 1.0,
+False-Cert 0.0, solver-vs-ground-truth 60/60, negative control REJECT).
+Two metrics are environment-noisy and vary run-to-run — peak RSS
+(27.6↔27.7 MB) and mean solve time (76↔56 µs); report them as "≈27.7 MB,
+sub-ms". All other figures are deterministic (exhaustive search has no
+randomness) and reproduce exactly.
+
+**Mandatory experiment-control protocol (adopted as standard):** every
+EulerMind experiment must include a *positive control* (a known-valid
+certificate is accepted), a *negative control* (corrupted certificates are
+rejected), and an *independent re-check* (a separate implementation agrees).
+This run satisfies all three; the protocol makes them required, not
+incidental.
+
 ## 1. Implementation Summary
 
 Replaced LLM candidate-generation with a deterministic solver for the
