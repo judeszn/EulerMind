@@ -80,3 +80,32 @@ from hypotheses but must cite the rubric constraint they serve
 ## When uncertain
 
 Ship the version with the higher expected final score.
+
+## FROZEN — the vertical slice (2026-07-02)
+
+No new benchmark families. No new architectures. No new model bake-offs.
+Finish this, in this order, before anything else:
+
+```
+Edge AI Optimizer vertical slice (Phase 1C, edge_ai_deployment ONLY)
+  -> demo/ recorded and working
+  -> Phase 1D: generalize the executor to LP/CSP/calculus, no UI changes
+  -> Phase 1E: measure H1 (must span >=2 categories before the verdict
+     is treated as general — see whitepaper/HYPOTHESES.md)
+  -> polish
+  -> submit
+```
+
+Public name: **"Edge AI Optimizer."** Internal category name
+(`edge_ai_deployment`) stays internal. `demo/` holds the frozen pitch —
+`prompt.md`, `expected_output.md`, `speaker_notes.md` — pinned to a **dev**
+split instance, never holdout (holdout is run once per phase gate; a demo
+instance gets rehearsed on every commit, so it can never be the holdout
+copy).
+
+**Demo priority is a tiebreaker among benchmark work, not a fourth gate
+replacing the others above.** S_perf and S_eff are 50% of the score,
+automated, and demo-independent — a RAM watchdog doesn't improve the demo
+narrative, it prevents the OOM that disqualifies regardless of how the
+demo looked. When two benchmark-improving changes are otherwise equal,
+prefer the one that makes `demo/prompt.md`'s pinned run more solid.

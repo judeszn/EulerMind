@@ -32,6 +32,16 @@ delta ≥ 7 points on dev. Otherwise VGS is dead and the project pivots.
 `reformalize` loops back to the Formalizer, repeated failures escalate —
 28/28 selftest). Blocked on Phase 1 real Formalizer/Attempter/Executor.
 
+**Generalization condition (frozen with the vertical slice, 2026-07-02):**
+the real pipeline is built first against `edge_ai_deployment` only
+(Phase 1C, WIN.md). H1's own measurement does not run until Phase 1E,
+after Phase 1D generalizes the executor/verifier to >=2 categories. An
+Edge-AI-only measurement, if time runs out before 1D-1E complete, must be
+reported and labeled exactly that — "Edge AI Optimizer only, not yet
+generalized" — never promoted to a blanket H1 CONFIRMED/DENIED verdict.
+A single-category result generalized to a global claim would be Law 1's
+violation applied to our own research process.
+
 ## H2 — Patch beats rewrite
 
 **Hypothesis.** Given verifier feedback, regenerating only the failed region beats
