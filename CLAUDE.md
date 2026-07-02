@@ -22,6 +22,19 @@ over more sophisticated architecture.
 Arguments must be backed by benchmark results, RAM profiles, latency
 measurements, or demo quality. Architecture is frozen (docs/VISION.md v1.1).
 
+# Git rules
+
+- NEVER add "Co-Authored-By" or any Claude/AI attribution trailers to
+  commit messages. Clean commit messages only.
+
+# The Ladder
+
+All work climbs L0 (Raw Model) → L1 (Reasoning Prompt) → L2 (Tool-Assisted)
+→ L3 (Verification-Guided). Before building anything ask: which rung does
+this improve? `scoreboard.md` tracks measured scores per rung — update it
+with every new measurement. Thin slices across all rungs before optimizing
+any single rung.
+
 # Repo orientation
 
 - `WIN.md` — read first. Mission, constraints, 48-hour rule.

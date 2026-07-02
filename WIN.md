@@ -48,6 +48,35 @@ Owner:
 Decision date:
 ```
 
+## The Ladder (the only roadmap)
+
+| Level | Name | Experiment ID |
+|---|---|---|
+| L0 | Raw Model | B0 |
+| L1 | Reasoning Prompt | B1 |
+| L2 | Tool-Assisted Reasoning | B2 (H1 control) |
+| L3 | Verification-Guided Reasoning | B3 (H1 treatment) |
+
+Every proposed change must answer: **which rung does this improve?**
+If none: don't build it.
+
+## No Vertical Optimization
+
+Never optimize one level of the ladder before every level exists as a thin
+slice. Thin slices first. Optimization second.
+
+## Scoreboard First
+
+`scoreboard.md` is the heartbeat. Every **measurement** updates it (not
+every commit — cells stay `?` until a run fills them; no faked precision).
+
+## No feature code without an experiment
+
+Every feature change states: Hypothesis / Expected gain / Acceptance
+metric / Delete threshold. Required infrastructure and bugfixes are exempt
+from hypotheses but must cite the rubric constraint they serve
+(e.g. RAM watchdog → OOM = disqualification).
+
 ## When uncertain
 
 Ship the version with the higher expected final score.
