@@ -51,21 +51,27 @@ def score(ground_truth: dict, spec: dict | None) -> dict:
     # Numeric extraction + field association, over the intersection only -
     # can't score a field for a model that wasn't even identified.
     correct = swapped = fabricated = 0
+    by_field = {f: {"correct": 0, "swapped": 0, "fabricated": 0} for f in NUMERIC_FIELDS}
     for name in true_names & extracted_names:
         ext_model = extracted_models[name]
         if not isinstance(ext_model, dict):
             fabricated += len(NUMERIC_FIELDS)
+            for f in NUMERIC_FIELDS:
+                by_field[f]["fabricated"] += 1
             continue
         for field in NUMERIC_FIELDS:
             true_val = true_models[name].get(field)
             ext_val = ext_model.get(field)
             if _close(ext_val, true_val):
                 correct += 1
+                by_field[field]["correct"] += 1
             elif any(_close(ext_val, true_models[other].get(field))
                      for other in true_names if other != name):
                 swapped += 1
+                by_field[field]["swapped"] += 1
             else:
                 fabricated += 1
+                by_field[field]["fabricated"] += 1
     total_checked = correct + swapped + fabricated
     numeric_accuracy = correct / total_checked if total_checked else 0.0
     findable = correct + swapped
@@ -102,5 +108,6 @@ def score(ground_truth: dict, spec: dict | None) -> dict:
             "extracted_model_count": len(extracted_names),
             "missing_models": len(true_names - extracted_names),
         },
+        "by_field": by_field,  # additive - new key only, no existing key changed
         "spec_present": spec is not None,
     }

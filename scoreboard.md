@@ -71,6 +71,20 @@ Decision: **PIVOT** to deterministic parser-first extraction (Stage B).
 Full report: [research/H0_formalization/RESULTS.md](research/H0_formalization/RESULTS.md).
 H1 and H3 both blocked on this clearing threshold — see `whitepaper/HYPOTHESES.md`.
 
+## Intervention 1 — parser-first extraction (measured 2026-07-02)
+
+| Metric | Baseline | Intervention 1 | Δ |
+|---|---|---|---|
+| Overall Schema Accuracy | 74.0% | **100%** | +26.0pts |
+| Unit Normalization Accuracy | 28.3% | **100%** | +71.7pts |
+| Fabricated / Missing / Swapped (counts) | 112 / 54 / 29 | 0 / 0 / 0 | -195 total |
+| LLM fallback engaged | — | 0/60 | untested path |
+
+**Decision: KEEP.** Gate 2 passed decisively (both conditions cleared by
+a wide margin). Full report: [research/I1_parser_first/RESULTS.md](research/I1_parser_first/RESULTS.md).
+H0's threshold is cleared for this domain — H1 and H3 unblocked, pending
+fallback-path validation for non-benchmark phrasing.
+
 ## H1 — the bet, as one number (not two rows to mentally subtract)
 
 `policy=None` (B2) vs `policy=DeterministicPolicy()` (B3), same kernel,

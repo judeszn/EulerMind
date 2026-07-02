@@ -44,6 +44,17 @@ errors (2.9%) roughly 6:1 — the error is concentrated in mechanical
 transcription of explicit structured/digit-bearing text, not in semantic
 misunderstanding of which number belongs to which entity.
 
+**Intervention 1 (Stage B) measured 2026-07-02**
+(`research/I1_parser_first/RESULTS.md`): 100% on every metric, 0
+fabrication, 0 missing, 0 swaps, LLM fallback never engaged (0/60). Gate 2
+passed decisively. Caveat: this validates the digit-bearing/structured
+half of the design exactly as scoped — the LLM-fallback path for
+unstructured phrasing was never exercised by this run and remains
+unvalidated. **H0's threshold is cleared for this domain's benchmark
+data; H1 and H3's dependency on H0 is satisfied**, pending the fallback
+validation noted above if judge-facing input diverges from the benchmark's
+phrasing.
+
 ---
 
 ## H1 — Feedback beats blind retry (THE BET)

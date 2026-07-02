@@ -1,0 +1,57 @@
+{
+  "n": 60,
+  "spec_present_rate": 1.0,
+  "variable_extraction_accuracy": 1.0,
+  "numeric_extraction_accuracy": 1.0,
+  "field_association_accuracy": 1.0,
+  "unit_normalization_accuracy": 1.0,
+  "constraint_extraction_accuracy": 1.0,
+  "objective_extraction_accuracy": null,
+  "overall_schema_accuracy": 1.0,
+  "by_variant": {
+    "clean": {
+      "n": 30,
+      "overall_schema_accuracy": 1.0,
+      "spec_present_rate": 1.0
+    },
+    "messy": {
+      "n": 30,
+      "overall_schema_accuracy": 1.0,
+      "spec_present_rate": 1.0
+    }
+  },
+  "error_taxonomy_totals": {
+    "correct": 1200,
+    "swapped": 0,
+    "fabricated": 0,
+    "missing_models": 0
+  },
+  "fallback_engaged_count": 0,
+  "fallback_engaged_rate": 0.0,
+  "fabrication_by_field": {
+    "ram_gb": {
+      "correct": 300,
+      "swapped": 0,
+      "fabricated": 0,
+      "fabrication_rate": 0.0
+    },
+    "flops_g": {
+      "correct": 300,
+      "swapped": 0,
+      "fabricated": 0,
+      "fabrication_rate": 0.0
+    },
+    "accuracy": {
+      "correct": 300,
+      "swapped": 0,
+      "fabricated": 0,
+      "fabrication_rate": 0.0
+    },
+    "latency_ms": {
+      "correct": 300,
+      "swapped": 0,
+      "fabricated": 0,
+      "fabrication_rate": 0.0
+    }
+  }
+}
