@@ -50,10 +50,30 @@ fabrication, 0 missing, 0 swaps, LLM fallback never engaged (0/60). Gate 2
 passed decisively. Caveat: this validates the digit-bearing/structured
 half of the design exactly as scoped — the LLM-fallback path for
 unstructured phrasing was never exercised by this run and remains
-unvalidated. **H0's threshold is cleared for this domain's benchmark
-data; H1 and H3's dependency on H0 is satisfied**, pending the fallback
-validation noted above if judge-facing input diverges from the benchmark's
-phrasing.
+unvalidated. ~~H0's threshold is cleared for this domain's benchmark data; H1 and H3's
+dependency on H0 is satisfied~~ — **superseded by validation below.**
+
+**Validation under controlled perturbation, measured 2026-07-02**
+(`research/I1_validation/RESULTS.md`): 30 unique instances, paraphrased
+3 ways with byte-identical ground truth (rendered fresh from ground truth,
+not edited text — guarantees zero numeric drift). **Parser Success Rate:
+0% on all 3 levels, including formatting-only changes.** The regex is
+literal, not semantic — it doesn't survive bullets→table, bullets→
+semicolons, or any lexical variation. LLM fallback engaged 100% of the
+time and worked correctly (no crashes, correct splicing), with accuracy
+ranging 52.8%–93.7% depending on presentation — worst on mixed-format
+text where catalog entries embedded as prose asides were dropped
+entirely (0/30 extracted in a targeted check, vs 13/20 for the same
+entries presented in a table).
+
+**Decision: DEFER.** Not KEEP — the 100% result was real but overfit to
+one exact phrasing, exactly as the prior turn's caveat predicted before
+this was tested. Not DELETE — the architecture (detector, parser,
+explicit fallback with correct splicing) behaved exactly as designed
+within its scope, and still delivers 100% on the benchmark's controlled
+phrasing. **H0/H1/H3 dependency status: still blocked** — the threshold
+is cleared only for text matching the parser's exact known format, not
+demonstrated to generalize.
 
 ---
 

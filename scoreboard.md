@@ -80,10 +80,25 @@ H1 and H3 both blocked on this clearing threshold — see `whitepaper/HYPOTHESES
 | Fabricated / Missing / Swapped (counts) | 112 / 54 / 29 | 0 / 0 / 0 | -195 total |
 | LLM fallback engaged | — | 0/60 | untested path |
 
-**Decision: KEEP.** Gate 2 passed decisively (both conditions cleared by
-a wide margin). Full report: [research/I1_parser_first/RESULTS.md](research/I1_parser_first/RESULTS.md).
-H0's threshold is cleared for this domain — H1 and H3 unblocked, pending
-fallback-path validation for non-benchmark phrasing.
+~~Decision: KEEP~~ — **superseded, see validation below.**
+Full report: [research/I1_parser_first/RESULTS.md](research/I1_parser_first/RESULTS.md).
+
+## Intervention 1 validation under paraphrase (measured 2026-07-02)
+
+| Metric | Own format | L1 (format) | L2 (prose) | L3 (mixed) |
+|---|---|---|---|---|
+| Overall Schema Accuracy | 100% | 86.0% | 93.7% | **52.8%** |
+| Parser Success Rate | 100% | **0%** | **0%** | **0%** |
+| LLM Fallback Rate | 0% | 100% | 100% | 100% |
+
+**Decision: DEFER.** Parser Success Rate is 0% on all 3 paraphrase
+levels, including formatting-only changes — the regex is literal, not
+semantic. Fallback engaged correctly every time (no crashes) but its
+accuracy is presentation-dependent, dropping to 52.8% when catalog
+entries appear as prose asides rather than lists/tables (0/30 extracted
+in a targeted check vs 13/20 for the same data in table form). H0/H1/H3
+dependency: **still blocked** — the 100% result holds only for the
+benchmark's exact phrasing. Full report: [research/I1_validation/RESULTS.md](research/I1_validation/RESULTS.md).
 
 ## H1 — the bet, as one number (not two rows to mentally subtract)
 

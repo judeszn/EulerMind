@@ -1,0 +1,1322 @@
+[
+  {
+    "var_f1": 0.33333333333333337,
+    "numeric_accuracy": 0.75,
+    "association_accuracy": 1.0,
+    "unit_accuracy": 0.0,
+    "constraint_accuracy": 0.25,
+    "schema_accuracy": 0.4444444444444445,
+    "counts": {
+      "correct": 3,
+      "swapped": 0,
+      "fabricated": 1,
+      "true_model_count": 5,
+      "extracted_model_count": 1,
+      "missing_models": 4
+    },
+    "by_field": {
+      "ram_gb": {
+        "correct": 0,
+        "swapped": 0,
+        "fabricated": 1
+      },
+      "flops_g": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "accuracy": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "latency_ms": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      }
+    },
+    "spec_present": true,
+    "id": "edge-00000-paraphrase_L3",
+    "base_id": "edge-00000",
+    "variant": "paraphrase_L3",
+    "source": "llm_fallback",
+    "structure_detected": false
+  },
+  {
+    "var_f1": 0.5714285714285715,
+    "numeric_accuracy": 1.0,
+    "association_accuracy": 1.0,
+    "unit_accuracy": 0.0,
+    "constraint_accuracy": 0.0,
+    "schema_accuracy": 0.5238095238095238,
+    "counts": {
+      "correct": 8,
+      "swapped": 0,
+      "fabricated": 0,
+      "true_model_count": 5,
+      "extracted_model_count": 2,
+      "missing_models": 3
+    },
+    "by_field": {
+      "ram_gb": {
+        "correct": 2,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "flops_g": {
+        "correct": 2,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "accuracy": {
+        "correct": 2,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "latency_ms": {
+        "correct": 2,
+        "swapped": 0,
+        "fabricated": 0
+      }
+    },
+    "spec_present": true,
+    "id": "edge-00001-paraphrase_L3",
+    "base_id": "edge-00001",
+    "variant": "paraphrase_L3",
+    "source": "llm_fallback",
+    "structure_detected": false
+  },
+  {
+    "var_f1": 0.33333333333333337,
+    "numeric_accuracy": 1.0,
+    "association_accuracy": 1.0,
+    "unit_accuracy": 0.0,
+    "constraint_accuracy": 0.25,
+    "schema_accuracy": 0.5277777777777778,
+    "counts": {
+      "correct": 4,
+      "swapped": 0,
+      "fabricated": 0,
+      "true_model_count": 5,
+      "extracted_model_count": 1,
+      "missing_models": 4
+    },
+    "by_field": {
+      "ram_gb": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "flops_g": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "accuracy": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "latency_ms": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      }
+    },
+    "spec_present": true,
+    "id": "edge-00002-paraphrase_L3",
+    "base_id": "edge-00002",
+    "variant": "paraphrase_L3",
+    "source": "llm_fallback",
+    "structure_detected": false
+  },
+  {
+    "var_f1": 0.33333333333333337,
+    "numeric_accuracy": 1.0,
+    "association_accuracy": 1.0,
+    "unit_accuracy": 0.0,
+    "constraint_accuracy": 0.25,
+    "schema_accuracy": 0.5277777777777778,
+    "counts": {
+      "correct": 4,
+      "swapped": 0,
+      "fabricated": 0,
+      "true_model_count": 5,
+      "extracted_model_count": 1,
+      "missing_models": 4
+    },
+    "by_field": {
+      "ram_gb": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "flops_g": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "accuracy": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "latency_ms": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      }
+    },
+    "spec_present": true,
+    "id": "edge-00003-paraphrase_L3",
+    "base_id": "edge-00003",
+    "variant": "paraphrase_L3",
+    "source": "llm_fallback",
+    "structure_detected": false
+  },
+  {
+    "var_f1": 0.33333333333333337,
+    "numeric_accuracy": 0.75,
+    "association_accuracy": 1.0,
+    "unit_accuracy": 0.0,
+    "constraint_accuracy": 0.75,
+    "schema_accuracy": 0.6111111111111112,
+    "counts": {
+      "correct": 3,
+      "swapped": 0,
+      "fabricated": 1,
+      "true_model_count": 5,
+      "extracted_model_count": 1,
+      "missing_models": 4
+    },
+    "by_field": {
+      "ram_gb": {
+        "correct": 0,
+        "swapped": 0,
+        "fabricated": 1
+      },
+      "flops_g": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "accuracy": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "latency_ms": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      }
+    },
+    "spec_present": true,
+    "id": "edge-00004-paraphrase_L3",
+    "base_id": "edge-00004",
+    "variant": "paraphrase_L3",
+    "source": "llm_fallback",
+    "structure_detected": false
+  },
+  {
+    "var_f1": 0.33333333333333337,
+    "numeric_accuracy": 1.0,
+    "association_accuracy": 1.0,
+    "unit_accuracy": 0.0,
+    "constraint_accuracy": 0.25,
+    "schema_accuracy": 0.5277777777777778,
+    "counts": {
+      "correct": 4,
+      "swapped": 0,
+      "fabricated": 0,
+      "true_model_count": 5,
+      "extracted_model_count": 1,
+      "missing_models": 4
+    },
+    "by_field": {
+      "ram_gb": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "flops_g": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "accuracy": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "latency_ms": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      }
+    },
+    "spec_present": true,
+    "id": "edge-00006-paraphrase_L3",
+    "base_id": "edge-00006",
+    "variant": "paraphrase_L3",
+    "source": "llm_fallback",
+    "structure_detected": false
+  },
+  {
+    "var_f1": 0.5714285714285715,
+    "numeric_accuracy": 0.75,
+    "association_accuracy": 1.0,
+    "unit_accuracy": 0.0,
+    "constraint_accuracy": 0.0,
+    "schema_accuracy": 0.4404761904761905,
+    "counts": {
+      "correct": 6,
+      "swapped": 0,
+      "fabricated": 2,
+      "true_model_count": 5,
+      "extracted_model_count": 2,
+      "missing_models": 3
+    },
+    "by_field": {
+      "ram_gb": {
+        "correct": 0,
+        "swapped": 0,
+        "fabricated": 2
+      },
+      "flops_g": {
+        "correct": 2,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "accuracy": {
+        "correct": 2,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "latency_ms": {
+        "correct": 2,
+        "swapped": 0,
+        "fabricated": 0
+      }
+    },
+    "spec_present": true,
+    "id": "edge-00007-paraphrase_L3",
+    "base_id": "edge-00007",
+    "variant": "paraphrase_L3",
+    "source": "llm_fallback",
+    "structure_detected": false
+  },
+  {
+    "var_f1": 0.33333333333333337,
+    "numeric_accuracy": 0.75,
+    "association_accuracy": 1.0,
+    "unit_accuracy": 0.0,
+    "constraint_accuracy": 0.25,
+    "schema_accuracy": 0.4444444444444445,
+    "counts": {
+      "correct": 3,
+      "swapped": 0,
+      "fabricated": 1,
+      "true_model_count": 5,
+      "extracted_model_count": 1,
+      "missing_models": 4
+    },
+    "by_field": {
+      "ram_gb": {
+        "correct": 0,
+        "swapped": 0,
+        "fabricated": 1
+      },
+      "flops_g": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "accuracy": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "latency_ms": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      }
+    },
+    "spec_present": true,
+    "id": "edge-00008-paraphrase_L3",
+    "base_id": "edge-00008",
+    "variant": "paraphrase_L3",
+    "source": "llm_fallback",
+    "structure_detected": false
+  },
+  {
+    "var_f1": 0.5714285714285715,
+    "numeric_accuracy": 1.0,
+    "association_accuracy": 1.0,
+    "unit_accuracy": 0.0,
+    "constraint_accuracy": 0.25,
+    "schema_accuracy": 0.6071428571428572,
+    "counts": {
+      "correct": 8,
+      "swapped": 0,
+      "fabricated": 0,
+      "true_model_count": 5,
+      "extracted_model_count": 2,
+      "missing_models": 3
+    },
+    "by_field": {
+      "ram_gb": {
+        "correct": 2,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "flops_g": {
+        "correct": 2,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "accuracy": {
+        "correct": 2,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "latency_ms": {
+        "correct": 2,
+        "swapped": 0,
+        "fabricated": 0
+      }
+    },
+    "spec_present": true,
+    "id": "edge-00010-paraphrase_L3",
+    "base_id": "edge-00010",
+    "variant": "paraphrase_L3",
+    "source": "llm_fallback",
+    "structure_detected": false
+  },
+  {
+    "var_f1": 0.33333333333333337,
+    "numeric_accuracy": 1.0,
+    "association_accuracy": 1.0,
+    "unit_accuracy": 0.0,
+    "constraint_accuracy": 0.25,
+    "schema_accuracy": 0.5277777777777778,
+    "counts": {
+      "correct": 4,
+      "swapped": 0,
+      "fabricated": 0,
+      "true_model_count": 5,
+      "extracted_model_count": 1,
+      "missing_models": 4
+    },
+    "by_field": {
+      "ram_gb": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "flops_g": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "accuracy": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "latency_ms": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      }
+    },
+    "spec_present": true,
+    "id": "edge-00012-paraphrase_L3",
+    "base_id": "edge-00012",
+    "variant": "paraphrase_L3",
+    "source": "llm_fallback",
+    "structure_detected": false
+  },
+  {
+    "var_f1": 0.5714285714285715,
+    "numeric_accuracy": 1.0,
+    "association_accuracy": 1.0,
+    "unit_accuracy": 0.0,
+    "constraint_accuracy": 0.25,
+    "schema_accuracy": 0.6071428571428572,
+    "counts": {
+      "correct": 8,
+      "swapped": 0,
+      "fabricated": 0,
+      "true_model_count": 5,
+      "extracted_model_count": 2,
+      "missing_models": 3
+    },
+    "by_field": {
+      "ram_gb": {
+        "correct": 2,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "flops_g": {
+        "correct": 2,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "accuracy": {
+        "correct": 2,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "latency_ms": {
+        "correct": 2,
+        "swapped": 0,
+        "fabricated": 0
+      }
+    },
+    "spec_present": true,
+    "id": "edge-00013-paraphrase_L3",
+    "base_id": "edge-00013",
+    "variant": "paraphrase_L3",
+    "source": "llm_fallback",
+    "structure_detected": false
+  },
+  {
+    "var_f1": 0.33333333333333337,
+    "numeric_accuracy": 1.0,
+    "association_accuracy": 1.0,
+    "unit_accuracy": 0.0,
+    "constraint_accuracy": 0.0,
+    "schema_accuracy": 0.4444444444444445,
+    "counts": {
+      "correct": 4,
+      "swapped": 0,
+      "fabricated": 0,
+      "true_model_count": 5,
+      "extracted_model_count": 1,
+      "missing_models": 4
+    },
+    "by_field": {
+      "ram_gb": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "flops_g": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "accuracy": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "latency_ms": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      }
+    },
+    "spec_present": true,
+    "id": "edge-00014-paraphrase_L3",
+    "base_id": "edge-00014",
+    "variant": "paraphrase_L3",
+    "source": "llm_fallback",
+    "structure_detected": false
+  },
+  {
+    "var_f1": 0.5714285714285715,
+    "numeric_accuracy": 1.0,
+    "association_accuracy": 1.0,
+    "unit_accuracy": 0.0,
+    "constraint_accuracy": 0.25,
+    "schema_accuracy": 0.6071428571428572,
+    "counts": {
+      "correct": 8,
+      "swapped": 0,
+      "fabricated": 0,
+      "true_model_count": 5,
+      "extracted_model_count": 2,
+      "missing_models": 3
+    },
+    "by_field": {
+      "ram_gb": {
+        "correct": 2,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "flops_g": {
+        "correct": 2,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "accuracy": {
+        "correct": 2,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "latency_ms": {
+        "correct": 2,
+        "swapped": 0,
+        "fabricated": 0
+      }
+    },
+    "spec_present": true,
+    "id": "edge-00015-paraphrase_L3",
+    "base_id": "edge-00015",
+    "variant": "paraphrase_L3",
+    "source": "llm_fallback",
+    "structure_detected": false
+  },
+  {
+    "var_f1": 0.5714285714285715,
+    "numeric_accuracy": 1.0,
+    "association_accuracy": 1.0,
+    "unit_accuracy": 0.0,
+    "constraint_accuracy": 0.25,
+    "schema_accuracy": 0.6071428571428572,
+    "counts": {
+      "correct": 8,
+      "swapped": 0,
+      "fabricated": 0,
+      "true_model_count": 5,
+      "extracted_model_count": 2,
+      "missing_models": 3
+    },
+    "by_field": {
+      "ram_gb": {
+        "correct": 2,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "flops_g": {
+        "correct": 2,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "accuracy": {
+        "correct": 2,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "latency_ms": {
+        "correct": 2,
+        "swapped": 0,
+        "fabricated": 0
+      }
+    },
+    "spec_present": true,
+    "id": "edge-00016-paraphrase_L3",
+    "base_id": "edge-00016",
+    "variant": "paraphrase_L3",
+    "source": "llm_fallback",
+    "structure_detected": false
+  },
+  {
+    "var_f1": 0.33333333333333337,
+    "numeric_accuracy": 1.0,
+    "association_accuracy": 1.0,
+    "unit_accuracy": 0.0,
+    "constraint_accuracy": 0.25,
+    "schema_accuracy": 0.5277777777777778,
+    "counts": {
+      "correct": 4,
+      "swapped": 0,
+      "fabricated": 0,
+      "true_model_count": 5,
+      "extracted_model_count": 1,
+      "missing_models": 4
+    },
+    "by_field": {
+      "ram_gb": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "flops_g": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "accuracy": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "latency_ms": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      }
+    },
+    "spec_present": true,
+    "id": "edge-00017-paraphrase_L3",
+    "base_id": "edge-00017",
+    "variant": "paraphrase_L3",
+    "source": "llm_fallback",
+    "structure_detected": false
+  },
+  {
+    "var_f1": 0.33333333333333337,
+    "numeric_accuracy": 1.0,
+    "association_accuracy": 1.0,
+    "unit_accuracy": 0.0,
+    "constraint_accuracy": 0.25,
+    "schema_accuracy": 0.5277777777777778,
+    "counts": {
+      "correct": 4,
+      "swapped": 0,
+      "fabricated": 0,
+      "true_model_count": 5,
+      "extracted_model_count": 1,
+      "missing_models": 4
+    },
+    "by_field": {
+      "ram_gb": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "flops_g": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "accuracy": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "latency_ms": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      }
+    },
+    "spec_present": true,
+    "id": "edge-00018-paraphrase_L3",
+    "base_id": "edge-00018",
+    "variant": "paraphrase_L3",
+    "source": "llm_fallback",
+    "structure_detected": false
+  },
+  {
+    "var_f1": 0.33333333333333337,
+    "numeric_accuracy": 1.0,
+    "association_accuracy": 1.0,
+    "unit_accuracy": 0.0,
+    "constraint_accuracy": 0.25,
+    "schema_accuracy": 0.5277777777777778,
+    "counts": {
+      "correct": 4,
+      "swapped": 0,
+      "fabricated": 0,
+      "true_model_count": 5,
+      "extracted_model_count": 1,
+      "missing_models": 4
+    },
+    "by_field": {
+      "ram_gb": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "flops_g": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "accuracy": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "latency_ms": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      }
+    },
+    "spec_present": true,
+    "id": "edge-00020-paraphrase_L3",
+    "base_id": "edge-00020",
+    "variant": "paraphrase_L3",
+    "source": "llm_fallback",
+    "structure_detected": false
+  },
+  {
+    "var_f1": 0.5714285714285715,
+    "numeric_accuracy": 0.875,
+    "association_accuracy": 0.875,
+    "unit_accuracy": 0.0,
+    "constraint_accuracy": 0.25,
+    "schema_accuracy": 0.5654761904761906,
+    "counts": {
+      "correct": 7,
+      "swapped": 1,
+      "fabricated": 0,
+      "true_model_count": 5,
+      "extracted_model_count": 2,
+      "missing_models": 3
+    },
+    "by_field": {
+      "ram_gb": {
+        "correct": 1,
+        "swapped": 1,
+        "fabricated": 0
+      },
+      "flops_g": {
+        "correct": 2,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "accuracy": {
+        "correct": 2,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "latency_ms": {
+        "correct": 2,
+        "swapped": 0,
+        "fabricated": 0
+      }
+    },
+    "spec_present": true,
+    "id": "edge-00023-paraphrase_L3",
+    "base_id": "edge-00023",
+    "variant": "paraphrase_L3",
+    "source": "llm_fallback",
+    "structure_detected": false
+  },
+  {
+    "var_f1": 0.33333333333333337,
+    "numeric_accuracy": 0.75,
+    "association_accuracy": 1.0,
+    "unit_accuracy": 0.0,
+    "constraint_accuracy": 0.0,
+    "schema_accuracy": 0.36111111111111116,
+    "counts": {
+      "correct": 3,
+      "swapped": 0,
+      "fabricated": 1,
+      "true_model_count": 5,
+      "extracted_model_count": 1,
+      "missing_models": 4
+    },
+    "by_field": {
+      "ram_gb": {
+        "correct": 0,
+        "swapped": 0,
+        "fabricated": 1
+      },
+      "flops_g": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "accuracy": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "latency_ms": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      }
+    },
+    "spec_present": true,
+    "id": "edge-00025-paraphrase_L3",
+    "base_id": "edge-00025",
+    "variant": "paraphrase_L3",
+    "source": "llm_fallback",
+    "structure_detected": false
+  },
+  {
+    "var_f1": 0.33333333333333337,
+    "numeric_accuracy": 1.0,
+    "association_accuracy": 1.0,
+    "unit_accuracy": 0.0,
+    "constraint_accuracy": 0.25,
+    "schema_accuracy": 0.5277777777777778,
+    "counts": {
+      "correct": 4,
+      "swapped": 0,
+      "fabricated": 0,
+      "true_model_count": 5,
+      "extracted_model_count": 1,
+      "missing_models": 4
+    },
+    "by_field": {
+      "ram_gb": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "flops_g": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "accuracy": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "latency_ms": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      }
+    },
+    "spec_present": true,
+    "id": "edge-00026-paraphrase_L3",
+    "base_id": "edge-00026",
+    "variant": "paraphrase_L3",
+    "source": "llm_fallback",
+    "structure_detected": false
+  },
+  {
+    "var_f1": 0.5714285714285715,
+    "numeric_accuracy": 1.0,
+    "association_accuracy": 1.0,
+    "unit_accuracy": 0.0,
+    "constraint_accuracy": 0.25,
+    "schema_accuracy": 0.6071428571428572,
+    "counts": {
+      "correct": 8,
+      "swapped": 0,
+      "fabricated": 0,
+      "true_model_count": 5,
+      "extracted_model_count": 2,
+      "missing_models": 3
+    },
+    "by_field": {
+      "ram_gb": {
+        "correct": 2,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "flops_g": {
+        "correct": 2,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "accuracy": {
+        "correct": 2,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "latency_ms": {
+        "correct": 2,
+        "swapped": 0,
+        "fabricated": 0
+      }
+    },
+    "spec_present": true,
+    "id": "edge-00028-paraphrase_L3",
+    "base_id": "edge-00028",
+    "variant": "paraphrase_L3",
+    "source": "llm_fallback",
+    "structure_detected": false
+  },
+  {
+    "var_f1": 0.33333333333333337,
+    "numeric_accuracy": 1.0,
+    "association_accuracy": 1.0,
+    "unit_accuracy": 0.0,
+    "constraint_accuracy": 0.25,
+    "schema_accuracy": 0.5277777777777778,
+    "counts": {
+      "correct": 4,
+      "swapped": 0,
+      "fabricated": 0,
+      "true_model_count": 5,
+      "extracted_model_count": 1,
+      "missing_models": 4
+    },
+    "by_field": {
+      "ram_gb": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "flops_g": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "accuracy": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "latency_ms": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      }
+    },
+    "spec_present": true,
+    "id": "edge-00029-paraphrase_L3",
+    "base_id": "edge-00029",
+    "variant": "paraphrase_L3",
+    "source": "llm_fallback",
+    "structure_detected": false
+  },
+  {
+    "var_f1": 0.33333333333333337,
+    "numeric_accuracy": 1.0,
+    "association_accuracy": 1.0,
+    "unit_accuracy": 0.0,
+    "constraint_accuracy": 0.25,
+    "schema_accuracy": 0.5277777777777778,
+    "counts": {
+      "correct": 4,
+      "swapped": 0,
+      "fabricated": 0,
+      "true_model_count": 5,
+      "extracted_model_count": 1,
+      "missing_models": 4
+    },
+    "by_field": {
+      "ram_gb": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "flops_g": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "accuracy": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "latency_ms": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      }
+    },
+    "spec_present": true,
+    "id": "edge-00031-paraphrase_L3",
+    "base_id": "edge-00031",
+    "variant": "paraphrase_L3",
+    "source": "llm_fallback",
+    "structure_detected": false
+  },
+  {
+    "var_f1": 0.33333333333333337,
+    "numeric_accuracy": 0.75,
+    "association_accuracy": 1.0,
+    "unit_accuracy": 0.0,
+    "constraint_accuracy": 0.0,
+    "schema_accuracy": 0.36111111111111116,
+    "counts": {
+      "correct": 3,
+      "swapped": 0,
+      "fabricated": 1,
+      "true_model_count": 5,
+      "extracted_model_count": 1,
+      "missing_models": 4
+    },
+    "by_field": {
+      "ram_gb": {
+        "correct": 0,
+        "swapped": 0,
+        "fabricated": 1
+      },
+      "flops_g": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "accuracy": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "latency_ms": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      }
+    },
+    "spec_present": true,
+    "id": "edge-00032-paraphrase_L3",
+    "base_id": "edge-00032",
+    "variant": "paraphrase_L3",
+    "source": "llm_fallback",
+    "structure_detected": false
+  },
+  {
+    "var_f1": 0.33333333333333337,
+    "numeric_accuracy": 1.0,
+    "association_accuracy": 1.0,
+    "unit_accuracy": 0.0,
+    "constraint_accuracy": 0.25,
+    "schema_accuracy": 0.5277777777777778,
+    "counts": {
+      "correct": 4,
+      "swapped": 0,
+      "fabricated": 0,
+      "true_model_count": 5,
+      "extracted_model_count": 1,
+      "missing_models": 4
+    },
+    "by_field": {
+      "ram_gb": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "flops_g": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "accuracy": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "latency_ms": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      }
+    },
+    "spec_present": true,
+    "id": "edge-00033-paraphrase_L3",
+    "base_id": "edge-00033",
+    "variant": "paraphrase_L3",
+    "source": "llm_fallback",
+    "structure_detected": false
+  },
+  {
+    "var_f1": 0.5714285714285715,
+    "numeric_accuracy": 1.0,
+    "association_accuracy": 1.0,
+    "unit_accuracy": 0.0,
+    "constraint_accuracy": 0.0,
+    "schema_accuracy": 0.5238095238095238,
+    "counts": {
+      "correct": 8,
+      "swapped": 0,
+      "fabricated": 0,
+      "true_model_count": 5,
+      "extracted_model_count": 2,
+      "missing_models": 3
+    },
+    "by_field": {
+      "ram_gb": {
+        "correct": 2,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "flops_g": {
+        "correct": 2,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "accuracy": {
+        "correct": 2,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "latency_ms": {
+        "correct": 2,
+        "swapped": 0,
+        "fabricated": 0
+      }
+    },
+    "spec_present": true,
+    "id": "edge-00034-paraphrase_L3",
+    "base_id": "edge-00034",
+    "variant": "paraphrase_L3",
+    "source": "llm_fallback",
+    "structure_detected": false
+  },
+  {
+    "var_f1": 0.5714285714285715,
+    "numeric_accuracy": 1.0,
+    "association_accuracy": 1.0,
+    "unit_accuracy": 0.0,
+    "constraint_accuracy": 0.0,
+    "schema_accuracy": 0.5238095238095238,
+    "counts": {
+      "correct": 8,
+      "swapped": 0,
+      "fabricated": 0,
+      "true_model_count": 5,
+      "extracted_model_count": 2,
+      "missing_models": 3
+    },
+    "by_field": {
+      "ram_gb": {
+        "correct": 2,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "flops_g": {
+        "correct": 2,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "accuracy": {
+        "correct": 2,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "latency_ms": {
+        "correct": 2,
+        "swapped": 0,
+        "fabricated": 0
+      }
+    },
+    "spec_present": true,
+    "id": "edge-00035-paraphrase_L3",
+    "base_id": "edge-00035",
+    "variant": "paraphrase_L3",
+    "source": "llm_fallback",
+    "structure_detected": false
+  },
+  {
+    "var_f1": 0.33333333333333337,
+    "numeric_accuracy": 0.75,
+    "association_accuracy": 1.0,
+    "unit_accuracy": 0.0,
+    "constraint_accuracy": 0.25,
+    "schema_accuracy": 0.4444444444444445,
+    "counts": {
+      "correct": 3,
+      "swapped": 0,
+      "fabricated": 1,
+      "true_model_count": 5,
+      "extracted_model_count": 1,
+      "missing_models": 4
+    },
+    "by_field": {
+      "ram_gb": {
+        "correct": 0,
+        "swapped": 0,
+        "fabricated": 1
+      },
+      "flops_g": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "accuracy": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "latency_ms": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      }
+    },
+    "spec_present": true,
+    "id": "edge-00036-paraphrase_L3",
+    "base_id": "edge-00036",
+    "variant": "paraphrase_L3",
+    "source": "llm_fallback",
+    "structure_detected": false
+  },
+  {
+    "var_f1": 0.5714285714285715,
+    "numeric_accuracy": 1.0,
+    "association_accuracy": 1.0,
+    "unit_accuracy": 1.0,
+    "constraint_accuracy": 1.0,
+    "schema_accuracy": 0.8571428571428572,
+    "counts": {
+      "correct": 8,
+      "swapped": 0,
+      "fabricated": 0,
+      "true_model_count": 5,
+      "extracted_model_count": 2,
+      "missing_models": 3
+    },
+    "by_field": {
+      "ram_gb": {
+        "correct": 2,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "flops_g": {
+        "correct": 2,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "accuracy": {
+        "correct": 2,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "latency_ms": {
+        "correct": 2,
+        "swapped": 0,
+        "fabricated": 0
+      }
+    },
+    "spec_present": true,
+    "id": "edge-00037-paraphrase_L3",
+    "base_id": "edge-00037",
+    "variant": "paraphrase_L3",
+    "source": "llm_fallback",
+    "structure_detected": false
+  },
+  {
+    "var_f1": 0.33333333333333337,
+    "numeric_accuracy": 0.75,
+    "association_accuracy": 1.0,
+    "unit_accuracy": 0.0,
+    "constraint_accuracy": 0.25,
+    "schema_accuracy": 0.4444444444444445,
+    "counts": {
+      "correct": 3,
+      "swapped": 0,
+      "fabricated": 1,
+      "true_model_count": 5,
+      "extracted_model_count": 1,
+      "missing_models": 4
+    },
+    "by_field": {
+      "ram_gb": {
+        "correct": 0,
+        "swapped": 0,
+        "fabricated": 1
+      },
+      "flops_g": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "accuracy": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      },
+      "latency_ms": {
+        "correct": 1,
+        "swapped": 0,
+        "fabricated": 0
+      }
+    },
+    "spec_present": true,
+    "id": "edge-00038-paraphrase_L3",
+    "base_id": "edge-00038",
+    "variant": "paraphrase_L3",
+    "source": "llm_fallback",
+    "structure_detected": false
+  }
+]

@@ -1,0 +1,249 @@
+{
+  "level3": {
+    "summary": {
+      "n": 30,
+      "spec_present_rate": 1.0,
+      "variable_extraction_accuracy": 0.4206,
+      "numeric_extraction_accuracy": 0.9292,
+      "field_association_accuracy": 0.9958,
+      "unit_normalization_accuracy": 0.0333,
+      "constraint_extraction_accuracy": 0.2333,
+      "objective_extraction_accuracy": null,
+      "overall_schema_accuracy": 0.5277,
+      "by_variant": {
+        "clean": {
+          "n": 0,
+          "overall_schema_accuracy": null,
+          "spec_present_rate": null
+        },
+        "messy": {
+          "n": 0,
+          "overall_schema_accuracy": null,
+          "spec_present_rate": null
+        }
+      },
+      "error_taxonomy_totals": {
+        "correct": 154,
+        "swapped": 1,
+        "fabricated": 9,
+        "missing_models": 109
+      },
+      "parser_success_rate": 0.0,
+      "llm_fallback_invocation_rate": 1.0,
+      "structure_detector_accuracy": null,
+      "failure_count": 30
+    },
+    "failures": [
+      {
+        "id": "edge-00000-paraphrase_L3",
+        "failure_type": "llm_fallback_imperfection",
+        "component": "LLM Fallback",
+        "root_cause": "Structure Detector correctly found no matching pattern (catalog/budget phrasing diverges from the parser's known templates) and routed to the LLM as designed. The LLM's own extraction accuracy on this text is imperfect - the same residual error class measured in the H0 baseline (fabrication /missing/unit conversion), now on a different phrasing.",
+        "suggested_fix": "Extend the parser's regex vocabulary to cover this phrasing pattern if it recurs often (reduces fallback reliance), or improve the LLM fallback prompt specifically (out of scope for this validation)."
+      },
+      {
+        "id": "edge-00001-paraphrase_L3",
+        "failure_type": "llm_fallback_imperfection",
+        "component": "LLM Fallback",
+        "root_cause": "Structure Detector correctly found no matching pattern (catalog/budget phrasing diverges from the parser's known templates) and routed to the LLM as designed. The LLM's own extraction accuracy on this text is imperfect - the same residual error class measured in the H0 baseline (fabrication /missing/unit conversion), now on a different phrasing.",
+        "suggested_fix": "Extend the parser's regex vocabulary to cover this phrasing pattern if it recurs often (reduces fallback reliance), or improve the LLM fallback prompt specifically (out of scope for this validation)."
+      },
+      {
+        "id": "edge-00002-paraphrase_L3",
+        "failure_type": "llm_fallback_imperfection",
+        "component": "LLM Fallback",
+        "root_cause": "Structure Detector correctly found no matching pattern (catalog/budget phrasing diverges from the parser's known templates) and routed to the LLM as designed. The LLM's own extraction accuracy on this text is imperfect - the same residual error class measured in the H0 baseline (fabrication /missing/unit conversion), now on a different phrasing.",
+        "suggested_fix": "Extend the parser's regex vocabulary to cover this phrasing pattern if it recurs often (reduces fallback reliance), or improve the LLM fallback prompt specifically (out of scope for this validation)."
+      },
+      {
+        "id": "edge-00003-paraphrase_L3",
+        "failure_type": "llm_fallback_imperfection",
+        "component": "LLM Fallback",
+        "root_cause": "Structure Detector correctly found no matching pattern (catalog/budget phrasing diverges from the parser's known templates) and routed to the LLM as designed. The LLM's own extraction accuracy on this text is imperfect - the same residual error class measured in the H0 baseline (fabrication /missing/unit conversion), now on a different phrasing.",
+        "suggested_fix": "Extend the parser's regex vocabulary to cover this phrasing pattern if it recurs often (reduces fallback reliance), or improve the LLM fallback prompt specifically (out of scope for this validation)."
+      },
+      {
+        "id": "edge-00004-paraphrase_L3",
+        "failure_type": "llm_fallback_imperfection",
+        "component": "LLM Fallback",
+        "root_cause": "Structure Detector correctly found no matching pattern (catalog/budget phrasing diverges from the parser's known templates) and routed to the LLM as designed. The LLM's own extraction accuracy on this text is imperfect - the same residual error class measured in the H0 baseline (fabrication /missing/unit conversion), now on a different phrasing.",
+        "suggested_fix": "Extend the parser's regex vocabulary to cover this phrasing pattern if it recurs often (reduces fallback reliance), or improve the LLM fallback prompt specifically (out of scope for this validation)."
+      },
+      {
+        "id": "edge-00006-paraphrase_L3",
+        "failure_type": "llm_fallback_imperfection",
+        "component": "LLM Fallback",
+        "root_cause": "Structure Detector correctly found no matching pattern (catalog/budget phrasing diverges from the parser's known templates) and routed to the LLM as designed. The LLM's own extraction accuracy on this text is imperfect - the same residual error class measured in the H0 baseline (fabrication /missing/unit conversion), now on a different phrasing.",
+        "suggested_fix": "Extend the parser's regex vocabulary to cover this phrasing pattern if it recurs often (reduces fallback reliance), or improve the LLM fallback prompt specifically (out of scope for this validation)."
+      },
+      {
+        "id": "edge-00007-paraphrase_L3",
+        "failure_type": "llm_fallback_imperfection",
+        "component": "LLM Fallback",
+        "root_cause": "Structure Detector correctly found no matching pattern (catalog/budget phrasing diverges from the parser's known templates) and routed to the LLM as designed. The LLM's own extraction accuracy on this text is imperfect - the same residual error class measured in the H0 baseline (fabrication /missing/unit conversion), now on a different phrasing.",
+        "suggested_fix": "Extend the parser's regex vocabulary to cover this phrasing pattern if it recurs often (reduces fallback reliance), or improve the LLM fallback prompt specifically (out of scope for this validation)."
+      },
+      {
+        "id": "edge-00008-paraphrase_L3",
+        "failure_type": "llm_fallback_imperfection",
+        "component": "LLM Fallback",
+        "root_cause": "Structure Detector correctly found no matching pattern (catalog/budget phrasing diverges from the parser's known templates) and routed to the LLM as designed. The LLM's own extraction accuracy on this text is imperfect - the same residual error class measured in the H0 baseline (fabrication /missing/unit conversion), now on a different phrasing.",
+        "suggested_fix": "Extend the parser's regex vocabulary to cover this phrasing pattern if it recurs often (reduces fallback reliance), or improve the LLM fallback prompt specifically (out of scope for this validation)."
+      },
+      {
+        "id": "edge-00010-paraphrase_L3",
+        "failure_type": "llm_fallback_imperfection",
+        "component": "LLM Fallback",
+        "root_cause": "Structure Detector correctly found no matching pattern (catalog/budget phrasing diverges from the parser's known templates) and routed to the LLM as designed. The LLM's own extraction accuracy on this text is imperfect - the same residual error class measured in the H0 baseline (fabrication /missing/unit conversion), now on a different phrasing.",
+        "suggested_fix": "Extend the parser's regex vocabulary to cover this phrasing pattern if it recurs often (reduces fallback reliance), or improve the LLM fallback prompt specifically (out of scope for this validation)."
+      },
+      {
+        "id": "edge-00012-paraphrase_L3",
+        "failure_type": "llm_fallback_imperfection",
+        "component": "LLM Fallback",
+        "root_cause": "Structure Detector correctly found no matching pattern (catalog/budget phrasing diverges from the parser's known templates) and routed to the LLM as designed. The LLM's own extraction accuracy on this text is imperfect - the same residual error class measured in the H0 baseline (fabrication /missing/unit conversion), now on a different phrasing.",
+        "suggested_fix": "Extend the parser's regex vocabulary to cover this phrasing pattern if it recurs often (reduces fallback reliance), or improve the LLM fallback prompt specifically (out of scope for this validation)."
+      },
+      {
+        "id": "edge-00013-paraphrase_L3",
+        "failure_type": "llm_fallback_imperfection",
+        "component": "LLM Fallback",
+        "root_cause": "Structure Detector correctly found no matching pattern (catalog/budget phrasing diverges from the parser's known templates) and routed to the LLM as designed. The LLM's own extraction accuracy on this text is imperfect - the same residual error class measured in the H0 baseline (fabrication /missing/unit conversion), now on a different phrasing.",
+        "suggested_fix": "Extend the parser's regex vocabulary to cover this phrasing pattern if it recurs often (reduces fallback reliance), or improve the LLM fallback prompt specifically (out of scope for this validation)."
+      },
+      {
+        "id": "edge-00014-paraphrase_L3",
+        "failure_type": "llm_fallback_imperfection",
+        "component": "LLM Fallback",
+        "root_cause": "Structure Detector correctly found no matching pattern (catalog/budget phrasing diverges from the parser's known templates) and routed to the LLM as designed. The LLM's own extraction accuracy on this text is imperfect - the same residual error class measured in the H0 baseline (fabrication /missing/unit conversion), now on a different phrasing.",
+        "suggested_fix": "Extend the parser's regex vocabulary to cover this phrasing pattern if it recurs often (reduces fallback reliance), or improve the LLM fallback prompt specifically (out of scope for this validation)."
+      },
+      {
+        "id": "edge-00015-paraphrase_L3",
+        "failure_type": "llm_fallback_imperfection",
+        "component": "LLM Fallback",
+        "root_cause": "Structure Detector correctly found no matching pattern (catalog/budget phrasing diverges from the parser's known templates) and routed to the LLM as designed. The LLM's own extraction accuracy on this text is imperfect - the same residual error class measured in the H0 baseline (fabrication /missing/unit conversion), now on a different phrasing.",
+        "suggested_fix": "Extend the parser's regex vocabulary to cover this phrasing pattern if it recurs often (reduces fallback reliance), or improve the LLM fallback prompt specifically (out of scope for this validation)."
+      },
+      {
+        "id": "edge-00016-paraphrase_L3",
+        "failure_type": "llm_fallback_imperfection",
+        "component": "LLM Fallback",
+        "root_cause": "Structure Detector correctly found no matching pattern (catalog/budget phrasing diverges from the parser's known templates) and routed to the LLM as designed. The LLM's own extraction accuracy on this text is imperfect - the same residual error class measured in the H0 baseline (fabrication /missing/unit conversion), now on a different phrasing.",
+        "suggested_fix": "Extend the parser's regex vocabulary to cover this phrasing pattern if it recurs often (reduces fallback reliance), or improve the LLM fallback prompt specifically (out of scope for this validation)."
+      },
+      {
+        "id": "edge-00017-paraphrase_L3",
+        "failure_type": "llm_fallback_imperfection",
+        "component": "LLM Fallback",
+        "root_cause": "Structure Detector correctly found no matching pattern (catalog/budget phrasing diverges from the parser's known templates) and routed to the LLM as designed. The LLM's own extraction accuracy on this text is imperfect - the same residual error class measured in the H0 baseline (fabrication /missing/unit conversion), now on a different phrasing.",
+        "suggested_fix": "Extend the parser's regex vocabulary to cover this phrasing pattern if it recurs often (reduces fallback reliance), or improve the LLM fallback prompt specifically (out of scope for this validation)."
+      },
+      {
+        "id": "edge-00018-paraphrase_L3",
+        "failure_type": "llm_fallback_imperfection",
+        "component": "LLM Fallback",
+        "root_cause": "Structure Detector correctly found no matching pattern (catalog/budget phrasing diverges from the parser's known templates) and routed to the LLM as designed. The LLM's own extraction accuracy on this text is imperfect - the same residual error class measured in the H0 baseline (fabrication /missing/unit conversion), now on a different phrasing.",
+        "suggested_fix": "Extend the parser's regex vocabulary to cover this phrasing pattern if it recurs often (reduces fallback reliance), or improve the LLM fallback prompt specifically (out of scope for this validation)."
+      },
+      {
+        "id": "edge-00020-paraphrase_L3",
+        "failure_type": "llm_fallback_imperfection",
+        "component": "LLM Fallback",
+        "root_cause": "Structure Detector correctly found no matching pattern (catalog/budget phrasing diverges from the parser's known templates) and routed to the LLM as designed. The LLM's own extraction accuracy on this text is imperfect - the same residual error class measured in the H0 baseline (fabrication /missing/unit conversion), now on a different phrasing.",
+        "suggested_fix": "Extend the parser's regex vocabulary to cover this phrasing pattern if it recurs often (reduces fallback reliance), or improve the LLM fallback prompt specifically (out of scope for this validation)."
+      },
+      {
+        "id": "edge-00023-paraphrase_L3",
+        "failure_type": "llm_fallback_imperfection",
+        "component": "LLM Fallback",
+        "root_cause": "Structure Detector correctly found no matching pattern (catalog/budget phrasing diverges from the parser's known templates) and routed to the LLM as designed. The LLM's own extraction accuracy on this text is imperfect - the same residual error class measured in the H0 baseline (fabrication /missing/unit conversion), now on a different phrasing.",
+        "suggested_fix": "Extend the parser's regex vocabulary to cover this phrasing pattern if it recurs often (reduces fallback reliance), or improve the LLM fallback prompt specifically (out of scope for this validation)."
+      },
+      {
+        "id": "edge-00025-paraphrase_L3",
+        "failure_type": "llm_fallback_imperfection",
+        "component": "LLM Fallback",
+        "root_cause": "Structure Detector correctly found no matching pattern (catalog/budget phrasing diverges from the parser's known templates) and routed to the LLM as designed. The LLM's own extraction accuracy on this text is imperfect - the same residual error class measured in the H0 baseline (fabrication /missing/unit conversion), now on a different phrasing.",
+        "suggested_fix": "Extend the parser's regex vocabulary to cover this phrasing pattern if it recurs often (reduces fallback reliance), or improve the LLM fallback prompt specifically (out of scope for this validation)."
+      },
+      {
+        "id": "edge-00026-paraphrase_L3",
+        "failure_type": "llm_fallback_imperfection",
+        "component": "LLM Fallback",
+        "root_cause": "Structure Detector correctly found no matching pattern (catalog/budget phrasing diverges from the parser's known templates) and routed to the LLM as designed. The LLM's own extraction accuracy on this text is imperfect - the same residual error class measured in the H0 baseline (fabrication /missing/unit conversion), now on a different phrasing.",
+        "suggested_fix": "Extend the parser's regex vocabulary to cover this phrasing pattern if it recurs often (reduces fallback reliance), or improve the LLM fallback prompt specifically (out of scope for this validation)."
+      },
+      {
+        "id": "edge-00028-paraphrase_L3",
+        "failure_type": "llm_fallback_imperfection",
+        "component": "LLM Fallback",
+        "root_cause": "Structure Detector correctly found no matching pattern (catalog/budget phrasing diverges from the parser's known templates) and routed to the LLM as designed. The LLM's own extraction accuracy on this text is imperfect - the same residual error class measured in the H0 baseline (fabrication /missing/unit conversion), now on a different phrasing.",
+        "suggested_fix": "Extend the parser's regex vocabulary to cover this phrasing pattern if it recurs often (reduces fallback reliance), or improve the LLM fallback prompt specifically (out of scope for this validation)."
+      },
+      {
+        "id": "edge-00029-paraphrase_L3",
+        "failure_type": "llm_fallback_imperfection",
+        "component": "LLM Fallback",
+        "root_cause": "Structure Detector correctly found no matching pattern (catalog/budget phrasing diverges from the parser's known templates) and routed to the LLM as designed. The LLM's own extraction accuracy on this text is imperfect - the same residual error class measured in the H0 baseline (fabrication /missing/unit conversion), now on a different phrasing.",
+        "suggested_fix": "Extend the parser's regex vocabulary to cover this phrasing pattern if it recurs often (reduces fallback reliance), or improve the LLM fallback prompt specifically (out of scope for this validation)."
+      },
+      {
+        "id": "edge-00031-paraphrase_L3",
+        "failure_type": "llm_fallback_imperfection",
+        "component": "LLM Fallback",
+        "root_cause": "Structure Detector correctly found no matching pattern (catalog/budget phrasing diverges from the parser's known templates) and routed to the LLM as designed. The LLM's own extraction accuracy on this text is imperfect - the same residual error class measured in the H0 baseline (fabrication /missing/unit conversion), now on a different phrasing.",
+        "suggested_fix": "Extend the parser's regex vocabulary to cover this phrasing pattern if it recurs often (reduces fallback reliance), or improve the LLM fallback prompt specifically (out of scope for this validation)."
+      },
+      {
+        "id": "edge-00032-paraphrase_L3",
+        "failure_type": "llm_fallback_imperfection",
+        "component": "LLM Fallback",
+        "root_cause": "Structure Detector correctly found no matching pattern (catalog/budget phrasing diverges from the parser's known templates) and routed to the LLM as designed. The LLM's own extraction accuracy on this text is imperfect - the same residual error class measured in the H0 baseline (fabrication /missing/unit conversion), now on a different phrasing.",
+        "suggested_fix": "Extend the parser's regex vocabulary to cover this phrasing pattern if it recurs often (reduces fallback reliance), or improve the LLM fallback prompt specifically (out of scope for this validation)."
+      },
+      {
+        "id": "edge-00033-paraphrase_L3",
+        "failure_type": "llm_fallback_imperfection",
+        "component": "LLM Fallback",
+        "root_cause": "Structure Detector correctly found no matching pattern (catalog/budget phrasing diverges from the parser's known templates) and routed to the LLM as designed. The LLM's own extraction accuracy on this text is imperfect - the same residual error class measured in the H0 baseline (fabrication /missing/unit conversion), now on a different phrasing.",
+        "suggested_fix": "Extend the parser's regex vocabulary to cover this phrasing pattern if it recurs often (reduces fallback reliance), or improve the LLM fallback prompt specifically (out of scope for this validation)."
+      },
+      {
+        "id": "edge-00034-paraphrase_L3",
+        "failure_type": "llm_fallback_imperfection",
+        "component": "LLM Fallback",
+        "root_cause": "Structure Detector correctly found no matching pattern (catalog/budget phrasing diverges from the parser's known templates) and routed to the LLM as designed. The LLM's own extraction accuracy on this text is imperfect - the same residual error class measured in the H0 baseline (fabrication /missing/unit conversion), now on a different phrasing.",
+        "suggested_fix": "Extend the parser's regex vocabulary to cover this phrasing pattern if it recurs often (reduces fallback reliance), or improve the LLM fallback prompt specifically (out of scope for this validation)."
+      },
+      {
+        "id": "edge-00035-paraphrase_L3",
+        "failure_type": "llm_fallback_imperfection",
+        "component": "LLM Fallback",
+        "root_cause": "Structure Detector correctly found no matching pattern (catalog/budget phrasing diverges from the parser's known templates) and routed to the LLM as designed. The LLM's own extraction accuracy on this text is imperfect - the same residual error class measured in the H0 baseline (fabrication /missing/unit conversion), now on a different phrasing.",
+        "suggested_fix": "Extend the parser's regex vocabulary to cover this phrasing pattern if it recurs often (reduces fallback reliance), or improve the LLM fallback prompt specifically (out of scope for this validation)."
+      },
+      {
+        "id": "edge-00036-paraphrase_L3",
+        "failure_type": "llm_fallback_imperfection",
+        "component": "LLM Fallback",
+        "root_cause": "Structure Detector correctly found no matching pattern (catalog/budget phrasing diverges from the parser's known templates) and routed to the LLM as designed. The LLM's own extraction accuracy on this text is imperfect - the same residual error class measured in the H0 baseline (fabrication /missing/unit conversion), now on a different phrasing.",
+        "suggested_fix": "Extend the parser's regex vocabulary to cover this phrasing pattern if it recurs often (reduces fallback reliance), or improve the LLM fallback prompt specifically (out of scope for this validation)."
+      },
+      {
+        "id": "edge-00037-paraphrase_L3",
+        "failure_type": "llm_fallback_imperfection",
+        "component": "LLM Fallback",
+        "root_cause": "Structure Detector correctly found no matching pattern (catalog/budget phrasing diverges from the parser's known templates) and routed to the LLM as designed. The LLM's own extraction accuracy on this text is imperfect - the same residual error class measured in the H0 baseline (fabrication /missing/unit conversion), now on a different phrasing.",
+        "suggested_fix": "Extend the parser's regex vocabulary to cover this phrasing pattern if it recurs often (reduces fallback reliance), or improve the LLM fallback prompt specifically (out of scope for this validation)."
+      },
+      {
+        "id": "edge-00038-paraphrase_L3",
+        "failure_type": "llm_fallback_imperfection",
+        "component": "LLM Fallback",
+        "root_cause": "Structure Detector correctly found no matching pattern (catalog/budget phrasing diverges from the parser's known templates) and routed to the LLM as designed. The LLM's own extraction accuracy on this text is imperfect - the same residual error class measured in the H0 baseline (fabrication /missing/unit conversion), now on a different phrasing.",
+        "suggested_fix": "Extend the parser's regex vocabulary to cover this phrasing pattern if it recurs often (reduces fallback reliance), or improve the LLM fallback prompt specifically (out of scope for this validation)."
+      }
+    ]
+  }
+}
