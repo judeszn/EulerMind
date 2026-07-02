@@ -14,12 +14,27 @@ Two metrics are environment-noisy and vary run-to-run — peak RSS
 sub-ms". All other figures are deterministic (exhaustive search has no
 randomness) and reproduce exactly.
 
-**Mandatory experiment-control protocol (adopted as standard):** every
-EulerMind experiment must include a *positive control* (a known-valid
-certificate is accepted), a *negative control* (corrupted certificates are
-rejected), and an *independent re-check* (a separate implementation agrees).
-This run satisfies all three; the protocol makes them required, not
-incidental.
+**Mandatory Evidence Protocol (adopted as standard for every experiment):**
+1. Positive control — a known-valid certificate is accepted.
+2. Negative control — corrupted certificates are rejected.
+3. Independent re-check — a separate implementation agrees.
+4. Frozen benchmark — dataset immutable, versioned.
+5. Frozen success metric — registered before the run.
+6. Reproducible execution record — artifacts written to disk.
+
+**Reproducibility ceiling — read this before citing any number here.**
+Evidence has layers, and this run reaches only the first:
+- **Internal reproducibility ✓** — re-run in the same environment, same
+  code, same benchmark, same result. Established.
+- **Independent reproducibility — NOT established.** No second machine has
+  cloned the repo and reproduced this.
+- **External validation — NOT established.** No third party has confirmed it.
+
+These numbers are experimental measurements *within the development
+environment*, not placeholders and not universally-affirmed facts. A
+reader of the results alone cannot verify the executions occurred; that
+requires cloning the repo and running it elsewhere. Nothing here may be
+cited as independently or publication-validated until layer 2 exists.
 
 ## 1. Implementation Summary
 
