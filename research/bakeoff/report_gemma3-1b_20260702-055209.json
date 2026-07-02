@@ -1,0 +1,52 @@
+{
+  "n": 30,
+  "correct_rate": 0.1333,
+  "verified_correct_rate": 0.0,
+  "by_category": {
+    "calculus_poly": {
+      "n": 10,
+      "correct_rate": 0.4,
+      "verified_correct_rate": 0.0
+    },
+    "constraint_csp": {
+      "n": 10,
+      "correct_rate": 0.0,
+      "verified_correct_rate": 0.0
+    },
+    "optimization_lp": {
+      "n": 10,
+      "correct_rate": 0.0,
+      "verified_correct_rate": 0.0
+    }
+  },
+  "by_variant": {
+    "clean": {
+      "n": 15,
+      "correct_rate": 0.1333,
+      "verified_correct_rate": 0.0
+    },
+    "messy": {
+      "n": 15,
+      "correct_rate": 0.1333,
+      "verified_correct_rate": 0.0
+    }
+  },
+  "by_split": {
+    "dev": {
+      "n": 30,
+      "correct_rate": 0.1333,
+      "verified_correct_rate": 0.0
+    }
+  },
+  "robustness": {
+    "n_pairs": 15,
+    "clean_rate": 0.1333,
+    "messy_rate": 0.1333,
+    "delta": 0.0
+  },
+  "timing": {
+    "mean_s": 30.31896,
+    "p95_s": 54.7344
+  },
+  "peak_rss_mb": 24.7
+}

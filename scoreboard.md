@@ -16,12 +16,17 @@ are model-size approximations, marked ~).
 
 ## Model bake-off (at L1 — L0 suppresses reasoning and biases the comparison)
 
-| Model | Size (Q4) | L0 acc | L1 acc | Tokens/sec | Verdict |
-|---|---|---|---|---|---|
-| qwen2.5:1.5b | ~1.0 GB | 6.7% | 3.3% | ? | incumbent (L1 ≈ L0, CoT hallucinates arithmetic) |
-| qwen2.5-math-1.5b (GGUF/llama.cpp) | ~1.0 GB | ? | ? | ? | competition candidate |
-| deepseek-r1-distill 1.5b | ~1.1 GB | ? | ? | ? | reasoning-tuned |
-| gemma3:1b | ~0.8 GB | ? | ? | ? | smallest |
-| llama3.2:1b | ~0.8 GB | ? | ? | ? | ? |
+Full results + instrumentation note: [research/bakeoff/RESULTS.md](research/bakeoff/RESULTS.md).
+All deltas vs incumbent are statistically indistinguishable at n=30
+(McNemar) — directional signal only, confirmation deferred (No Vertical
+Optimization).
+
+| Model | Size (Q4) | L1 acc | Messy delta | Latency | Tok/s | Verdict |
+|---|---|---|---|---|---|---|
+| qwen2.5:1.5b | ~1.0 GB | 3.3% | +6.7pts | 9.8s | 39.9 | incumbent |
+| **llama3.2:1b** | ~0.8 GB | 13.3% | 0 | 20.7s | 34.7 | **provisional default** (dominates gemma3) |
+| gemma3:1b | ~0.8 GB | 13.3% | 0 | 30.3s | 29.3 | dropped — dominated by llama3.2 |
+| deepseek-r1-distill 1.5b | ~1.1 GB | 16.7% | −6.7pts | 86.1s | 33.7 | flagged for L3, too slow as default |
+| qwen2.5-math-1.5b (GGUF/llama.cpp) | ~1.0 GB | untested | — | — | — | competition candidate, highest priority open item |
 
 Tokens/sec column exists because S_perf is 30% of the final score.
