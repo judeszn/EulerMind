@@ -30,3 +30,28 @@ Optimization).
 | qwen2.5-math-1.5b (GGUF/llama.cpp) | ~1.0 GB | untested | — | — | — | competition candidate, highest priority open item |
 
 Tokens/sec column exists because S_perf is 30% of the final score.
+
+## Verification integrity (added 2026-07-02)
+
+Operationalizes Law 1's own caveat ("verification is relative to the
+formalization") into a number. `grade()` is the benchmark's independent
+ground-truth check; `trust_label` is the kernel's own self-assessment —
+these can disagree once formalization comes from a real LLM instead of
+Oracle Mode's ground-truth cheat.
+
+| Metric | Formula | Scope | Gate |
+|---|---|---|---|
+| Verified Rate | `count(label=="Verified") / n` | benchmark-wide | tracked |
+| Verified Accuracy | `count(label=="Verified" & grade==True) / count(label=="Verified")` | benchmark-wide | tracked (target: rises via H3) |
+| False Verification Rate | `count(label=="Verified" & grade==False) / count(label=="Verified")` | benchmark-wide | tracked, **not yet an absolute gate** — H3 is still open |
+| False Verification Rate | same formula | **pinned demo instance only** (`demo/prompt.md`) | **hard release gate: 0%** — rehearsed, so achievable |
+
+(Verified Accuracy + False Verification Rate = 100% by construction — two
+views of the same count, tracked separately because one communicates the
+good case and one communicates the brand risk.)
+
+| Level | Verified Rate | Verified Accuracy | False Verification Rate |
+|---|---|---|---|
+| L0-L1 | 0% | n/a | n/a |
+| L2 | ? | ? | ? |
+| L3 | ? | ? | ? |

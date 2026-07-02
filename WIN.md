@@ -98,10 +98,27 @@ Edge AI Optimizer vertical slice (Phase 1C, edge_ai_deployment ONLY)
 
 Public name: **"Edge AI Optimizer."** Internal category name
 (`edge_ai_deployment`) stays internal. `demo/` holds the frozen pitch —
-`prompt.md`, `expected_output.md`, `speaker_notes.md` — pinned to a **dev**
-split instance, never holdout (holdout is run once per phase gate; a demo
-instance gets rehearsed on every commit, so it can never be the holdout
-copy).
+see `demo/README.md` for the file-by-file update discipline — pinned to a
+**dev** split instance, never holdout (holdout is run once per phase gate;
+a demo instance gets rehearsed on every commit, so it can never be the
+holdout copy).
+
+**Phase 1C exit criterion:** not merely "a Verified result" — the
+recorded run must show a genuine attempt → fail → FailureSignal → Policy
+repair → verified sequence (a lucky first-try success proves nothing
+about the thesis). Explanation is a deterministic template over
+`ExecutionState`, not a new LLM-backed protocol — no frozen `Teacher`
+stage exists in `kernel/api.py`, and Law 1 argues against inventing one
+for the one place hallucination would be worst. False Verification Rate
+on the pinned instance must be 0% before release (see `scoreboard.md`).
+
+**API/protocol discipline continues, not suspended:** no new speculative
+architecture discussions, but `kernel/api.py`'s existing freeze rule
+(revise freely pre-measurement; after, version-bump + document) still
+applies to fixes implementation reveals — exactly the kind that already
+surfaced twice while wiring Policy. Building Phase 1C for real, against a
+non-cheating model, will surface more of these; fixing them is
+engineering, not scope creep.
 
 **Demo priority is a tiebreaker among benchmark work, not a fourth gate
 replacing the others above.** S_perf and S_eff are 50% of the score,
