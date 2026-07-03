@@ -15,8 +15,8 @@ No percentage bars — a status either has an artifact behind it or it doesn't.
 | Model choice (GGUF) | ❌ | Blocked on CI leaderboard measurements — see MODEL_CANDIDATES.md |
 | `REPORT.md` (problem, design, constraints, benchmarks) | ❌ | The one place the entire Gamma/Delta evidence base earns S_acc credit — biggest writing task remaining |
 | 2-minute video | ❌ | User records; script derivable from demo/speaker_notes.md after model selection |
-| Profiler passes locally (Gate 1) | 🔶 | Profiler installed + CLI verified locally; llama-bench pending (runs in CI, x86) |
-| `submission.json` with measured numbers | ❌ | Produced by the CI profiling workflow once green |
+| Profiler passes locally (Gate 1) | ✅ | Full official pipeline green end-to-end on CI x86 (run 28683560689): download → llama-bench → memory/thermal sampling → schema-valid submission.json. Evidence: `smoke_submission_report_ci_28683560689.json` |
+| `submission.json` with measured numbers | 🔶 | Smoke model measured (SmolLM2-135M: 91.77 TPS, 0.19 GB peak). Final numbers await model selection. **Bonus finding: the audit runs on a cloud VM (`measured_on: audit_cloud_vm` in the profiler), so CI-VM numbers are likely *closer* to audit numbers than a physical laptop's would be — the drift-tolerance mitigation is stronger than designed** |
 | Audit-drift safety (±25% TPS / ±15% RAM) | 🔶 | Mitigation designed: measure on CI x86 4vCPU (audit-like), not arm64 dev machine |
 | OOM-proof under 8 GB | ❓ | Candidate models are 0.1–2.3 GB — low risk, but confirmed only by measurement |
 | Registered on ADTF portal (team_id) | ❓ | User action — needed before metadata.json can be finalized |
