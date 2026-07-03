@@ -9,6 +9,49 @@ never by reputation.
 cards, to be re-verified at download) vs **measurements** (empty until
 the CI profiling run fills them). No cell gets a number without a run.
 
+## Frontier scan results (Δ1 Phase 1 — measured, CI run 28683815170, 2026-07-03)
+
+All 8 candidates through the official profiler (`--skip-accuracy`),
+audit-like x86 runner, all URLs public, all architectures compatible:
+
+| Model | TPS | 1st token (ms) | Peak RAM (MB) | S_eff [exact] | S_perf @ tps_max=15 |
+|---|---|---|---|---|---|
+| qwen2.5-0.5b-instruct | **29.45** | 7,798 | **621** | 91.3 | 100 (cap) |
+| tinyllama-1.1b-chat | 23.04 | 12,647 | 1,197 | 83.3 | 100 (cap) |
+| gemma-3-1b-it | 19.71 | 8,100 | 986 | 86.2 | 100 (cap) |
+| llama-3.2-1b-instruct | 18.86 | 12,301 | 1,383 | 80.7 | 100 (cap) |
+| deepseek-r1-distill-qwen-1.5b | 17.34 | 17,395 | 1,817 | 74.7 | 100 (cap) |
+| qwen2.5-1.5b-instruct | 15.85 | 16,600 | 1,825 | 74.5 | 100 (cap) |
+| qwen2.5-math-1.5b-instruct | 15.02 | 16,789 | 1,700 | 76.3 | 100 (cap) |
+| phi-3.5-mini-instruct | 6.06 | 57,847 | 3,836 | 46.5 | 40.4 |
+
+**Phase 1 verdicts (per the pre-registered rule):**
+- **Eliminated — phi-3.5-mini**: strictly dominated (worst TPS, worst
+  RAM, worst first-token by 3×; the only candidate below the 15-TPS
+  reference line). Its accuracy ceiling cannot buy back ~30 S_perf +
+  ~30 S_eff points at their weights.
+- **Key structural finding [measured]:** under the tps_max=15 reference
+  reading, *every remaining candidate caps S_perf at 100* — so the
+  decision reduces to `0.5·S_acc + 0.2·S_eff`, and the S_eff spread
+  (74.5–91.3) is worth at most ~3.4 total points. **Accuracy dominates
+  the choice.** Only if A-05 resolves to "max observed across teams"
+  does the fast-small end regain leverage.
+- **Finalists for Phase 2 accuracy benchmarking:**
+  1. **qwen2.5-math-1.5b** — the domain specialist; highest expected
+     math accuracy per parameter.
+  2. **deepseek-r1-distill-qwen-1.5b** — reasoning-distilled; the live
+     question is whether it beats the math specialist on the proxy
+     (with a known risk: long chain-of-thought outputs are token-hungry
+     and may parse poorly under strict exact-match).
+  3. **qwen2.5-1.5b** — same-family general control; isolates the value
+     of math specialization.
+- **Reserve — qwen2.5-0.5b**: kept warm, not benchmarked yet. It only
+  becomes competitive if A-05 resolves adversarially (its 29.5 TPS and
+  91.3 S_eff would then matter); its expected math accuracy is far
+  below the 1.5B tier otherwise.
+
+Raw reports: CI artifacts `scan-<model>` on run 28683815170.
+
 | Model | Params | GGUF Q4_K_M size (approx) | TPS (CI) | Peak RAM (CI) | lm_eval proxy | Notes |
 |---|---|---|---|---|---|---|
 | SmolLM2-135M-Instruct | 135M | ~0.1 GB | **91.77** [measured, CI run 28683560689] | **0.19 GB** [measured] | ? (skipped) | Template default, smoke only. **Measured finding: a 135M model hits ~92 TPS and S_eff≈97 on audit-like hardware** — concretely confirms the tps_max adversarial exposure (any team shipping a tiny model can push TPS_max to ~90+), and confirms tiny models max the automated S_perf/S_eff while (presumably) dying on the 50%-weighted S_acc. Full report: `smoke_submission_report_ci_28683560689.json` |
