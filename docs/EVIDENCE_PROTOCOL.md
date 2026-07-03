@@ -76,12 +76,23 @@ still untested because H1a's negative removed the premise).
 
 ## Standing rule for stochastic vs. deterministic reproducibility (added 2026-07-03)
 
-**Deterministic result** (a solver, a certificate recheck, an attempter at
-temperature 0): internal reproducibility means *bit-identical rerun*.
-**Stochastic result** (any sampling at temperature > 0): internal
-reproducibility can only mean *the qualitative conclusion is stable
-across independent reruns* — expecting the exact Δ or p-value to repeat
-is the wrong bar and must not be treated as one.
+**Deterministic result** (output does not vary across identical reruns —
+a solver, a certificate recheck, an attempter at temperature 0, **or any
+LLM call with a fixed/pinned seed**): internal reproducibility means
+*bit-identical rerun*. **Stochastic result** (output varies across
+identical reruns): internal reproducibility can only mean *the
+qualitative conclusion is stable across independent reruns* — expecting
+the exact Δ or p-value to repeat is the wrong bar.
+
+**Corrected 2026-07-03 by controlled evidence (`research/G2_csp_h1b/REPRODUCTION.md`):**
+the earlier proxy "temperature > 0 → stochastic" is wrong. Temperature
+0.6 with a fixed seed was demonstrated deterministic (bit-identical across
+reruns, two independent tests). The criterion is **whether output varies
+across identical reruns**, not temperature alone. Where a fixed seed
+pins output, the result is deterministic regardless of temperature — and
+robustness to *sampling variation* is then a separate question (vary the
+seed per rerun, register as a new experiment), distinct from internal
+reproducibility.
 
 **A stochastic result may not be recorded as confirmed on a single
 execution, no matter how clean the run looked.** Before treating a

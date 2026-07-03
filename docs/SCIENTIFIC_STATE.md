@@ -26,7 +26,8 @@ _Last updated: 2026-07-03._
 | Architecture | ✓ |
 | Implementation | ✓ — two verticals (bounded optimization, constraint CSP) |
 | Internal reproduction — deterministic | ✓ |
-| Internal reproduction — stochastic | Partial (H1a reproduced via sanity gate; H1b-Gamma-1 not yet — 0/3 reruns) |
+| Internal reproduction — deterministic (corrected scope) | ✓ — includes H1b-Gamma-1, found 2026-07-03 to be deterministic (fixed seed pins output at temp 0.6), bit-identical rerun confirmed |
+| Sampling-robustness (new, distinct question) | ✗ — not tested for any result; requires seed-varied reruns (see `research/G2_csp_h1b/REPRODUCTION.md`) |
 | Independent reproduction | ✗ |
 | Replication | ✗ |
 | External validation | ✗ |
@@ -44,7 +45,7 @@ _Last updated: 2026-07-03._
 |---|---|---|---|
 | H0 | Completed | Supported (formalization measurable; deterministic extraction reaches 100% on native format) | edge_ai native phrasing; degrades on unstructured |
 | H1a | Completed | Rejected by Registered Decision Rule (no behavioural variation) | llama3.2:1b, temp 0, prompt-appended textual feedback |
-| H1b | Completed | **Provisional** — Rejected by Registered Decision Rule at n=1 execution; awaiting N=3 confirmatory reruns | llama3.2:1b, constraint_csp, temp 0.6, DeterministicPolicy, prompt-appended feedback |
+| H1b | Completed | **Provisional → pending decision** (2026-07-03): result found deterministic, internal reproducibility CONFIRMED bit-identical; the N=3 stochastic-reruns premise was a misclassification. Verdict flip to "Rejected by Registered Decision Rule" (Resolution A) and/or a new seed-varied sampling-robustness experiment (Resolution B) awaiting instruction — see `research/G2_csp_h1b/REPRODUCTION.md` | llama3.2:1b, constraint_csp, temp 0.6, DeterministicPolicy, prompt-appended feedback |
 | H2 | **Blocked** (on H1b showing a real effect to compare repair strategies against) | — | — |
 | H3 | Untested | — | formalization-checking on residual field-association errors |
 | H4 | Untested | — | typed IR vs raw Python |
