@@ -83,27 +83,56 @@ restated here, per Evidence-vs-Knowledge separation. The number is
 evidence; the seed-fragility is pending evidence (PC-2026-07-03b); only the
 definitional principle above is settled knowledge.
 
-## Open items — NONE currently registered
+## Phase status: Gamma COMPLETE (2026-07-03) · next phase is Delta
+
+**Gamma is officially complete.** Its charter — trustworthy certified
+results on a verification-asymmetric domain, plus the H1 question — is
+answered, including one valid negative. Final frozen record:
+`whitepaper/GAMMA_FINAL_REPORT.md`. Future work cites Gamma; it does not
+reopen, retune, or reinterpret it. Explicitly out of bounds: reopening
+H1, another prompt/temperature/model at the same question, tweaking Gamma
+artifacts, further governance polishing.
+
+**Honest ceiling, carried forward:** the within-scope certification stack
+has no internal weakest link, but the weakest link was *relocated, not
+eliminated* — independent reproduction (second machine), replication
+(checker written by a different author/environment), and external
+validation all remain ✗. All Gamma claims are dev-split, native-format,
+implementation-independence scope.
+
+## Delta — next phase (declared, nothing registered)
+
+Delta's mission: new scientific questions on top of the validated
+foundation — not validating infrastructure (done), not product/UI (needs
+evidence worth exposing first). Every Delta experiment must: (1)
+investigate a genuinely new hypothesis, (2) leave Gamma's evidence
+unchanged, (3) either establish a new capability or cleanly reject one.
 
 No experiment carries a filled-in `BEGIN IMPLEMENTATION` Task. Per the
-Execution Contract, nothing runs until one does. Candidate next
-experiments (each requires registration before execution):
+Execution Contract, nothing runs until one does. Candidates, ranked:
 
-1. **Confirm PC-2026-07-03b** — does Behaviour-Variation-Gate
-   seed-fragility reproduce in a second configuration (different domain or
-   temperature)? Confirmation would promote the methodological finding to a
-   frozen rule. (Design note: use the differential gate B3−B2.)
-2. ~~Certificate independence — CSP vertical~~ — **done** (Gamma+2,
-   2026-07-03). Both validated verticals (edge_ai, constraint_csp) now
-   carry Supported certificate correctness *and* Supported certificate
-   independence. Remaining independence scope note: implementation-
-   independent (different algorithm + evaluator) in both verticals, not
-   paradigm-independent (no ILP or CP/SAT solver used as a third
-   paradigm) — judged unnecessary at current problem scale, but a future
-   candidate if problem sizes grow beyond exhaustive-search range.
-3. **Independent reproduction** — clone-and-run on a second machine
-   (structural; needs an external environment).
-4. H3 / H4 / H5 — untested hypotheses (see table above).
+1. **H3 — formalization checking reduces verified-wrong outputs.**
+   First priority: extends the trusted pipeline without touching the
+   architecture. **Registration precondition (Gamma lesson 1, binding):**
+   H3's intervention needs formalization errors to act on, and the native
+   dev sets have a ~0 base rate (0 parser fallbacks in Gamma+1/+2). The
+   registered design must (a) pre-register a base-rate measurement on a
+   split where formalization actually fails (paraphrase variants with the
+   residual field-association / segmentation errors from Intervention
+   1B), and (b) gate the comparison on that base rate being materially
+   non-zero — otherwise H3 repeats Gamma-2's "mechanism not exercised"
+   trap with formalization in place of feedback.
+2. **H4 — typed IR vs raw Python** (representation as the limiting
+   factor).
+3. **H5 — African-language formalization** (portability).
+4. **Independent reproduction** — clone-and-run on a second machine
+   (structural; needs an external environment; also the cheapest way to
+   raise the evidence ceiling for *all* existing results at once).
+
+Not a ranked item but a standing design constraint: any future experiment
+using a variation gate must use the **differential** form (treatment −
+control at matched seeds) — this travels with the experiment that needs
+it (e.g. a PC-2026-07-03b confirmation), it is not a separate hypothesis.
 
 Two governance Pending Clarifications stand recorded, awaiting a second
 independent implementation each: PC-2026-07-03 (temperature≠stochastic),
@@ -130,6 +159,12 @@ experiment directly contradicts it* (the Evidence-vs-Knowledge rule).
 5. **Strongest validated result is certificate correctness** — 0% false
    certification across two verticals within tested scope. (Not "verifier
    soundness" wholesale: certificate *independence* remains Partial.)
+   **Update (2026-07-03, Gamma+1/Gamma+2):** the parenthetical is
+   superseded by exactly the mechanism this lock allows — two registered
+   experiments upgraded independence to Supported in both verticals (see
+   Certificate properties table). The strongest validated result is now
+   certificate correctness *under independently-written verification*.
+   Original wording kept; verdicts update by evidence, not by rewrite.
 6. Frozen-artifact mapping: "mechanism gate / mechanism_gate / mechanism
    check" inside committed `research/G2_csp_h1b/` and
    `research/G2b_sampling_robustness/` artifacts = the Behaviour Variation

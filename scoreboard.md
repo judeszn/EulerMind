@@ -116,7 +116,82 @@ than provisional. Not a claim that feedback can't help under any
 model/encoding/policy — untested elsewhere. Full report:
 [research/G2_csp_h1b/RESULTS.md](research/G2_csp_h1b/RESULTS.md).
 
-## Scientific state (confirmed 2026-07-03)
+**Update (2026-07-03, Resolution A):** the registered N=3 stochastic
+reruns were found structurally impossible — a fixed seed at temperature
+0.6 is bit-deterministic on this stack (PC-2026-07-03), so three
+identical-config reruns are trivially identical and cannot measure
+anything. Per the Conflict Resolution rule the run stopped and Resolution
+A was applied: the result is re-classified **deterministic**, whose
+reproduction bar is a bit-identical rerun — met (a full rerun reproduced
+the committed numbers to every decimal: Δ=+3.85pts, p=0.790527). Status
+now: **rejected by the registered decision rule, internally reproduced
+(deterministic).** Sampling robustness became a separate registered
+experiment (H1b-Gamma-2, next section). See
+[research/G2_csp_h1b/REPRODUCTION.md](research/G2_csp_h1b/REPRODUCTION.md).
+
+## Phase Gamma — H1b-Gamma-2, sampling robustness (2026-07-03, N=5 seed batches, n=52 each)
+
+Seed as the sole independent variable (`seed_offset ∈
+{0,1000,2000,3000,4000}`, attempt seed = offset + attempt), N=5
+pre-registered confirmatory batches. Positive control: offset 0
+reproduced Gamma-1 bit-for-bit before anything else was trusted.
+
+| Seed offset | Δ (pts) | McNemar p | Variation B2/B3 | Gate | False-cert |
+|---|---|---|---|---|---|
+| 0 (=Gamma-1) | +3.85 | 0.79 | 0.79 / 1.00 | **PASS** | 0 |
+| 1000 | 0.0 | 1.00 | 0.00 / 0.00 | FAIL | 0 |
+| 2000 | 0.0 | 1.00 | 0.00 / 0.00 | FAIL | 0 |
+| 3000 | −3.85 | 0.50 | 0.05 / 0.00 | FAIL | 0 |
+| 4000 | −3.85 | 0.50 | 0.05 / 0.00 | FAIL | 0 |
+
+**Verdict: robustness Supported** — no seed produces a guided advantage
+near the kill threshold (Δ≥7, p<0.05). Two qualifications, both recorded:
+only batch 0 satisfies the Behaviour Variation Gate, so it is the only
+valid H1b measurement (the other four show the mechanism was not
+exercised); and the gate itself is seed-fragile (1 pass / 4 fail —
+PC-2026-07-03b). 0 false certifications across all 10 arm-runs — the most
+robust property measured. Full report:
+[research/G2b_sampling_robustness/RESULTS.md](research/G2b_sampling_robustness/RESULTS.md).
+
+## Gamma+1 — Certificate Independence, edge_ai (2026-07-03, n=60)
+
+An independently-written checker (brute-force enumeration, no pruning,
+imports nothing from the solver's search) rechecked every dev certificate
+the production pipeline produces.
+
+| Comparison | Result |
+|---|---|
+| Primary (pruned DFS) vs independent (brute force) | **60/60 agree** |
+| Independent optimum vs benchmark ground truth | **60/60 match** |
+| False certifications under independent check | **0** |
+| Positive control (true optimum) | accept |
+| Negative controls (inflated / infeasible / suboptimal) | all reject |
+
+**Certificate Independence (edge_ai): Partial → Supported** —
+implementation- and oracle-independent, not paradigm-independent; native
+format, dev split. Full report:
+[research/G3_cert_independence/RESULTS.md](research/G3_cert_independence/RESULTS.md).
+
+## Gamma+2 — Certificate Independence, constraint_csp (2026-07-03, n=52)
+
+CSP analogue: independent checker differing on two axes (backtracking DFS
+with incremental pruning vs generate-then-filter; separately-written
+evaluator), covering both certificate types (42 SAT, 10 UNSAT).
+
+| Comparison | Result |
+|---|---|
+| Primary (shared logic) vs independent (backtracking) | **52/52 agree** |
+| Independent full-enumeration count vs ground-truth `solution_count` | **52/52 match** |
+| False certifications under independent check | **0** |
+| Positive controls (true SAT assignment, true UNSAT conflict) | both accept |
+| Negative controls (violating assignment / false conflict / non-minimal) | all reject |
+
+**Certificate Independence (constraint_csp): Partial → Supported** — both
+validated verticals now carry Supported correctness AND Supported
+independence. Full report:
+[research/G3_cert_independence/RESULTS_CSP.md](research/G3_cert_independence/RESULTS_CSP.md).
+
+## Scientific state snapshot (2026-07-03 — SUPERSEDED; live state is `docs/SCIENTIFIC_STATE.md`)
 
 | | Status |
 |---|---|
