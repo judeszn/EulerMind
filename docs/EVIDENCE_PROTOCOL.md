@@ -77,22 +77,39 @@ still untested because H1a's negative removed the premise).
 ## Standing rule for stochastic vs. deterministic reproducibility (added 2026-07-03)
 
 **Deterministic result** (output does not vary across identical reruns —
-a solver, a certificate recheck, an attempter at temperature 0, **or any
-LLM call with a fixed/pinned seed**): internal reproducibility means
-*bit-identical rerun*. **Stochastic result** (output varies across
-identical reruns): internal reproducibility can only mean *the
-qualitative conclusion is stable across independent reruns* — expecting
-the exact Δ or p-value to repeat is the wrong bar.
+a solver, a certificate recheck, an attempter at temperature 0):
+internal reproducibility means *bit-identical rerun*. **Stochastic
+result** (output varies across identical reruns): internal
+reproducibility can only mean *the qualitative conclusion is stable
+across independent reruns* — expecting the exact Δ or p-value to repeat
+is the wrong bar.
 
-**Corrected 2026-07-03 by controlled evidence (`research/G2_csp_h1b/REPRODUCTION.md`):**
-the earlier proxy "temperature > 0 → stochastic" is wrong. Temperature
-0.6 with a fixed seed was demonstrated deterministic (bit-identical across
-reruns, two independent tests). The criterion is **whether output varies
-across identical reruns**, not temperature alone. Where a fixed seed
-pins output, the result is deterministic regardless of temperature — and
-robustness to *sampling variation* is then a separate question (vary the
-seed per rerun, register as a new experiment), distinct from internal
-reproducibility.
+The deciding criterion is **observed behaviour across identical reruns**,
+never a proxy inferred from configuration. (See Pending Clarification
+below — do not promote a clarification into this frozen rule until a
+second independent implementation reproduces the issue.)
+
+### Pending Clarifications (recorded, NOT yet promoted into the frozen protocol)
+
+Recorded here so a single implementation's finding does not silently
+rewrite frozen governance — the project's standing allergy to evidence
+escalation applies to its own protocol as much as to its hypotheses. A
+clarification is promoted into the rule above only when a **second,
+independent implementation** demonstrates the same issue.
+
+- **PC-2026-07-03 (one implementation so far):** the informal heuristic
+  "temperature > 0 implies stochastic execution" is not a reliable
+  classifier. For llama3.2:1b on Ollama 0.30.10, a fixed seed rendered a
+  temperature-0.6 experiment fully deterministic (bit-identical across
+  reruns, two independent tests — `research/G2_csp_h1b/REPRODUCTION.md`).
+  Narrow claim only: *this implementation, this seed control*. Not
+  asserted universally — other engines/models may differ (e.g. batching
+  nondeterminism can break fixed-seed reproducibility elsewhere).
+  Practical guidance in the meantime: **classify by observed rerun
+  behaviour, not by temperature**; where a fixed seed pins output the
+  result is deterministic and robustness to sampling variation becomes a
+  separate, seed-varied experiment. Promote to the frozen rule only on a
+  second independent confirmation.
 
 **A stochastic result may not be recorded as confirmed on a single
 execution, no matter how clean the run looked.** Before treating a

@@ -96,14 +96,28 @@ follow-up that actually probes sampling robustness. My recommendation is
 Resolution I am not choosing unilaterally; awaiting instruction on the
 verdict flip and on whether to register B.
 
-## Protocol note (contradictory evidence against a frozen rule's phrasing)
+## Protocol note (a Pending Clarification, NOT a frozen-rule change)
 
-The Evidence Protocol's stochastic-reproducibility rule uses "sampling at
-temperature > 0" as the proxy for "stochastic." This experiment is a
-controlled counterexample: temperature 0.6 with a fixed seed is
-deterministic. The frozen-governance principle permits changes
-"contradicted by controlled experimental evidence"; the minimal correction
-is to define **stochastic** as *output varies across identical reruns*
-(equivalently: temperature > 0 **and no fixed/pinned seed**), not
-temperature > 0 alone. Applied minimally in `docs/EVIDENCE_PROTOCOL.md`
-with this experiment cited.
+Corrected on review (2026-07-03): the original version of this note
+overreached by declaring the "temperature > 0 → stochastic" proxy
+"demonstrably wrong" and editing the frozen Evidence Protocol on the
+strength of one implementation. That is the exact overgeneralization
+this project rejects everywhere else — and editing frozen governance from
+a single implementation's finding is precisely the evidence-escalation
+the governance forbids. Two corrections:
+
+1. **Scope the claim.** The evidence supports only: *for llama3.2:1b on
+   Ollama 0.30.10 with fixed-seed control, temperature 0.6 did not produce
+   stochastic execution.* Not the universal "temperature > 0 is never
+   stochastic" — other engines/models can break fixed-seed reproducibility
+   (e.g. batching nondeterminism).
+
+2. **Record, don't promote.** What was falsified is an *implementation
+   assumption* (the temperature proxy for classification), not the
+   *protocol principle* (deterministic vs stochastic reproducibility,
+   which stands). Logged as **PC-2026-07-03** under "Pending
+   Clarifications" in `docs/EVIDENCE_PROTOCOL.md`; it is promoted into the
+   frozen rule only if a second, independent implementation reproduces the
+   issue. The frozen rule itself was reverted to its prior form plus one
+   neutral line ("classify by observed behaviour, not a configuration
+   proxy").
