@@ -81,22 +81,43 @@ is the wrong bar and must not be treated as one.
 **A stochastic result may not be recorded as confirmed on a single
 execution, no matter how clean the run looked.** Before treating a
 stochastic result as internally reproduced: **pre-register a fixed N of
-independent reruns (proposed default: N=3), chosen before any of them
-are observed, and report all N regardless of outcome.** The result is
-"stable" only if all N reruns agree on which side of the pre-registered
-kill threshold the outcome falls. Do **not** use an open-ended "repeat
-until it looks stable" criterion — without a stopping rule fixed in
-advance, that is statistically indistinguishable from optional stopping
-(sampling until a preferred result appears), regardless of intent. This
-project's own repeated-measures caveat applies: N reruns of the same
-problem set are not N independent samples of fresh problems, so naive
-pooling into one larger test overstates power — report each rerun's own
-result and require unanimous agreement, don't pool blindly.
+independent reruns, chosen before any of them are observed, and report
+all N regardless of outcome.** The result is "stable" only if all N
+reruns agree on which side of the pre-registered kill threshold the
+outcome falls. Do **not** use an open-ended "repeat until it looks
+stable" criterion — without a stopping rule fixed in advance, that is
+statistically indistinguishable from optional stopping (sampling until a
+preferred result appears), regardless of intent.
+
+**N itself must be pre-registered *per experiment*, not inherited as a
+blanket constant, and its value must come from a documented, principled
+method — not bare discretion.** A fixed protocol-wide default (e.g.
+always N=3) reintroduces the same hazard one level up: choosing N based
+on which value flatters the expected outcome is pre-registration in name
+only. Two legitimate ways to size N, and every experiment must state
+which regime it's in:
+- **Confirmatory batch** — the observed (or expected) result is far from
+  the decision boundary; N is small, just enough to rule out "this one
+  run was a fluke" (this is what N=3 means for H1b-Gamma-1, whose
+  observed p=0.79 is nowhere near the 0.05 boundary — a diagnostic
+  check, not a power-seeking campaign).
+- **Power-driven batch** — the result is genuinely borderline (e.g. a
+  p-value or Δ close to the pre-registered threshold); N should be set
+  via an actual power calculation relative to that threshold and the
+  known per-run sample size, since a small confirmatory N would be too
+  underpowered to trust either way.
+
+This project's own repeated-measures caveat applies regardless of which
+regime: N reruns of the same problem set are not N independent samples
+of fresh problems, so naive pooling into one larger test overstates
+power — report each rerun's own result and require unanimous agreement,
+don't pool blindly.
 
 **Precedent (2026-07-03 confirmation review):** H1b-Gamma-1
 (`research/G2_csp_h1b/`) was found, on review, to rest on exactly one
 execution of a temperature=0.6 experiment — reclassified from
-implied-confirmed to explicitly PROVISIONAL pending N=3 pre-registered
+implied-confirmed to explicitly PROVISIONAL pending N=3 (confirmatory
+batch, justified above, not a protocol-wide default) pre-registered
 reruns. Caught by checking committed execution artifacts (timestamped
 report files) against the narrative claim, not by re-reading the
 narrative alone.
