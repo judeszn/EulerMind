@@ -156,10 +156,17 @@ Execution Contract, nothing runs until one does. Candidates, ranked:
    RESULTS §9's honest-scope notes are all pre-registered, none
    blocking). Both gates the locked sequence required before calculus
    are now clear — calculus_poly is unblocked, pending registration.
-6. **H5 — African-language formalization** (portability). Also the
-   pre-registered reopening path for H3: its dataset is externally
-   justified by the rubric's own +15% bonus, and multilingual
-   formalization will have a genuine, non-manufactured error rate.
+6. **H5 — African-language formalization** (portability). **Re-ranked
+   down (2026-07-03, Sprint Δ0):** the "+15% African Language
+   multiplicative bonus" previously cited as its competition
+   justification does not exist in the official ADTC rules (verified
+   against the live Devpost page + submission template — see
+   `docs/SCORING.md` correction note). H5 remains a valid research
+   question and still the legitimate H3-reopening path (multilingual
+   formalization has a genuine, non-manufactured error rate), but its
+   scoring-lever status was based on a fabricated number and is
+   withdrawn. Only the +10 African *Use Case* bonus is real, and it is
+   earned by SME theming, not by language capability.
 7. **H4 — typed IR vs raw Python** (representation as the limiting
    factor) — lowest-ranked candidate on both the research and competition
    rankings (2026-07-03 planning review); no current evidence points at

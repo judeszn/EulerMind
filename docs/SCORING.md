@@ -5,23 +5,36 @@ This is the only scoring function we optimize. Sources:
 [Devpost listing](https://adtc-2026.devpost.com/) ·
 [Launch announcement](https://adtc.substack.com/p/the-africa-deep-tech-challenge-2026)
 
+**Corrected 2026-07-03 (Sprint Δ0)** against the live Devpost rules, the
+official submission template, and the profiler *source code*
+(`github.com/Africa-Deep-Tech-Foundation/adtc-profiler`) — not memory.
+Two errors fixed, both material: (1) S_acc was described as purely
+judge-panel/qualitative; the real rule is "a combination of
+**multiple-choice benchmarks** and qualitative evaluations" — the
+automated part runs `lm_eval` against the bare GGUF on a hidden
+per-domain validation subset. (2) A "+15% African Language multiplicative
+bonus" appeared here that does **not exist** in the official rules —
+only the +10 African Use Case bonus is real. H5's competition-priority
+ranking was justified partly by that fabricated multiplier and is
+re-ranked accordingly (see `docs/SCIENTIFIC_STATE.md`).
+
 ## The formula
 
 ```
 S_total = 0.50 · S_acc  +  0.30 · S_perf  +  0.20 · S_eff  −  P_thermal
           (+ African Use Case bonus, up to +10)
-          (+15% for African Language capability)
 ```
 
-| Component | Weight | How it's scored | What it means for us |
+| Component | Weight | How it's scored (verified) | What it means for us |
 |---|---|---|---|
-| S_acc — Accuracy & Quality | 50% | **Judge panel, qualitative**: cross-disciplinary integration, software UX, live defense, prompt accuracy, documentation quality | Half the score is humans. The demo, the docs, the trust labels, and the live defense ARE the primary metric — not a bonus. |
-| S_perf — Throughput | 30% | **Automated**: tokens/sec on standard target laptops, relative to max observed | Favors small quantized models + tuned llama.cpp CPU inference. Measured mechanically; our latency profiling maps to this. |
-| S_eff — Efficiency | 20% | **Automated**: rewards lower RAM relative to the memory budget | Our 4 GB design target under the 8 GB budget is now rubric-optimal, not just discipline. Every MB saved scores. |
-| P_thermal | −10 | Core/package temp > 85°C or thermal throttling flagged | Sustained retry loops are a thermal risk. Budget caps protect the score directly. |
+| S_acc — Accuracy & Quality | 50% | **Mixed**: automated multiple-choice benchmarks (`lm_eval` on the bare GGUF, hidden per-domain subset) + judge-panel qualitative assessment of prompt responses and documentation quality | The automated share is decided by **model selection**, full stop — the kernel is not in that path. The qualitative share is where REPORT.md, the demo, and the certification evidence earn. |
+| S_perf — Throughput | 30% | **Automated**: `llama-bench` generation TPS on the bare GGUF; `S_perf = 100 × TPS_act/TPS_max`, TPS_REFERENCE = 15.0 provisional, TPS_max = max observed across teams | Adversarially exposed — we don't control TPS_max. Sensitivity analysis mandatory (`competition/score_model.py`). |
+| S_eff — Efficiency | 20% | **Automated, exact**: `S_eff = 100 × ((7 GB − peak RAM) ÷ 7 GB)` | Linear all the way down: ~2.9 pts/GB saved. 4 GB is the ceiling, not the target — target the smallest model that clears the accuracy bar. |
+| P_thermal | −10 | Temp > 85°C or throttling flagged, else 0 | Low risk for small CPU-only models; confirmed only by measurement. |
 | **Disqualification** | — | **OOM or sandbox crash = disqualified** | A RAM watchdog is not infrastructure vanity; it is existence. |
-| African Use Case | +10 | Applicability to a real African use case | Theme demo/dataset problems as African SME scenarios (production scheduling, agri-logistics) — nearly free points. |
-| African Language | +15% | Multiplicative bonus | Large. Feasibility on a 1.5B model is unknown → registered as a research row, not assumed. |
+| **Audit drift** | flag/fail | Submitted numbers vs audit VM re-measurement: ±25% TPS, ±15% RAM tolerance (profiler `comparator.py`) | Measure on audit-like x86 CI, never on the arm64 dev machine. |
+| African Use Case | +10 | Judge-awarded; `african_alpha_claim` in metadata.json + load-bearing cross-disciplinary pairing | Theme demo/dataset problems as African SME scenarios — nearly free points, must be load-bearing not cosmetic. |
+| ~~African Language +15%~~ | — | **Does not exist in the official rules** — removed 2026-07-03 | H5 remains a valid research question; it is no longer a competition-scoring lever. |
 
 ## Guardrail Zero (frozen)
 

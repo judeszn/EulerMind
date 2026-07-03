@@ -1,0 +1,84 @@
+name: ADTC Profiler (Delta-0)
+
+on:
+  workflow_dispatch:
+    inputs:
+      submission_dir:
+        description: Submission directory to profile
+        default: competition/smoke_submission
+        required: true
+  push:
+    branches: [main]
+    paths:
+      - "competition/**"
+      - ".github/workflows/adtc-profile.yml"
+
+jobs:
+  profile:
+    name: Official profiler on audit-like x86 hardware
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install llama.cpp (prebuilt ubuntu-x64 release binaries)
+        run: |
+          set -euo pipefail
+          URL=$(curl -s https://api.github.com/repos/ggml-org/llama.cpp/releases/latest \
+            | python3 -c "import json,sys; assets=json.load(sys.stdin)['assets']; print(next(a['browser_download_url'] for a in assets if 'bin-ubuntu-x64' in a['name'] and a['name'].endswith('.zip')))")
+          echo "downloading $URL"
+          curl -sL "$URL" -o llama.zip
+          unzip -q llama.zip -d llama-dist
+          BENCH=$(find llama-dist -name llama-bench -type f | head -1)
+          sudo cp "$BENCH" /usr/local/bin/
+          sudo cp -n "$(dirname "$BENCH")"/*.so /usr/local/lib/ 2>/dev/null || true
+          sudo ldconfig
+          llama-bench --help | head -3
+
+      - name: Install adtc-profiler (official)
+        run: pip install --quiet "git+https://github.com/Africa-Deep-Tech-Foundation/adtc-profiler.git"
+
+      - name: Environment manifest (compare to ADTC Standard Laptop)
+        run: |
+          nproc
+          free -h
+          uname -m
+          lscpu | grep "Model name" || true
+
+      - name: Download model weights
+        run: bash "${{ github.event.inputs.submission_dir || 'competition/smoke_submission' }}/download_model.sh"
+
+      - name: Run official profiler (participant mode, skip accuracy)
+        run: |
+          adtc-profiler run \
+            --submission "${{ github.event.inputs.submission_dir || 'competition/smoke_submission' }}" \
+            --mode participant \
+            --output submission.json \
+            --skip-accuracy
+          cat submission.json
+
+      - name: Predicted ADTC score (sensitivity across tps_max)
+        run: |
+          python3 - <<'EOF'
+          import json
+          from competition.score_model import from_profiler_report, sensitivity
+          report = json.load(open("submission.json"))
+          tps = report["throughput"]["tokens_per_second_generation"]
+          ram_gb = report["memory"]["peak_rss_mb"] / 1024.0
+          print(f"measured: {tps=} peak_ram={ram_gb:.2f}GB")
+          for row in sensitivity(s_acc=50, tps=tps, peak_ram_gb=ram_gb, african_bonus=0):
+              print(f"  tps_max={row['assumed_tps_max']:>5}: S_total={row['s_total']} "
+                    f"(s_perf={row['s_perf']}, s_eff={row['s_eff']}) [s_acc=50 placeholder]")
+          EOF
+
+      - name: Upload profiler evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: adtc-profiler-report
+          path: submission.json

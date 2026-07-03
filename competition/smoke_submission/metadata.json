@@ -1,0 +1,37 @@
+{
+  "team_id": "SMOKE-TEST-NOT-A-SUBMISSION",
+  "domain": "math_scientific_reasoning",
+  "language_scope": ["en"],
+  "african_alpha_claim": false,
+  "budget_laptop_claim": true,
+  "submitter": {
+    "name": "Boluwatife Faturoti",
+    "email": "faturotijude@gmail.com",
+    "github_handle": "judeszn"
+  },
+  "cross_disciplinary_pairing": {
+    "discipline": "operations_research",
+    "load_bearing": true,
+    "description": "SMOKE HARNESS ONLY - validates the official profiler pipeline end-to-end on audit-like x86 CI hardware before model selection. Not the competition submission."
+  },
+  "test_prompts": [
+    {
+      "prompt_id": "tp_001",
+      "prompt": "A workshop produces two products. Each unit of product A requires 3 hours of cutting and 5 hours of finishing; each unit of product B requires 5 hours of cutting and 4 hours of finishing. With 247 cutting hours and 286 finishing hours available, and profits of $40 per unit of A and $63 per unit of B, how many units of each maximize total profit, and what is that profit?"
+    },
+    {
+      "prompt_id": "tp_002",
+      "prompt": "Let f(x) = x^3 - 48x - 2. Find every critical point of f and classify each as a local maximum or a local minimum."
+    }
+  ],
+  "model": {
+    "name": "SmolLM2-135M-Instruct-Q4_K_M",
+    "runtime": "llama.cpp",
+    "quantization": "GGUF Q4_K_M",
+    "parameters_estimate": "135M",
+    "packaging": "binary_bundle"
+  },
+  "_runtime": {
+    "model_path": "model/SmolLM2-135M-Instruct-Q4_K_M.gguf"
+  }
+}
