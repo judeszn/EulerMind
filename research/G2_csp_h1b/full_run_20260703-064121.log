@@ -1,0 +1,60 @@
+Step 1: sanity check - does GuidedCSPAttempter() default still reproduce 42/42?
+{
+  "multi_attempt_problems": 42,
+  "identical": 42,
+  "varied": 0,
+  "single_attempt": 10,
+  "variation_rate": 0.0
+}
+Sanity check PASSED (expect varied=0, got varied=0)
+
+Step 2: temperature-matched H1b (both arms temp=0.6, seed=attempt)
+
+mechanism variation rate: B2=0.7917, B3=1.0 (threshold 0.5)
+mechanism gate: PASSED
+
+{
+  "sanity_check_temp0": {
+    "multi_attempt_problems": 42,
+    "identical": 42,
+    "varied": 0,
+    "single_attempt": 10,
+    "variation_rate": 0.0
+  },
+  "sanity_check_passed": true,
+  "mechanism_check": {
+    "b2": {
+      "multi_attempt_problems": 48,
+      "identical": 10,
+      "varied": 38,
+      "single_attempt": 4,
+      "variation_rate": 0.7917
+    },
+    "b3": {
+      "multi_attempt_problems": 48,
+      "identical": 0,
+      "varied": 48,
+      "single_attempt": 4,
+      "variation_rate": 1.0
+    },
+    "threshold": 0.5
+  },
+  "mechanism_gate_passed": true,
+  "n": 52,
+  "b2": {
+    "verified_correct_rate": 0.1923,
+    "false_certification_rate": 0.0,
+    "mean_attempts": 2.7308,
+    "every_verified_has_rechecked_certificate": true
+  },
+  "b3": {
+    "verified_correct_rate": 0.2308,
+    "false_certification_rate": 0.0,
+    "mean_attempts": 2.6923,
+    "every_verified_has_rechecked_certificate": true
+  },
+  "delta_verified_correct_rate": 0.0385,
+  "mcnemar_p": 0.790527,
+  "verdict": "indistinguishable",
+  "interpretable_as_H1b_evidence": true
+}

@@ -138,15 +138,47 @@ what was actually measured instead of discarding it:**
   (behavioural variation exists to compare) was never established at this
   configuration.
 
-**Decision: DEFER on H1b; H1a answered-negative-at-one-configuration
-(not COMPLETE).** Applying the kill threshold's literal numbers
-(Δ=0.0, p=1.0) as if they answered the causal claim would overclaim past
-what was measured — the intervention was never functionally exercised in
-42/52 cases, so the outcome cannot bear on "does guided beat blind."
-**H1b remains untested after two attempts on two verticals**: knapsack
-(invalidated by verifier unsoundness) and constraint_csp (verifier sound,
-but the premise behind H1b was never established). Both failures are now
-precisely characterized rather than vague.
+**Decision at this measurement: DEFER on H1b; H1a
+answered-negative-at-one-configuration (not COMPLETE).** Applying the
+kill threshold's literal numbers (Δ=0.0, p=1.0) as if they answered the
+causal claim would overclaim past what was measured — the intervention
+was never functionally exercised in 42/52 cases, so the outcome cannot
+bear on "does guided beat blind."
+
+**H1b measured 2026-07-03, temperature-matched design**
+(`research/G2_csp_h1b/RESULTS.md`), executed under
+`docs/EXECUTION_CONTRACT.md` v2.0. Fixed the confound diagnosed above:
+both arms now sample at temperature 0.6 with `seed=attempt`, holding
+sampling strategy constant so feedback-presence is the only deliberately
+varied factor. Verified by a sanity gate before trusting anything else:
+`GuidedCSPAttempter()` at its unmodified default (temperature=0)
+reproduced the frozen H1a finding **exactly** (42/42 identical) — the
+refactor changed nothing about the already-registered configuration.
+Mechanism gate (pre-registered threshold ≥50% variation): B2 79%, B3
+100% — **passed for both arms**, confirming feedback was functionally
+exercised this time. Result: Verified-Correct 19.23% (B2) vs 23.08% (B3),
+Δ=+3.85pts, McNemar p=0.79 — far from the pre-registered kill threshold
+(Δ≥7, p<0.05).
+
+**Decision: DELETE, scoped precisely.** This is the first measurement of
+H1b to satisfy every validity precondition (verifier soundness, mechanism
+functional, single-variable design proven by the sanity gate), so the
+pre-registered kill threshold is applied as intended: verifier-guided
+retry with this feedback encoding does not beat blind retry, for
+`llama3.2:1b` on `constraint_csp` at temperature 0.6 with
+`DeterministicPolicy`'s current rule table. **Not** a claim that
+verifier-guided feedback cannot help under any configuration — a
+different model, a richer feedback encoding, or a learned policy (H2)
+remain untested.
+
+**H1 status, final for Phase Gamma:** H1a — negative,
+configuration-specific. H1b — **tested and negative**,
+configuration-specific, for the first time backed by a measurement that
+passes every Evidence Protocol validity gate. Two verticals attempted
+(knapsack: invalidated by verifier unsoundness; constraint_csp: first
+attempt invalidated by inert feedback, second attempt valid and negative)
+— the causal claim has now been given one fair, methodologically sound
+test, and it did not clear the bar.
 
 **Intervention 2 measured 2026-07-02** (`research/H1_edge_ai/RESULTS.md`),
 60 problems, StructuredFormalizer (1B): Δ=0.0, McNemar p=1.0 — no

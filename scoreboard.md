@@ -78,10 +78,28 @@ and capability confounds from the knapsack run are both resolved here.
 feedback) and registered inference configuration (llama3.2:1b,
 temperature 0), no observable behavioural variation was detected across
 retries* — checked on 42/42 multi-attempt cases, not a sample.
-Configuration-scoped, not global; behavioural, not cognitive. **H1b**
-(does guided beat blind, given variation?) — **untested**, premise never
-established. **Decision: DEFER on H1b.** Full report:
-[research/G1_csp_validation/RESULTS.md](research/G1_csp_validation/RESULTS.md).
+Configuration-scoped, not global; behavioural, not cognitive.
+Full report: [research/G1_csp_validation/RESULTS.md](research/G1_csp_validation/RESULTS.md).
+
+## Phase Gamma — H1b, temperature-matched (2026-07-03, n=52)
+
+Fixed the confound above: both arms temp=0.6, `seed=attempt`. Sanity gate
+(unmodified `GuidedCSPAttempter()` default) reproduced H1a's 42/42
+exactly before trusting anything else. Mechanism gate (≥50% threshold):
+B2 79%, **B3 100%** — passed, feedback confirmed functionally live.
+
+| Metric | B2 (blind) | B3 (guided) | Δ |
+|---|---|---|---|
+| Verified-Correct Rate | 19.23% | 23.08% | +3.85pts |
+| False Certification | 0.0% | 0.0% | 0.0 |
+| McNemar p | — | — | **0.79** |
+
+**Decision: DELETE, scoped to this configuration** — first H1b
+measurement to pass every validity gate (verifier sound, mechanism live,
+sanity-checked single-variable design); does not clear the pre-registered
+kill threshold (Δ≥7, p<0.05). Not a claim that feedback can't help under
+any model/encoding/policy — untested elsewhere. Full report:
+[research/G2_csp_h1b/RESULTS.md](research/G2_csp_h1b/RESULTS.md).
 
 ## Validation Phase 1 — first contract-valid result (2026-07-02, n=60)
 
