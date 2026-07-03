@@ -1,0 +1,561 @@
+{
+  "summary": {
+    "n_certificates": 60,
+    "formalizer_fallback_specs": 0,
+    "primary_independent_agreement": 60,
+    "agreement_rate": 1.0,
+    "independent_matches_ground_truth": 60,
+    "ground_truth_match_rate": 1.0,
+    "false_certifications_under_independent_check": 0,
+    "positive_control_accepts_true_optimum": true,
+    "negative_controls": {
+      "inflated_score": true,
+      "infeasible_counts": true,
+      "feasible_suboptimal": true
+    },
+    "negative_controls_all_reject": true,
+    "disagreements": []
+  },
+  "rows": [
+    {
+      "id": "edge-00000-clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 3249,
+      "ground_truth_score": 3249,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00000-messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 3249,
+      "ground_truth_score": 3249,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00001-clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 2710,
+      "ground_truth_score": 2710,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00001-messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 2710,
+      "ground_truth_score": 2710,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00002-clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 2039,
+      "ground_truth_score": 2039,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00002-messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 2039,
+      "ground_truth_score": 2039,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00003-clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 1366,
+      "ground_truth_score": 1366,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00003-messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 1366,
+      "ground_truth_score": 1366,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00004-clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 1875,
+      "ground_truth_score": 1875,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00004-messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 1875,
+      "ground_truth_score": 1875,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00006-clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 1354,
+      "ground_truth_score": 1354,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00006-messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 1354,
+      "ground_truth_score": 1354,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00007-clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 2001,
+      "ground_truth_score": 2001,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00007-messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 2001,
+      "ground_truth_score": 2001,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00008-clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 1913,
+      "ground_truth_score": 1913,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00008-messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 1913,
+      "ground_truth_score": 1913,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00010-clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 1955,
+      "ground_truth_score": 1955,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00010-messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 1955,
+      "ground_truth_score": 1955,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00012-clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 1293,
+      "ground_truth_score": 1293,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00012-messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 1293,
+      "ground_truth_score": 1293,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00013-clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 1899,
+      "ground_truth_score": 1899,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00013-messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 1899,
+      "ground_truth_score": 1899,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00014-clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 1326,
+      "ground_truth_score": 1326,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00014-messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 1326,
+      "ground_truth_score": 1326,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00015-clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 1888,
+      "ground_truth_score": 1888,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00015-messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 1888,
+      "ground_truth_score": 1888,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00016-clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 2067,
+      "ground_truth_score": 2067,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00016-messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 2067,
+      "ground_truth_score": 2067,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00017-clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 2676,
+      "ground_truth_score": 2676,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00017-messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 2676,
+      "ground_truth_score": 2676,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00018-clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 1914,
+      "ground_truth_score": 1914,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00018-messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 1914,
+      "ground_truth_score": 1914,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00020-clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 1828,
+      "ground_truth_score": 1828,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00020-messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 1828,
+      "ground_truth_score": 1828,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00023-clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 2046,
+      "ground_truth_score": 2046,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00023-messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 2046,
+      "ground_truth_score": 2046,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00025-clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 1898,
+      "ground_truth_score": 1898,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00025-messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 1898,
+      "ground_truth_score": 1898,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00026-clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 2013,
+      "ground_truth_score": 2013,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00026-messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 2013,
+      "ground_truth_score": 2013,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00028-clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 1348,
+      "ground_truth_score": 1348,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00028-messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 1348,
+      "ground_truth_score": 1348,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00029-clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 2438,
+      "ground_truth_score": 2438,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00029-messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 2438,
+      "ground_truth_score": 2438,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00031-clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 1314,
+      "ground_truth_score": 1314,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00031-messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 1314,
+      "ground_truth_score": 1314,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00032-clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 1963,
+      "ground_truth_score": 1963,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00032-messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 1963,
+      "ground_truth_score": 1963,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00033-clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 1353,
+      "ground_truth_score": 1353,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00033-messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 1353,
+      "ground_truth_score": 1353,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00034-clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 2610,
+      "ground_truth_score": 2610,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00034-messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 2610,
+      "ground_truth_score": 2610,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00035-clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 2073,
+      "ground_truth_score": 2073,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00035-messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 2073,
+      "ground_truth_score": 2073,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00036-clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 1918,
+      "ground_truth_score": 1918,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00036-messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 1918,
+      "ground_truth_score": 1918,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00037-clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 1300,
+      "ground_truth_score": 1300,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00037-messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 1300,
+      "ground_truth_score": 1300,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00038-clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 1892,
+      "ground_truth_score": 1892,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "edge-00038-messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "independent_optimum": 1892,
+      "ground_truth_score": 1892,
+      "matches_ground_truth": true
+    }
+  ]
+}

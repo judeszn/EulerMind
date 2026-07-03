@@ -36,7 +36,8 @@ _Last updated: 2026-07-03._
 | Property | Status |
 |---|---|
 | Certificate correctness | ✓ — 0% false-certification across both verticals; cross-validated vs the benchmark's independently-implemented ground truth |
-| Certificate independence | **Partial** — `recheck_certificate` shares `solve()`'s search logic in both verticals; a second, independently-written checker would close this |
+| Certificate independence — edge_ai (bounded optimization) | **Supported** (Gamma+1, 2026-07-03) — a brute-force checker sharing no search logic with the solver reached identical decisions on all 60 dev certificates, agreeing with a third independent enumeration (benchmark ground truth); controls pass, 0 false-cert (`research/G3_cert_independence/RESULTS.md`). Scope: implementation- + oracle-independent (not a different paradigm), native format, dev split |
+| Certificate independence — constraint_csp | **Partial** — CSP's `recheck_certificate` still shares `solve()`'s logic; not yet addressed (would be a separate registered task) |
 
 ## Hypothesis state (Execution Status + Scientific Verdict, separated)
 
@@ -92,9 +93,10 @@ experiments (each requires registration before execution):
    seed-fragility reproduce in a second configuration (different domain or
    temperature)? Confirmation would promote the methodological finding to a
    frozen rule. (Design note: use the differential gate B3−B2.)
-2. **Certificate independence** — write a genuinely independent second
-   checker (not sharing `solve()`'s logic) and confirm it agrees; would
-   move the strongest claim's independence from Partial toward Confirmed.
+2. **Certificate independence — CSP vertical** — the edge_ai vertical is
+   now Supported (Gamma+1, done); CSP's checker still shares `solve()`'s
+   logic. Extending the independent checker to CSP would close the last
+   independence gap.
 3. **Independent reproduction** — clone-and-run on a second machine
    (structural; needs an external environment).
 4. H3 / H4 / H5 — untested hypotheses (see table above).
