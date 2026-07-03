@@ -1,5 +1,10 @@
 # EulerMind Evidence Protocol v1.0 (FROZEN)
 
+**Frozen governance — timeless.** Any "Precedent:" reference to a specific
+result below is a frozen historical anchor illustrating a rule, not a live
+status; it does not change when that result's verdict changes. Current
+scientific state lives only in `docs/SCIENTIFIC_STATE.md`.
+
 Frozen once. Do not revisit unless experience proves it insufficient (and
 if it does, that itself is a logged, evidenced change — not a rewrite).
 

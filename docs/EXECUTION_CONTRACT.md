@@ -1,5 +1,11 @@
 # EulerMind Execution Contract v3.1 (FROZEN)
 
+**This document is frozen governance — timeless.** Any reference to a
+specific result (e.g. "H1b-Gamma-1") below is a **frozen historical
+precedent illustrating a rule**, not a live status reading, and does not
+change when that result's verdict later changes. Current scientific state
+lives only in `docs/SCIENTIFIC_STATE.md`.
+
 Governs every future implementation session. v2.0 was first exercised by
 the temperature-matched H1b task (`research/G2_csp_h1b/`). v3.0 added the
 Interpretation Rules ordering and tightened the reporting vocabulary.

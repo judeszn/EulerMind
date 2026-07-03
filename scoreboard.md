@@ -1,5 +1,11 @@
 # Scoreboard — the heartbeat
 
+**This is the Evidence ledger** — permanent, accumulating per-experiment
+measurements, never deleted. For the current *conclusions* drawn from
+this evidence (the Knowledge layer — what the science currently says),
+see `docs/SCIENTIFIC_STATE.md`. This file records what was measured; that
+file records what it currently means.
+
 Dev subset: 30 problems (5 bases × 3 categories × clean+messy), dataset v0.
 Cells stay `?` until a measurement fills them. RAM = model-process peak
 (measured properly from Phase 1 llama.cpp integration; Ollama-phase values
