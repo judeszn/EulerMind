@@ -121,15 +121,21 @@ Execution Contract, nothing runs until one does. Candidates, ranked:
    enough; a valid comparison also needs the base rate to be**
    **non-degenerate (neither ~0% nor ~100% from a single cause)**, or
    there's no "preserve the good cases" signal to test against.
-2. **H3-retry — fix the newly-discovered `_looks_like_catalog_line()`
-   defect, then re-run H3 on a split with a non-degenerate baseline.**
-   New top priority: a concrete, root-caused, 100%-reproducible bug is a
-   more tractable next step than an untested hypothesis. Two sub-parts,
-   registrable together or separately: (a) fix the budget-cue exclusion
-   in `kernel/edge_ai_extractors.py` (this IS an architecture change —
-   requires its own registration, not covered by H3's frozen-formalizer
-   constraint); (b) re-run the H3 comparison on a split where baseline
-   verified-correct rate is meaningfully between 0% and 100%.
+2. **H3-retry** — part (a) is **done**: Delta D1 (registered intervention,
+   2026-07-03) repaired the parser defect at its root — L3 paraphrase
+   formalization now 100% schema accuracy, 0 fabrication, 30/30 exact
+   name sets, with bit-exact non-regression on native/L1/L2 (120/120
+   specs byte-identical) and Gamma outputs unchanged (60/60 vs the frozen
+   Gamma+1 report). See `research/D1_parser_repair/RESULTS.md`. Part (b)
+   — re-running H3 — remains unregistered, and D1's fix changes its
+   premise: with L3 also formalizing at 100%, **no known split currently
+   has a non-degenerate formalization-error base rate** (all four splits
+   are now ~0%), so a valid H3 test needs either a new frozen evaluation
+   split with genuinely harder phrasing, or acceptance that H3's target
+   failure mode currently has no measurable occurrence — in which case
+   H3 may be better closed as "no opportunity to act at any current
+   configuration" than pursued. That is a registration decision, not made
+   here.
 3. **H4 — typed IR vs raw Python** (representation as the limiting
    factor).
 4. **H5 — African-language formalization** (portability).

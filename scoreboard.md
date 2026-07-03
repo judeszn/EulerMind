@@ -220,6 +220,27 @@ Constraints held). Gamma's own results are unaffected (native input only,
 this bug is L3-paraphrase-specific). Full report:
 [research/H3_formalization_checking/RESULTS.md](research/H3_formalization_checking/RESULTS.md).
 
+## Delta / D1 — Parser repair (2026-07-03, engineering intervention)
+
+Repaired the H3-1 defect: catalog extraction consuming budget/requirement
+text. Two entry points of the one flaw fixed in `kernel/edge_ai_extractors.py`:
+`_looks_like_catalog_line()` now excludes the regions `extract_budgets()`/
+`extract_threshold()` own (kills the fabricated `Constraints` pseudo-model),
+and `_all_catalog_segments()` gates all paths through that guarded function
+with `;`-clause splitting scoped per line (recovers the dropped aside models).
+
+| Split | Before | After |
+|---|---|---|
+| Paraphrase L3 schema accuracy | 0.8889 (0/30 exact, 30 fabricated, 30 missing) | **1.0 (30/30 exact, 0, 0)** |
+| Native dev (60) | 1.0 | **byte-identical specs, 60/60** |
+| Paraphrase L1/L2 (30+30) | 1.0 | **byte-identical specs, 60/60** |
+| Native certification vs frozen Gamma+1 report | — | **60/60 identical** (primary, independent, optimum) |
+| Parser unit tests / selftest | 4 positive-control failures pre-repair | **9/9 / pass** |
+
+Exactly the defect population changed (L3: 30/30) and nothing else
+(native/L1/L2: 0/120). Deterministic. Full report:
+[research/D1_parser_repair/RESULTS.md](research/D1_parser_repair/RESULTS.md).
+
 ## Scientific state snapshot (2026-07-03 — SUPERSEDED; live state is `docs/SCIENTIFIC_STATE.md`)
 
 | | Status |

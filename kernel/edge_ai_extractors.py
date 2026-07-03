@@ -167,7 +167,23 @@ def _unit_token_count(segment: str) -> int:
     return n
 
 
+def _is_budget_or_requirement_text(segment: str) -> bool:
+    """True for text belonging to the budget or threshold regions — the
+    regions extract_budgets() and extract_threshold() own. Catalog
+    extraction must never consume these: a budget sentence carries the
+    same unit-bearing shape as a model line ("...under 3.7GB..., 92
+    GFLOPS..., 123ms") plus a leading capitalized word ("Constraints:",
+    "Total budget:"), so without this exclusion it fabricates a
+    pseudo-model out of the budget values (D1 root cause, reproduced
+    30/30 on paraphrase L3)."""
+    if _BUDGET_CUE.search(segment):
+        return True
+    return any(re.search(p, segment, re.IGNORECASE) for p in _THRESHOLD_PATTERNS)
+
+
 def _looks_like_catalog_line(ln: str) -> bool:
+    if _is_budget_or_requirement_text(ln):
+        return False
     return bool(_extract_model_name(ln)) and _unit_token_count(ln) >= 2
 
 
@@ -325,19 +341,29 @@ def extract_catalog(text: str) -> tuple[dict, str]:
 
 
 def _all_catalog_segments(text: str) -> list[str]:
-    """Every line or sentence that looks like a single model's spec (a name
-    plus >=2 unit tokens), regardless of the primary structure type. Used
-    to sweep up prose-embedded catalog entries a table extractor misses."""
+    """Every line, sentence, or ';'-clause that looks like a single model's
+    spec (a name plus >=2 unit tokens), regardless of the primary structure
+    type. Used to sweep up prose-embedded catalog entries a table extractor
+    misses.
+
+    All three paths gate through _looks_like_catalog_line (D1: two of them
+    previously duplicated the check inline WITHOUT the budget/requirement
+    exclusion, letting the budget paragraph through as a segment). The
+    ';'-clause split is scoped per line, not across the whole document —
+    a clause boundary cannot span a line break, so an aside clause can no
+    longer swallow an adjacent table or budget paragraph and poison its
+    own field resolution with their values (D1: that contamination is what
+    made aside models unresolvable and dropped them)."""
     segments = []
     for ln in text.splitlines():
         ln = ln.strip()
         if _looks_like_catalog_line(ln):
             segments.append(ln)
+        # ';'-joined asides within one line ("...; also, note: X needs...").
+        for clause in re.split(r';\s*(?:also,?\s*)?', ln):
+            if _looks_like_catalog_line(clause):
+                segments.append(clause)
     for sentence in re.split(r'(?<=[.])\s+(?=[A-Z])', text):
-        if _unit_token_count(sentence) >= 2 and _extract_model_name(sentence):
+        if _looks_like_catalog_line(sentence):
             segments.append(sentence)
-    # Also split on ';'-joined asides ("...; also, note: X needs...").
-    for clause in re.split(r';\s*(?:also,?\s*)?', text):
-        if _unit_token_count(clause) >= 2 and _extract_model_name(clause):
-            segments.append(clause)
     return segments
