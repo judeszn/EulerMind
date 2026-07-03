@@ -45,7 +45,7 @@ _Last updated: 2026-07-03._
 | H0 | Completed | Supported (formalization measurable; deterministic extraction reaches 100% on native format) | edge_ai native phrasing; degrades on unstructured |
 | H1a | Completed | Rejected by Registered Decision Rule (no behavioural variation) | llama3.2:1b, temp 0, prompt-appended textual feedback |
 | H1b-Gamma-1 | Completed | **Rejected by the Registered Decision Rule** (Δ=+3.85, p=0.79; does not clear Δ≥7/p<0.05), **internally reproduced under the deterministic registered configuration** (bit-identical rerun; the earlier "stochastic/Provisional" label was a misclassification, now corrected). Scope: this exact configuration only | llama3.2:1b, constraint_csp, temp 0.6 fixed-seed, DeterministicPolicy, prompt-appended feedback |
-| H1b-Gamma-2 (sampling robustness) | Completed | **Robustness Supported** — the Gamma-1 verdict survives sampling variation; no seed (of 5) overturns "Rejected by the Registered Decision Rule". Scope qualification: only 1 of 5 batches was a *valid* H1b measurement — the mechanism gate is seed-fragile (below) | as Gamma-1, seed varied (offsets 0/1000/2000/3000/4000) |
+| H1b-Gamma-2 (sampling robustness) | Completed | **One valid mechanism-compliant measurement, rejected by the registered decision rule. Four additional seed batches did not satisfy the mechanism gate and are not interpretable as H1b evidence. Generality not established.** (Deliberately not compressed to "robust" — four of five batches are non-interpretable, not four confirmations.) | as Gamma-1, seed varied (offsets 0/1000/2000/3000/4000) |
 | H2 | **Blocked** (on H1b showing a real effect to compare repair strategies against) | — | — |
 | H3 | Untested | — | formalization-checking on residual field-association errors |
 | H4 | Untested | — | typed IR vs raw Python |
@@ -62,6 +62,20 @@ optional bookkeeping; a single-config mechanism pass does not certify the
 mechanism is live in general. Recorded as **PC-2026-07-03b**
 (`docs/EVIDENCE_PROTOCOL.md`), pending a second independent confirmation
 before promotion to a frozen rule.
+
+**Sharper post-hoc analysis (2026-07-03): the mechanism gate as
+operationalized is confounded — it measures TOTAL cross-attempt variation,
+not feedback-specific variation.** At batch 0 the blind arm (B2, no
+feedback) already varied on 79% of multi-attempt problems from seed alone;
+the guided arm (B3) reached 100%. So the gate's "pass" mostly captured
+seed-driven sampling variation that was present without any feedback — the
+feedback-specific increment was ≤21 points and not cleanly attributable.
+The correct gate is **differential: B3-variation minus B2-variation at the
+same seeds**, which isolates the feedback-attributable behavioural change
+the hypothesis is about. Implication: even Gamma-1's "mechanism live"
+established less feedback effect than the raw gate suggested. This is the
+key design fix for any PC-2026-07-03b confirmation experiment. (Recorded as
+analysis of existing evidence — not a governance change, not a re-run.)
 
 ## Open items — NONE currently registered
 

@@ -139,6 +139,26 @@ reported; neither overturns Gamma-1. Verifier soundness (0% false
 certification) is robust across every seed — the strongest robustness
 result here.
 
+## Post-hoc analysis (added 2026-07-03): the mechanism gate is confounded
+
+Re-examining the committed numbers (no new run): at batch 0, the mechanism
+variation was B2 (blind, *no feedback*) = 0.79, B3 (guided) = 1.00. The
+blind arm's 79% is pure seed effect — attempts use seeds 1/2/3 and no
+feedback is in its prompt. So the gate, which was applied to B3's total
+variation, mostly captured seed-driven sampling variation already present
+without feedback; the feedback-specific increment was ≤21 points and not
+cleanly attributable (B3's prompt also differs across attempts).
+
+**Consequence:** the gate as operationalized (B3 total variation ≥ 50%)
+does not isolate feedback-specific behavioural change — it conflates
+sampling variation with feedback effect. The methodologically correct gate
+is **differential: variation(B3) − variation(B2) at matched seeds.** By
+that measure even Gamma-1's mechanism activation was small. This does not
+change any verdict (guided did not beat blind under any measure here), but
+it narrows what "the mechanism was live" earned in Gamma-1 and is the
+concrete design fix for a PC-2026-07-03b confirmation experiment. Recorded
+as analysis of existing evidence; no governance change, no re-run.
+
 ## Stopping Reason
 
 Success criterion reached (pre-registered N=5 batches completed; qualitative
