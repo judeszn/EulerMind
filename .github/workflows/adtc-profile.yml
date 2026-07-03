@@ -30,13 +30,15 @@ jobs:
         run: |
           set -euo pipefail
           URL=$(curl -s https://api.github.com/repos/ggml-org/llama.cpp/releases/latest \
-            | python3 -c "import json,sys; assets=json.load(sys.stdin)['assets']; print(next(a['browser_download_url'] for a in assets if 'bin-ubuntu-x64' in a['name'] and a['name'].endswith('.zip')))")
+            | python3 -c "import json,sys; assets=json.load(sys.stdin)['assets']; print(next(a['browser_download_url'] for a in assets if a['name'].endswith('-bin-ubuntu-x64.tar.gz')))")
           echo "downloading $URL"
-          curl -sL "$URL" -o llama.zip
-          unzip -q llama.zip -d llama-dist
+          curl -sL "$URL" -o llama.tar.gz
+          mkdir -p llama-dist
+          tar -xzf llama.tar.gz -C llama-dist
           BENCH=$(find llama-dist -name llama-bench -type f | head -1)
+          echo "found llama-bench at $BENCH"
           sudo cp "$BENCH" /usr/local/bin/
-          sudo cp -n "$(dirname "$BENCH")"/*.so /usr/local/lib/ 2>/dev/null || true
+          find llama-dist -name "*.so*" -exec sudo cp {} /usr/local/lib/ \;
           sudo ldconfig
           llama-bench --help | head -3
 
