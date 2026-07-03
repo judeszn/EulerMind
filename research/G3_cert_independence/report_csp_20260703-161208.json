@@ -1,0 +1,547 @@
+{
+  "summary": {
+    "n_certificates": 52,
+    "sat_certificates": 42,
+    "unsat_certificates": 10,
+    "formalizer_fallback_specs": 0,
+    "primary_independent_agreement": 52,
+    "agreement_rate": 1.0,
+    "independent_matches_ground_truth": 52,
+    "ground_truth_match_rate": 1.0,
+    "false_certifications_under_independent_check": 0,
+    "positive_controls": {
+      "accepts_true_sat_assignment": true,
+      "accepts_true_unsat_conflict": true
+    },
+    "positive_controls_all_pass": true,
+    "negative_controls": {
+      "constraint_violating_assignment": true,
+      "satisfiable_set_claimed_as_conflict": true,
+      "non_minimal_conflict": true
+    },
+    "negative_controls_all_reject": true,
+    "disagreements": []
+  },
+  "rows": [
+    {
+      "id": "csp-00001-clean",
+      "cert_type": "satisfying_assignment_over_exhaustive_search",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 892,
+      "ground_truth_solution_count": 892,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00001-messy",
+      "cert_type": "satisfying_assignment_over_exhaustive_search",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 892,
+      "ground_truth_solution_count": 892,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00005-clean",
+      "cert_type": "satisfying_assignment_over_exhaustive_search",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 796,
+      "ground_truth_solution_count": 796,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00005-messy",
+      "cert_type": "satisfying_assignment_over_exhaustive_search",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 796,
+      "ground_truth_solution_count": 796,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00007-clean",
+      "cert_type": "satisfying_assignment_over_exhaustive_search",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 828,
+      "ground_truth_solution_count": 828,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00007-messy",
+      "cert_type": "satisfying_assignment_over_exhaustive_search",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 828,
+      "ground_truth_solution_count": 828,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00008-clean",
+      "cert_type": "satisfying_assignment_over_exhaustive_search",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 498,
+      "ground_truth_solution_count": 498,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00008-messy",
+      "cert_type": "satisfying_assignment_over_exhaustive_search",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 498,
+      "ground_truth_solution_count": 498,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00010-clean",
+      "cert_type": "satisfying_assignment_over_exhaustive_search",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 678,
+      "ground_truth_solution_count": 678,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00010-messy",
+      "cert_type": "satisfying_assignment_over_exhaustive_search",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 678,
+      "ground_truth_solution_count": 678,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00011-clean",
+      "cert_type": "satisfying_assignment_over_exhaustive_search",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 168,
+      "ground_truth_solution_count": 168,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00011-messy",
+      "cert_type": "satisfying_assignment_over_exhaustive_search",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 168,
+      "ground_truth_solution_count": 168,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00012-clean",
+      "cert_type": "satisfying_assignment_over_exhaustive_search",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 690,
+      "ground_truth_solution_count": 690,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00012-messy",
+      "cert_type": "satisfying_assignment_over_exhaustive_search",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 690,
+      "ground_truth_solution_count": 690,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00014-clean",
+      "cert_type": "satisfying_assignment_over_exhaustive_search",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 606,
+      "ground_truth_solution_count": 606,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00014-messy",
+      "cert_type": "satisfying_assignment_over_exhaustive_search",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 606,
+      "ground_truth_solution_count": 606,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00015-clean",
+      "cert_type": "satisfying_assignment_over_exhaustive_search",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 480,
+      "ground_truth_solution_count": 480,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00015-messy",
+      "cert_type": "satisfying_assignment_over_exhaustive_search",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 480,
+      "ground_truth_solution_count": 480,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00016-clean",
+      "cert_type": "satisfying_assignment_over_exhaustive_search",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 832,
+      "ground_truth_solution_count": 832,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00016-messy",
+      "cert_type": "satisfying_assignment_over_exhaustive_search",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 832,
+      "ground_truth_solution_count": 832,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00018-clean",
+      "cert_type": "satisfying_assignment_over_exhaustive_search",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 796,
+      "ground_truth_solution_count": 796,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00018-messy",
+      "cert_type": "satisfying_assignment_over_exhaustive_search",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 796,
+      "ground_truth_solution_count": 796,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00019-clean",
+      "cert_type": "satisfying_assignment_over_exhaustive_search",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 720,
+      "ground_truth_solution_count": 720,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00019-messy",
+      "cert_type": "satisfying_assignment_over_exhaustive_search",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 720,
+      "ground_truth_solution_count": 720,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00020-clean",
+      "cert_type": "satisfying_assignment_over_exhaustive_search",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 372,
+      "ground_truth_solution_count": 372,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00020-messy",
+      "cert_type": "satisfying_assignment_over_exhaustive_search",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 372,
+      "ground_truth_solution_count": 372,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00021-clean",
+      "cert_type": "satisfying_assignment_over_exhaustive_search",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 696,
+      "ground_truth_solution_count": 696,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00021-messy",
+      "cert_type": "satisfying_assignment_over_exhaustive_search",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 696,
+      "ground_truth_solution_count": 696,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00024-clean",
+      "cert_type": "satisfying_assignment_over_exhaustive_search",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 602,
+      "ground_truth_solution_count": 602,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00024-messy",
+      "cert_type": "satisfying_assignment_over_exhaustive_search",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 602,
+      "ground_truth_solution_count": 602,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00025-clean",
+      "cert_type": "satisfying_assignment_over_exhaustive_search",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 894,
+      "ground_truth_solution_count": 894,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00025-messy",
+      "cert_type": "satisfying_assignment_over_exhaustive_search",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 894,
+      "ground_truth_solution_count": 894,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00026-clean",
+      "cert_type": "satisfying_assignment_over_exhaustive_search",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 336,
+      "ground_truth_solution_count": 336,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00026-messy",
+      "cert_type": "satisfying_assignment_over_exhaustive_search",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 336,
+      "ground_truth_solution_count": 336,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00027-clean",
+      "cert_type": "satisfying_assignment_over_exhaustive_search",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 335,
+      "ground_truth_solution_count": 335,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00027-messy",
+      "cert_type": "satisfying_assignment_over_exhaustive_search",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 335,
+      "ground_truth_solution_count": 335,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00031-clean",
+      "cert_type": "satisfying_assignment_over_exhaustive_search",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 635,
+      "ground_truth_solution_count": 635,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00031-messy",
+      "cert_type": "satisfying_assignment_over_exhaustive_search",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 635,
+      "ground_truth_solution_count": 635,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00032-clean",
+      "cert_type": "satisfying_assignment_over_exhaustive_search",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 216,
+      "ground_truth_solution_count": 216,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00032-messy",
+      "cert_type": "satisfying_assignment_over_exhaustive_search",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 216,
+      "ground_truth_solution_count": 216,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00033-clean",
+      "cert_type": "satisfying_assignment_over_exhaustive_search",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 208,
+      "ground_truth_solution_count": 208,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00033-messy",
+      "cert_type": "satisfying_assignment_over_exhaustive_search",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 208,
+      "ground_truth_solution_count": 208,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00034-clean",
+      "cert_type": "minimal_conflict_with_search_exhaustion",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 0,
+      "ground_truth_solution_count": 0,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00034-messy",
+      "cert_type": "minimal_conflict_with_search_exhaustion",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 0,
+      "ground_truth_solution_count": 0,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00035-clean",
+      "cert_type": "minimal_conflict_with_search_exhaustion",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 0,
+      "ground_truth_solution_count": 0,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00035-messy",
+      "cert_type": "minimal_conflict_with_search_exhaustion",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 0,
+      "ground_truth_solution_count": 0,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00037-clean",
+      "cert_type": "minimal_conflict_with_search_exhaustion",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 0,
+      "ground_truth_solution_count": 0,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00037-messy",
+      "cert_type": "minimal_conflict_with_search_exhaustion",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 0,
+      "ground_truth_solution_count": 0,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00038-clean",
+      "cert_type": "minimal_conflict_with_search_exhaustion",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 0,
+      "ground_truth_solution_count": 0,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00038-messy",
+      "cert_type": "minimal_conflict_with_search_exhaustion",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 0,
+      "ground_truth_solution_count": 0,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00039-clean",
+      "cert_type": "minimal_conflict_with_search_exhaustion",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 0,
+      "ground_truth_solution_count": 0,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "csp-00039-messy",
+      "cert_type": "minimal_conflict_with_search_exhaustion",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "oracle_solution_count": 0,
+      "ground_truth_solution_count": 0,
+      "matches_ground_truth": true
+    }
+  ]
+}

@@ -37,7 +37,7 @@ _Last updated: 2026-07-03._
 |---|---|
 | Certificate correctness | ✓ — 0% false-certification across both verticals; cross-validated vs the benchmark's independently-implemented ground truth |
 | Certificate independence — edge_ai (bounded optimization) | **Supported** (Gamma+1, 2026-07-03) — a brute-force checker sharing no search logic with the solver reached identical decisions on all 60 dev certificates, agreeing with a third independent enumeration (benchmark ground truth); controls pass, 0 false-cert (`research/G3_cert_independence/RESULTS.md`). Scope: implementation- + oracle-independent (not a different paradigm), native format, dev split |
-| Certificate independence — constraint_csp | **Partial** — CSP's `recheck_certificate` still shares `solve()`'s logic; not yet addressed (would be a separate registered task) |
+| Certificate independence — constraint_csp | **Supported** (Gamma+2, 2026-07-03) — a backtracking checker sharing no search algorithm and no evaluator code with the solver reached identical decisions on all 52 dev certificates (42 SAT + 10 UNSAT, both types), agreeing with a third independent enumeration (benchmark ground truth); controls pass for both cert types, 0 false-cert (`research/G3_cert_independence/RESULTS_CSP.md`). Scope: implementation-independent (different algorithm + different evaluator), not paradigm-independent (no CP/SAT solver used), native format, dev split |
 
 ## Hypothesis state (Execution Status + Scientific Verdict, separated)
 
@@ -93,10 +93,14 @@ experiments (each requires registration before execution):
    seed-fragility reproduce in a second configuration (different domain or
    temperature)? Confirmation would promote the methodological finding to a
    frozen rule. (Design note: use the differential gate B3−B2.)
-2. **Certificate independence — CSP vertical** — the edge_ai vertical is
-   now Supported (Gamma+1, done); CSP's checker still shares `solve()`'s
-   logic. Extending the independent checker to CSP would close the last
-   independence gap.
+2. ~~Certificate independence — CSP vertical~~ — **done** (Gamma+2,
+   2026-07-03). Both validated verticals (edge_ai, constraint_csp) now
+   carry Supported certificate correctness *and* Supported certificate
+   independence. Remaining independence scope note: implementation-
+   independent (different algorithm + evaluator) in both verticals, not
+   paradigm-independent (no ILP or CP/SAT solver used as a third
+   paradigm) — judged unnecessary at current problem scale, but a future
+   candidate if problem sizes grow beyond exhaustive-search range.
 3. **Independent reproduction** — clone-and-run on a second machine
    (structural; needs an external environment).
 4. H3 / H4 / H5 — untested hypotheses (see table above).

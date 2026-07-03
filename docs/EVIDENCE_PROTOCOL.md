@@ -186,15 +186,16 @@ merged into one "verifier soundness" line:
   recheck alone.
 - **Certificate independence** — is the recheck procedure implemented
   separately from the thing producing the candidate, with no shared code
-  path? **Currently partial for both validated verticals**:
-  `edge_ai_solver.py`'s `recheck_certificate` reuses the solver's own
-  optimum-search; `csp_solver.py`'s `recheck_certificate` calls the same
-  `_check()` / `_enumerate_solutions()` functions `solve()` depends on. A
-  systematic bug in that shared logic would fool the certifier and the
-  candidate-producer identically, and no negative control run so far
-  would catch it — negative controls test "rejects a wrong answer," not
-  "the shared logic itself is correct." Closing this requires a second,
-  genuinely independently-written checker, not merely a second function.
+  path? The production `recheck_certificate` in both `edge_ai_solver.py`
+  and `csp_solver.py` originally reused the solver's own search logic — a
+  systematic bug there would fool the certifier and the candidate-producer
+  identically, and no negative control alone would catch it (negative
+  controls test "rejects a wrong answer," not "the shared logic itself is
+  correct"). Closing this requires a second, genuinely
+  independently-written checker (different search algorithm and/or
+  evaluator, no shared code path), not merely a second function. Current
+  per-vertical status (this changes over time; not a frozen fact — see
+  `docs/SCIENTIFIC_STATE.md`).
 
 ## Standing rule for architecture discussion
 
