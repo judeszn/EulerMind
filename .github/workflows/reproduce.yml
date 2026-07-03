@@ -1,0 +1,35 @@
+name: Independent Reproduction (Delta D3)
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+jobs:
+  reproduce:
+    name: Reproduce certification pipeline on a clean runner
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (fresh, no cache)
+        uses: actions/checkout@v4
+
+      - name: Set up fresh Python (no pip cache)
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Environment manifest
+        run: |
+          python3 --version
+          uname -a
+          echo "no third-party dependencies - certification path is stdlib-only"
+
+      - name: Reproduce certification pipeline
+        run: python3 -m research.D3_independent_reproduction.reproduce
+
+      - name: Upload reproduction evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: d3-reproduction-evidence
+          path: research/D3_independent_reproduction/reproduction_*
