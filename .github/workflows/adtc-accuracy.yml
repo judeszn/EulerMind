@@ -1,0 +1,120 @@
+name: ADTC Accuracy Benchmark (Delta-1 Phase 2)
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  accuracy:
+    name: ${{ matrix.model.name }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    strategy:
+      fail-fast: false
+      matrix:
+        model:
+          - name: qwen2.5-math-1.5b-instruct
+            url: https://huggingface.co/bartowski/Qwen2.5-Math-1.5B-Instruct-GGUF/resolve/main/Qwen2.5-Math-1.5B-Instruct-Q4_K_M.gguf
+          - name: deepseek-r1-distill-qwen-1.5b
+            url: https://huggingface.co/bartowski/DeepSeek-R1-Distill-Qwen-1.5B-GGUF/resolve/main/DeepSeek-R1-Distill-Qwen-1.5B-Q4_K_M.gguf
+          - name: qwen2.5-1.5b-instruct
+            url: https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF/resolve/main/qwen2.5-1.5b-instruct-q4_k_m.gguf
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install llama.cpp (prebuilt ubuntu-x64 release binaries)
+        run: |
+          set -euo pipefail
+          URL=$(curl -s https://api.github.com/repos/ggml-org/llama.cpp/releases/latest \
+            | python3 -c "import json,sys; assets=json.load(sys.stdin)['assets']; print(next(a['browser_download_url'] for a in assets if a['name'].endswith('-bin-ubuntu-x64.tar.gz')))")
+          curl -sL "$URL" -o llama.tar.gz
+          mkdir -p llama-dist && tar -xzf llama.tar.gz -C llama-dist
+          BIN=$(find llama-dist -name llama-server -type f | head -1)
+          BIN_DIR=$(cd "$(dirname "$BIN")" && pwd)
+          chmod +x "$BIN_DIR"/llama-server "$BIN_DIR"/llama-bench || true
+          echo "$BIN_DIR" >> "$GITHUB_PATH"
+          echo "LD_LIBRARY_PATH=$BIN_DIR:${LD_LIBRARY_PATH:-}" >> "$GITHUB_ENV"
+
+      - name: Install lm-eval and adtc-profiler
+        run: |
+          pip install --quiet "lm-eval" "git+https://github.com/Africa-Deep-Tech-Foundation/adtc-profiler.git"
+          lm_eval --help | head -2
+
+      - name: Download model
+        run: |
+          mkdir -p model
+          curl -L --fail -sS -o model/candidate.gguf "${{ matrix.model.url }}"
+          ls -lh model/candidate.gguf
+
+      - name: Start llama-server
+        run: |
+          nohup llama-server -m model/candidate.gguf --port 8080 -c 4096 \
+            --threads "$(nproc)" > server.log 2>&1 &
+          for i in $(seq 1 60); do
+            if curl -sf http://127.0.0.1:8080/health > /dev/null; then
+              echo "server healthy after ${i}s"; break
+            fi
+            sleep 1
+          done
+          curl -sf http://127.0.0.1:8080/health
+
+      - name: "Task 1: does the profiler's own accuracy invocation work as released?"
+        continue-on-error: true
+        run: |
+          set +e
+          python3 - <<'EOF'
+          from pathlib import Path
+          from adtc_profiler import accuracy
+          try:
+              row = accuracy.run_benchmark(Path("model/candidate.gguf"),
+                                           task="arc_easy", limit=2, seed=42)
+              print("PROFILER-NATIVE-ACCURACY: WORKED", row)
+          except Exception as e:
+              print(f"PROFILER-NATIVE-ACCURACY: FAILED as released - {type(e).__name__}: {str(e)[:400]}")
+          EOF
+
+      - name: Run gsm8k (identical settings for all models, seed 42, limit 50)
+        run: |
+          lm_eval --model gguf \
+            --model_args base_url=http://127.0.0.1:8080 \
+            --tasks gsm8k --limit 50 --seed 42 \
+            --output_path out_gsm8k 2>&1 | tail -20
+
+      - name: Run arc_easy (identical settings, seed 42, limit 50)
+        continue-on-error: true
+        run: |
+          lm_eval --model gguf \
+            --model_args base_url=http://127.0.0.1:8080 \
+            --tasks arc_easy --limit 50 --seed 42 \
+            --output_path out_arc 2>&1 | tail -20
+
+      - name: Collect results
+        if: always()
+        run: |
+          python3 - <<'EOF'
+          import glob, json
+          out = {"model": "${{ matrix.model.name }}"}
+          for tag, task in (("out_gsm8k", "gsm8k"), ("out_arc", "arc_easy")):
+              files = glob.glob(f"{tag}/**/results*.json", recursive=True)
+              if not files:
+                  out[task] = None
+                  continue
+              res = json.load(open(files[0]))["results"].get(task, {})
+              out[task] = {k: v for k, v in res.items() if isinstance(v, (int, float))}
+          json.dump(out, open("accuracy_${{ matrix.model.name }}.json", "w"), indent=2)
+          print(json.dumps(out, indent=2))
+          EOF
+
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: accuracy-${{ matrix.model.name }}
+          path: |
+            accuracy_*.json
+            server.log
