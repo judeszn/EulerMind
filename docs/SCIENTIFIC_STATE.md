@@ -48,7 +48,7 @@ _Last updated: 2026-07-03._
 | H1b-Gamma-1 | Completed | **Rejected by the Registered Decision Rule** (Δ=+3.85, p=0.79; does not clear Δ≥7/p<0.05), **internally reproduced under the deterministic registered configuration** (bit-identical rerun; the earlier "stochastic/Provisional" label was a misclassification, now corrected). Scope: this exact configuration only | llama3.2:1b, constraint_csp, temp 0.6 fixed-seed, DeterministicPolicy, prompt-appended feedback |
 | H1b-Gamma-2 (sampling robustness) | Completed | **One valid measurement (Behaviour Variation Gate satisfied), rejected by the registered decision rule. Four additional seed batches did not satisfy the gate and are not interpretable as H1b evidence. Generality not established.** (Deliberately not compressed to "robust" — four of five batches are non-interpretable, not four confirmations.) | as Gamma-1, seed varied (offsets 0/1000/2000/3000/4000) |
 | H2 | **Blocked** (on H1b showing a real effect to compare repair strategies against) | — | — |
-| H3 | Completed | **No verdict — Inconclusive.** Registered split's baseline verified-correct rate was 0% (degenerate: a 100%-reproducible fabricated-model defect, not the anticipated mild residual), so the comparison can't distinguish selective checking from blanket refusal. Independent structural checker's own accuracy (30/30) and certificate correctness/independence (0 disagreements) validly confirmed. | edge_ai, `research/I1_validation/level3.jsonl` |
+| H3 | **CLOSED — No Verdict** (2026-07-03) | First run Inconclusive (degenerate baseline: 100%-reproducible parser defect). After D1 repaired that defect, all four registered splits formalize at ~100% — the intervention has no opportunity to act on any registered distribution. Closed at current scope, not retired as a question. **Reopening trigger (pre-registered): an externally-justified distribution showing a non-degenerate formalization-error base rate re-registers H3 automatically** (direction-of-inference test: data chosen because the mission requires it, never constructed so the hypothesis can run). | all registered splits, post-D1 |
 | H4 | Untested | — | typed IR vs raw Python |
 | H5 | Untested | — | African-language formalization |
 
@@ -121,21 +121,28 @@ Execution Contract, nothing runs until one does. Candidates, ranked:
    enough; a valid comparison also needs the base rate to be**
    **non-degenerate (neither ~0% nor ~100% from a single cause)**, or
    there's no "preserve the good cases" signal to test against.
-2. **H3-retry** — part (a) is **done**: Delta D1 (registered intervention,
-   2026-07-03) repaired the parser defect at its root — L3 paraphrase
-   formalization now 100% schema accuracy, 0 fabrication, 30/30 exact
-   name sets, with bit-exact non-regression on native/L1/L2 (120/120
-   specs byte-identical) and Gamma outputs unchanged (60/60 vs the frozen
-   Gamma+1 report). See `research/D1_parser_repair/RESULTS.md`. Part (b)
-   — re-running H3 — remains unregistered, and D1's fix changes its
-   premise: with L3 also formalizing at 100%, **no known split currently
-   has a non-degenerate formalization-error base rate** (all four splits
-   are now ~0%), so a valid H3 test needs either a new frozen evaluation
-   split with genuinely harder phrasing, or acceptance that H3's target
-   failure mode currently has no measurable occurrence — in which case
-   H3 may be better closed as "no opportunity to act at any current
-   configuration" than pursued. That is a registration decision, not made
-   here.
+2. ~~H3-retry~~ — resolved (2026-07-03 review): D1 done (KEEP, bit-exact
+   non-regression, `research/D1_parser_repair/RESULTS.md`); **H3 CLOSED —
+   No Verdict at current scope**, reopening trigger pre-registered (see
+   hypothesis table). No new benchmark is manufactured for it — the
+   **direction-of-inference test** is locked as standing scientific
+   judgment: a dataset is justified when chosen because the mission
+   requires it, and is benchmark engineering when constructed so a
+   hypothesis can run.
+
+## Transferable findings (Delta, 2026-07-03)
+
+- **The H3-1 → D1 loop is Delta's biggest contribution** — hypothesis →
+  measurement → localization → minimal intervention → bit-exact
+  regression protection → evidence update, demonstrated end-to-end on the
+  project's own code with zero change to any frozen result. The workflow
+  is now proven, not aspirational.
+- **Field-accuracy metrics are structurally blind to fabricated extras**:
+  `score()` computes accuracy only over ground-truth model names, so a
+  fabricated pseudo-model is invisible to it by construction; only
+  end-to-end verified-correctness grading caught it. Any future
+  formalization metric must include an extracted-vs-true name-set check,
+  not only per-field accuracy on known names.
 3. **H4 — typed IR vs raw Python** (representation as the limiting
    factor).
 4. **H5 — African-language formalization** (portability).

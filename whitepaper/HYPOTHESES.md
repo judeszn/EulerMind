@@ -282,6 +282,21 @@ properly-scoped follow-up (fix `_looks_like_catalog_line()`'s budget-cue
 exclusion, then re-test H3 on a split with a non-degenerate baseline)
 is the natural next registered task, not yet authorized.
 
+**CLOSED — No Verdict (2026-07-03, post-D1 scientific review).** Delta D1
+(`research/D1_parser_repair/RESULTS.md`) repaired the defect at its root;
+all four registered evaluation splits now formalize at ~100% schema
+accuracy, so H3's intervention has no opportunity to act on any
+registered distribution. Closed at current scope without verdict — not
+false, not supported, unexercisable. This is a valid scientific endpoint:
+the engineering outcome (D1) removed the experimental condition the
+hypothesis required. **Reopening trigger (pre-registered):** if an
+*externally justified* distribution — one chosen because the mission
+requires it (judge-released ADTC samples, real SME problem statements,
+African-language inputs per the rubric bonus), never one constructed so
+the hypothesis can run — shows a non-degenerate formalization-error base
+rate, H3 re-registers automatically at that configuration. The
+direction-of-inference test above is the discriminator.
+
 ## H4 — Typed IR beats raw Python
 
 **Hypothesis.** Model emits a typed intermediate representation compiled to solver
