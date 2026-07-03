@@ -191,6 +191,35 @@ validated verticals now carry Supported correctness AND Supported
 independence. Full report:
 [research/G3_cert_independence/RESULTS_CSP.md](research/G3_cert_independence/RESULTS_CSP.md).
 
+## Delta / H3 — Formalization Checking (2026-07-03, n=30)
+
+Registered split: `research/I1_validation/level3.jsonl` (frozen,
+adversarial paraphrase level). Required Precondition (formalization error
+rate > 0) technically passed at **100%** (30/30) — but investigation
+showed a single systematic defect explains it, not general noise: the
+extractor fabricates a spurious `Constraints` pseudo-model from the
+budget sentence on every instance (root-caused to
+`_looks_like_catalog_line()`), alongside omitting ~2 real models each.
+
+| | Baseline (unchecked) | Experimental (checked) |
+|---|---|---|
+| Verified rate | 100% | 0% |
+| Verified-correct rate | 0% | 0% |
+| Verified-wrong rate | 100% | 0% |
+| Independent-checker disagreements | 0 | 0 |
+
+**Verdict: no verdict — Completed / Inconclusive.** Baseline verified-
+correct rate is 0% (degenerate), so "does not cut verified-correct rate"
+holds only vacuously; the comparison cannot distinguish selective error-
+catching from blanket refusal. The independent structural checker's own
+accuracy (30/30 vs ground-truth-oracle) and certificate correctness/
+independence (0 disagreements either arm) ARE validly established.
+**Side finding: a previously-undiscovered, 100%-reproducible formalization
+defect in `kernel/edge_ai_extractors.py`, logged not fixed** (Frozen
+Constraints held). Gamma's own results are unaffected (native input only,
+this bug is L3-paraphrase-specific). Full report:
+[research/H3_formalization_checking/RESULTS.md](research/H3_formalization_checking/RESULTS.md).
+
 ## Scientific state snapshot (2026-07-03 — SUPERSEDED; live state is `docs/SCIENTIFIC_STATE.md`)
 
 | | Status |

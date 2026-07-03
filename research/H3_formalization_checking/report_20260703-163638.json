@@ -1,0 +1,681 @@
+{
+  "summary": {
+    "n": 30,
+    "dataset": "research/I1_validation/level3.jsonl",
+    "precondition": {
+      "formalization_errors": 30,
+      "formalization_error_rate": 1.0
+    },
+    "controls": {
+      "positive_control_no_false_flags_on_error_free_instances": true,
+      "negative_control_counter_correctly_sized_on_all_error_instances": true
+    },
+    "baseline": {
+      "verified_rate": 1.0,
+      "verified_correct_rate": 0.0,
+      "verified_wrong_rate": 1.0,
+      "verified_wrong_count": 30,
+      "independent_checker_disagreements": 0
+    },
+    "experimental": {
+      "verified_rate": 0.0,
+      "verified_correct_rate": 0.0,
+      "verified_wrong_rate": 0.0,
+      "verified_wrong_count": 0,
+      "independent_checker_disagreements": 0
+    },
+    "certificate_correctness_regressed": false,
+    "independent_checker_agreement_100pct": true,
+    "verified_wrong_comparison": {
+      "baseline_not_verified_wrong_rate": 0.0,
+      "experimental_not_verified_wrong_rate": 1.0,
+      "baseline_only_not_verified_wrong": 0,
+      "experimental_only_not_verified_wrong": 30,
+      "p_value": 0.0,
+      "verdict": "b_better",
+      "n_paired": 30
+    },
+    "overall_correctness_comparison": {
+      "baseline_correct_rate": 0.0,
+      "experimental_correct_rate": 0.0,
+      "p_value": 1.0,
+      "verdict": "indistinguishable"
+    }
+  },
+  "baseline_rows": [
+    {
+      "id": "edge-00000-paraphrase_L3",
+      "trust_label": "Verified",
+      "verified": true,
+      "correct": false,
+      "verified_wrong": true,
+      "independent_recheck_agrees": true
+    },
+    {
+      "id": "edge-00001-paraphrase_L3",
+      "trust_label": "Verified",
+      "verified": true,
+      "correct": false,
+      "verified_wrong": true,
+      "independent_recheck_agrees": true
+    },
+    {
+      "id": "edge-00002-paraphrase_L3",
+      "trust_label": "Verified",
+      "verified": true,
+      "correct": false,
+      "verified_wrong": true,
+      "independent_recheck_agrees": true
+    },
+    {
+      "id": "edge-00003-paraphrase_L3",
+      "trust_label": "Verified",
+      "verified": true,
+      "correct": false,
+      "verified_wrong": true,
+      "independent_recheck_agrees": true
+    },
+    {
+      "id": "edge-00004-paraphrase_L3",
+      "trust_label": "Verified",
+      "verified": true,
+      "correct": false,
+      "verified_wrong": true,
+      "independent_recheck_agrees": true
+    },
+    {
+      "id": "edge-00006-paraphrase_L3",
+      "trust_label": "Verified",
+      "verified": true,
+      "correct": false,
+      "verified_wrong": true,
+      "independent_recheck_agrees": true
+    },
+    {
+      "id": "edge-00007-paraphrase_L3",
+      "trust_label": "Verified",
+      "verified": true,
+      "correct": false,
+      "verified_wrong": true,
+      "independent_recheck_agrees": true
+    },
+    {
+      "id": "edge-00008-paraphrase_L3",
+      "trust_label": "Verified",
+      "verified": true,
+      "correct": false,
+      "verified_wrong": true,
+      "independent_recheck_agrees": true
+    },
+    {
+      "id": "edge-00010-paraphrase_L3",
+      "trust_label": "Verified",
+      "verified": true,
+      "correct": false,
+      "verified_wrong": true,
+      "independent_recheck_agrees": true
+    },
+    {
+      "id": "edge-00012-paraphrase_L3",
+      "trust_label": "Verified",
+      "verified": true,
+      "correct": false,
+      "verified_wrong": true,
+      "independent_recheck_agrees": true
+    },
+    {
+      "id": "edge-00013-paraphrase_L3",
+      "trust_label": "Verified",
+      "verified": true,
+      "correct": false,
+      "verified_wrong": true,
+      "independent_recheck_agrees": true
+    },
+    {
+      "id": "edge-00014-paraphrase_L3",
+      "trust_label": "Verified",
+      "verified": true,
+      "correct": false,
+      "verified_wrong": true,
+      "independent_recheck_agrees": true
+    },
+    {
+      "id": "edge-00015-paraphrase_L3",
+      "trust_label": "Verified",
+      "verified": true,
+      "correct": false,
+      "verified_wrong": true,
+      "independent_recheck_agrees": true
+    },
+    {
+      "id": "edge-00016-paraphrase_L3",
+      "trust_label": "Verified",
+      "verified": true,
+      "correct": false,
+      "verified_wrong": true,
+      "independent_recheck_agrees": true
+    },
+    {
+      "id": "edge-00017-paraphrase_L3",
+      "trust_label": "Verified",
+      "verified": true,
+      "correct": false,
+      "verified_wrong": true,
+      "independent_recheck_agrees": true
+    },
+    {
+      "id": "edge-00018-paraphrase_L3",
+      "trust_label": "Verified",
+      "verified": true,
+      "correct": false,
+      "verified_wrong": true,
+      "independent_recheck_agrees": true
+    },
+    {
+      "id": "edge-00020-paraphrase_L3",
+      "trust_label": "Verified",
+      "verified": true,
+      "correct": false,
+      "verified_wrong": true,
+      "independent_recheck_agrees": true
+    },
+    {
+      "id": "edge-00023-paraphrase_L3",
+      "trust_label": "Verified",
+      "verified": true,
+      "correct": false,
+      "verified_wrong": true,
+      "independent_recheck_agrees": true
+    },
+    {
+      "id": "edge-00025-paraphrase_L3",
+      "trust_label": "Verified",
+      "verified": true,
+      "correct": false,
+      "verified_wrong": true,
+      "independent_recheck_agrees": true
+    },
+    {
+      "id": "edge-00026-paraphrase_L3",
+      "trust_label": "Verified",
+      "verified": true,
+      "correct": false,
+      "verified_wrong": true,
+      "independent_recheck_agrees": true
+    },
+    {
+      "id": "edge-00028-paraphrase_L3",
+      "trust_label": "Verified",
+      "verified": true,
+      "correct": false,
+      "verified_wrong": true,
+      "independent_recheck_agrees": true
+    },
+    {
+      "id": "edge-00029-paraphrase_L3",
+      "trust_label": "Verified",
+      "verified": true,
+      "correct": false,
+      "verified_wrong": true,
+      "independent_recheck_agrees": true
+    },
+    {
+      "id": "edge-00031-paraphrase_L3",
+      "trust_label": "Verified",
+      "verified": true,
+      "correct": false,
+      "verified_wrong": true,
+      "independent_recheck_agrees": true
+    },
+    {
+      "id": "edge-00032-paraphrase_L3",
+      "trust_label": "Verified",
+      "verified": true,
+      "correct": false,
+      "verified_wrong": true,
+      "independent_recheck_agrees": true
+    },
+    {
+      "id": "edge-00033-paraphrase_L3",
+      "trust_label": "Verified",
+      "verified": true,
+      "correct": false,
+      "verified_wrong": true,
+      "independent_recheck_agrees": true
+    },
+    {
+      "id": "edge-00034-paraphrase_L3",
+      "trust_label": "Verified",
+      "verified": true,
+      "correct": false,
+      "verified_wrong": true,
+      "independent_recheck_agrees": true
+    },
+    {
+      "id": "edge-00035-paraphrase_L3",
+      "trust_label": "Verified",
+      "verified": true,
+      "correct": false,
+      "verified_wrong": true,
+      "independent_recheck_agrees": true
+    },
+    {
+      "id": "edge-00036-paraphrase_L3",
+      "trust_label": "Verified",
+      "verified": true,
+      "correct": false,
+      "verified_wrong": true,
+      "independent_recheck_agrees": true
+    },
+    {
+      "id": "edge-00037-paraphrase_L3",
+      "trust_label": "Verified",
+      "verified": true,
+      "correct": false,
+      "verified_wrong": true,
+      "independent_recheck_agrees": true
+    },
+    {
+      "id": "edge-00038-paraphrase_L3",
+      "trust_label": "Verified",
+      "verified": true,
+      "correct": false,
+      "verified_wrong": true,
+      "independent_recheck_agrees": true
+    }
+  ],
+  "experimental_rows": [
+    {
+      "id": "edge-00000-paraphrase_L3",
+      "trust_label": "Open",
+      "verified": false,
+      "correct": false,
+      "verified_wrong": false,
+      "independent_recheck_agrees": null
+    },
+    {
+      "id": "edge-00001-paraphrase_L3",
+      "trust_label": "Open",
+      "verified": false,
+      "correct": false,
+      "verified_wrong": false,
+      "independent_recheck_agrees": null
+    },
+    {
+      "id": "edge-00002-paraphrase_L3",
+      "trust_label": "Open",
+      "verified": false,
+      "correct": false,
+      "verified_wrong": false,
+      "independent_recheck_agrees": null
+    },
+    {
+      "id": "edge-00003-paraphrase_L3",
+      "trust_label": "Open",
+      "verified": false,
+      "correct": false,
+      "verified_wrong": false,
+      "independent_recheck_agrees": null
+    },
+    {
+      "id": "edge-00004-paraphrase_L3",
+      "trust_label": "Open",
+      "verified": false,
+      "correct": false,
+      "verified_wrong": false,
+      "independent_recheck_agrees": null
+    },
+    {
+      "id": "edge-00006-paraphrase_L3",
+      "trust_label": "Open",
+      "verified": false,
+      "correct": false,
+      "verified_wrong": false,
+      "independent_recheck_agrees": null
+    },
+    {
+      "id": "edge-00007-paraphrase_L3",
+      "trust_label": "Open",
+      "verified": false,
+      "correct": false,
+      "verified_wrong": false,
+      "independent_recheck_agrees": null
+    },
+    {
+      "id": "edge-00008-paraphrase_L3",
+      "trust_label": "Open",
+      "verified": false,
+      "correct": false,
+      "verified_wrong": false,
+      "independent_recheck_agrees": null
+    },
+    {
+      "id": "edge-00010-paraphrase_L3",
+      "trust_label": "Open",
+      "verified": false,
+      "correct": false,
+      "verified_wrong": false,
+      "independent_recheck_agrees": null
+    },
+    {
+      "id": "edge-00012-paraphrase_L3",
+      "trust_label": "Open",
+      "verified": false,
+      "correct": false,
+      "verified_wrong": false,
+      "independent_recheck_agrees": null
+    },
+    {
+      "id": "edge-00013-paraphrase_L3",
+      "trust_label": "Open",
+      "verified": false,
+      "correct": false,
+      "verified_wrong": false,
+      "independent_recheck_agrees": null
+    },
+    {
+      "id": "edge-00014-paraphrase_L3",
+      "trust_label": "Open",
+      "verified": false,
+      "correct": false,
+      "verified_wrong": false,
+      "independent_recheck_agrees": null
+    },
+    {
+      "id": "edge-00015-paraphrase_L3",
+      "trust_label": "Open",
+      "verified": false,
+      "correct": false,
+      "verified_wrong": false,
+      "independent_recheck_agrees": null
+    },
+    {
+      "id": "edge-00016-paraphrase_L3",
+      "trust_label": "Open",
+      "verified": false,
+      "correct": false,
+      "verified_wrong": false,
+      "independent_recheck_agrees": null
+    },
+    {
+      "id": "edge-00017-paraphrase_L3",
+      "trust_label": "Open",
+      "verified": false,
+      "correct": false,
+      "verified_wrong": false,
+      "independent_recheck_agrees": null
+    },
+    {
+      "id": "edge-00018-paraphrase_L3",
+      "trust_label": "Open",
+      "verified": false,
+      "correct": false,
+      "verified_wrong": false,
+      "independent_recheck_agrees": null
+    },
+    {
+      "id": "edge-00020-paraphrase_L3",
+      "trust_label": "Open",
+      "verified": false,
+      "correct": false,
+      "verified_wrong": false,
+      "independent_recheck_agrees": null
+    },
+    {
+      "id": "edge-00023-paraphrase_L3",
+      "trust_label": "Open",
+      "verified": false,
+      "correct": false,
+      "verified_wrong": false,
+      "independent_recheck_agrees": null
+    },
+    {
+      "id": "edge-00025-paraphrase_L3",
+      "trust_label": "Open",
+      "verified": false,
+      "correct": false,
+      "verified_wrong": false,
+      "independent_recheck_agrees": null
+    },
+    {
+      "id": "edge-00026-paraphrase_L3",
+      "trust_label": "Open",
+      "verified": false,
+      "correct": false,
+      "verified_wrong": false,
+      "independent_recheck_agrees": null
+    },
+    {
+      "id": "edge-00028-paraphrase_L3",
+      "trust_label": "Open",
+      "verified": false,
+      "correct": false,
+      "verified_wrong": false,
+      "independent_recheck_agrees": null
+    },
+    {
+      "id": "edge-00029-paraphrase_L3",
+      "trust_label": "Open",
+      "verified": false,
+      "correct": false,
+      "verified_wrong": false,
+      "independent_recheck_agrees": null
+    },
+    {
+      "id": "edge-00031-paraphrase_L3",
+      "trust_label": "Open",
+      "verified": false,
+      "correct": false,
+      "verified_wrong": false,
+      "independent_recheck_agrees": null
+    },
+    {
+      "id": "edge-00032-paraphrase_L3",
+      "trust_label": "Open",
+      "verified": false,
+      "correct": false,
+      "verified_wrong": false,
+      "independent_recheck_agrees": null
+    },
+    {
+      "id": "edge-00033-paraphrase_L3",
+      "trust_label": "Open",
+      "verified": false,
+      "correct": false,
+      "verified_wrong": false,
+      "independent_recheck_agrees": null
+    },
+    {
+      "id": "edge-00034-paraphrase_L3",
+      "trust_label": "Open",
+      "verified": false,
+      "correct": false,
+      "verified_wrong": false,
+      "independent_recheck_agrees": null
+    },
+    {
+      "id": "edge-00035-paraphrase_L3",
+      "trust_label": "Open",
+      "verified": false,
+      "correct": false,
+      "verified_wrong": false,
+      "independent_recheck_agrees": null
+    },
+    {
+      "id": "edge-00036-paraphrase_L3",
+      "trust_label": "Open",
+      "verified": false,
+      "correct": false,
+      "verified_wrong": false,
+      "independent_recheck_agrees": null
+    },
+    {
+      "id": "edge-00037-paraphrase_L3",
+      "trust_label": "Open",
+      "verified": false,
+      "correct": false,
+      "verified_wrong": false,
+      "independent_recheck_agrees": null
+    },
+    {
+      "id": "edge-00038-paraphrase_L3",
+      "trust_label": "Open",
+      "verified": false,
+      "correct": false,
+      "verified_wrong": false,
+      "independent_recheck_agrees": null
+    }
+  ],
+  "counter_control_rows": [
+    {
+      "id": "edge-00000-paraphrase_L3",
+      "has_known_formalization_error": true,
+      "independent_count_matches_true_count": true
+    },
+    {
+      "id": "edge-00001-paraphrase_L3",
+      "has_known_formalization_error": true,
+      "independent_count_matches_true_count": true
+    },
+    {
+      "id": "edge-00002-paraphrase_L3",
+      "has_known_formalization_error": true,
+      "independent_count_matches_true_count": true
+    },
+    {
+      "id": "edge-00003-paraphrase_L3",
+      "has_known_formalization_error": true,
+      "independent_count_matches_true_count": true
+    },
+    {
+      "id": "edge-00004-paraphrase_L3",
+      "has_known_formalization_error": true,
+      "independent_count_matches_true_count": true
+    },
+    {
+      "id": "edge-00006-paraphrase_L3",
+      "has_known_formalization_error": true,
+      "independent_count_matches_true_count": true
+    },
+    {
+      "id": "edge-00007-paraphrase_L3",
+      "has_known_formalization_error": true,
+      "independent_count_matches_true_count": true
+    },
+    {
+      "id": "edge-00008-paraphrase_L3",
+      "has_known_formalization_error": true,
+      "independent_count_matches_true_count": true
+    },
+    {
+      "id": "edge-00010-paraphrase_L3",
+      "has_known_formalization_error": true,
+      "independent_count_matches_true_count": true
+    },
+    {
+      "id": "edge-00012-paraphrase_L3",
+      "has_known_formalization_error": true,
+      "independent_count_matches_true_count": true
+    },
+    {
+      "id": "edge-00013-paraphrase_L3",
+      "has_known_formalization_error": true,
+      "independent_count_matches_true_count": true
+    },
+    {
+      "id": "edge-00014-paraphrase_L3",
+      "has_known_formalization_error": true,
+      "independent_count_matches_true_count": true
+    },
+    {
+      "id": "edge-00015-paraphrase_L3",
+      "has_known_formalization_error": true,
+      "independent_count_matches_true_count": true
+    },
+    {
+      "id": "edge-00016-paraphrase_L3",
+      "has_known_formalization_error": true,
+      "independent_count_matches_true_count": true
+    },
+    {
+      "id": "edge-00017-paraphrase_L3",
+      "has_known_formalization_error": true,
+      "independent_count_matches_true_count": true
+    },
+    {
+      "id": "edge-00018-paraphrase_L3",
+      "has_known_formalization_error": true,
+      "independent_count_matches_true_count": true
+    },
+    {
+      "id": "edge-00020-paraphrase_L3",
+      "has_known_formalization_error": true,
+      "independent_count_matches_true_count": true
+    },
+    {
+      "id": "edge-00023-paraphrase_L3",
+      "has_known_formalization_error": true,
+      "independent_count_matches_true_count": true
+    },
+    {
+      "id": "edge-00025-paraphrase_L3",
+      "has_known_formalization_error": true,
+      "independent_count_matches_true_count": true
+    },
+    {
+      "id": "edge-00026-paraphrase_L3",
+      "has_known_formalization_error": true,
+      "independent_count_matches_true_count": true
+    },
+    {
+      "id": "edge-00028-paraphrase_L3",
+      "has_known_formalization_error": true,
+      "independent_count_matches_true_count": true
+    },
+    {
+      "id": "edge-00029-paraphrase_L3",
+      "has_known_formalization_error": true,
+      "independent_count_matches_true_count": true
+    },
+    {
+      "id": "edge-00031-paraphrase_L3",
+      "has_known_formalization_error": true,
+      "independent_count_matches_true_count": true
+    },
+    {
+      "id": "edge-00032-paraphrase_L3",
+      "has_known_formalization_error": true,
+      "independent_count_matches_true_count": true
+    },
+    {
+      "id": "edge-00033-paraphrase_L3",
+      "has_known_formalization_error": true,
+      "independent_count_matches_true_count": true
+    },
+    {
+      "id": "edge-00034-paraphrase_L3",
+      "has_known_formalization_error": true,
+      "independent_count_matches_true_count": true
+    },
+    {
+      "id": "edge-00035-paraphrase_L3",
+      "has_known_formalization_error": true,
+      "independent_count_matches_true_count": true
+    },
+    {
+      "id": "edge-00036-paraphrase_L3",
+      "has_known_formalization_error": true,
+      "independent_count_matches_true_count": true
+    },
+    {
+      "id": "edge-00037-paraphrase_L3",
+      "has_known_formalization_error": true,
+      "independent_count_matches_true_count": true
+    },
+    {
+      "id": "edge-00038-paraphrase_L3",
+      "has_known_formalization_error": true,
+      "independent_count_matches_true_count": true
+    }
+  ]
+}

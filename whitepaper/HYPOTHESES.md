@@ -256,6 +256,32 @@ survive mechanical extraction, i.e. semantic misattribution, not
 transcription failure. Nothing structurally prevents running this
 experiment now; it simply hasn't been attempted.
 
+**Executed 2026-07-03** (`research/H3_formalization_checking/RESULTS.md`),
+registered split `research/I1_validation/level3.jsonl` (frozen). Required
+Precondition technically passed (formalization error rate 30/30=100%) but
+investigation showed why: every instance carries the *same* systematic
+defect, not general field-association noise — the extractor fabricates a
+spurious `Constraints` pseudo-model from the budget/threshold sentence
+(root-caused to `_looks_like_catalog_line()` misclassifying that
+sentence), on top of independently omitting ~2 real models per instance.
+Baseline verified-correct rate is therefore 0% — a degenerate condition
+under which "does not cut verified-correct rate" holds only vacuously, so
+the arm comparison (experimental: 0% verified-wrong vs baseline: 100%)
+cannot distinguish "checking selectively catches errors" from "checking
+refuses everything." **Status: Completed / Inconclusive — no verdict
+recorded (neither Supported nor Rejected).** Two things this split *did*
+validly establish: the independent structural checker itself is accurate
+(30/30 vs ground-truth-oracle), and certificate correctness/independence
+are unaffected (0 disagreements either arm) — the defect is a
+formalization-fidelity problem under the existing Trust Boundary, not a
+Gamma regression (Gamma used native, non-paraphrased input; unaffected).
+**Side effect: a previously-undiscovered, 100%-reproducible defect in
+`kernel/edge_ai_extractors.py` was found and logged, not fixed** (Frozen
+Constraints held — no Formalizer changes under this registered task). A
+properly-scoped follow-up (fix `_looks_like_catalog_line()`'s budget-cue
+exclusion, then re-test H3 on a split with a non-degenerate baseline)
+is the natural next registered task, not yet authorized.
+
 ## H4 — Typed IR beats raw Python
 
 **Hypothesis.** Model emits a typed intermediate representation compiled to solver

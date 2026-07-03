@@ -48,7 +48,7 @@ _Last updated: 2026-07-03._
 | H1b-Gamma-1 | Completed | **Rejected by the Registered Decision Rule** (Δ=+3.85, p=0.79; does not clear Δ≥7/p<0.05), **internally reproduced under the deterministic registered configuration** (bit-identical rerun; the earlier "stochastic/Provisional" label was a misclassification, now corrected). Scope: this exact configuration only | llama3.2:1b, constraint_csp, temp 0.6 fixed-seed, DeterministicPolicy, prompt-appended feedback |
 | H1b-Gamma-2 (sampling robustness) | Completed | **One valid measurement (Behaviour Variation Gate satisfied), rejected by the registered decision rule. Four additional seed batches did not satisfy the gate and are not interpretable as H1b evidence. Generality not established.** (Deliberately not compressed to "robust" — four of five batches are non-interpretable, not four confirmations.) | as Gamma-1, seed varied (offsets 0/1000/2000/3000/4000) |
 | H2 | **Blocked** (on H1b showing a real effect to compare repair strategies against) | — | — |
-| H3 | Untested | — | formalization-checking on residual field-association errors |
+| H3 | Completed | **No verdict — Inconclusive.** Registered split's baseline verified-correct rate was 0% (degenerate: a 100%-reproducible fabricated-model defect, not the anticipated mild residual), so the comparison can't distinguish selective checking from blanket refusal. Independent structural checker's own accuracy (30/30) and certificate correctness/independence (0 disagreements) validly confirmed. | edge_ai, `research/I1_validation/level3.jsonl` |
 | H4 | Untested | — | typed IR vs raw Python |
 | H5 | Untested | — | African-language formalization |
 
@@ -111,21 +111,29 @@ unchanged, (3) either establish a new capability or cleanly reject one.
 No experiment carries a filled-in `BEGIN IMPLEMENTATION` Task. Per the
 Execution Contract, nothing runs until one does. Candidates, ranked:
 
-1. **H3 — formalization checking reduces verified-wrong outputs.**
-   First priority: extends the trusted pipeline without touching the
-   architecture. **Registration precondition (Gamma lesson 1, binding):**
-   H3's intervention needs formalization errors to act on, and the native
-   dev sets have a ~0 base rate (0 parser fallbacks in Gamma+1/+2). The
-   registered design must (a) pre-register a base-rate measurement on a
-   split where formalization actually fails (paraphrase variants with the
-   residual field-association / segmentation errors from Intervention
-   1B), and (b) gate the comparison on that base rate being materially
-   non-zero — otherwise H3 repeats Gamma-2's "mechanism not exercised"
-   trap with formalization in place of feedback.
-2. **H4 — typed IR vs raw Python** (representation as the limiting
+1. ~~H3 — formalization checking reduces verified-wrong outputs~~ —
+   **executed 2026-07-03, no verdict (Inconclusive)**
+   (`research/H3_formalization_checking/RESULTS.md`). The precondition
+   binding note below (about base rate) turned out right for the wrong
+   reason: the registered split's base rate wasn't ~0, it was ~100% from
+   one systematic defect, which is its own kind of degenerate baseline —
+   a lesson worth generalizing: *pre-registering "base rate > 0" is not
+   enough; a valid comparison also needs the base rate to be**
+   **non-degenerate (neither ~0% nor ~100% from a single cause)**, or
+   there's no "preserve the good cases" signal to test against.
+2. **H3-retry — fix the newly-discovered `_looks_like_catalog_line()`
+   defect, then re-run H3 on a split with a non-degenerate baseline.**
+   New top priority: a concrete, root-caused, 100%-reproducible bug is a
+   more tractable next step than an untested hypothesis. Two sub-parts,
+   registrable together or separately: (a) fix the budget-cue exclusion
+   in `kernel/edge_ai_extractors.py` (this IS an architecture change —
+   requires its own registration, not covered by H3's frozen-formalizer
+   constraint); (b) re-run the H3 comparison on a split where baseline
+   verified-correct rate is meaningfully between 0% and 100%.
+3. **H4 — typed IR vs raw Python** (representation as the limiting
    factor).
-3. **H5 — African-language formalization** (portability).
-4. **Independent reproduction** — clone-and-run on a second machine
+4. **H5 — African-language formalization** (portability).
+5. **Independent reproduction** — clone-and-run on a second machine
    (structural; needs an external environment; also the cheapest way to
    raise the evidence ceiling for *all* existing results at once).
 
