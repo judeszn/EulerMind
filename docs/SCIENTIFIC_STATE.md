@@ -25,9 +25,8 @@ _Last updated: 2026-07-03._
 |---|---|
 | Architecture | ✓ |
 | Implementation | ✓ — two verticals (bounded optimization, constraint CSP) |
-| Internal reproduction — deterministic | ✓ |
-| Internal reproduction — deterministic (corrected scope) | ✓ — includes H1b-Gamma-1, found 2026-07-03 to be deterministic (fixed seed pins output at temp 0.6), bit-identical rerun confirmed |
-| Sampling-robustness (H1b-Gamma-2) | ✓ tested — verdict robust across 5 seeds; but revealed the mechanism gate is itself seed-fragile (`research/G2b_sampling_robustness/RESULTS.md`) |
+| Internal reproduction — deterministic | ✓ — includes H1b-Gamma-1, found 2026-07-03 to be deterministic (fixed seed pins output at temp 0.6), bit-identical rerun confirmed |
+| Sampling-robustness (H1b-Gamma-2) | ✓ tested — verdict robust across 5 seeds; but only **1 of 5 batches was a valid H1b measurement** (mechanism gate seed-fragile), so this is not five independent confirmations (`research/G2b_sampling_robustness/RESULTS.md`) |
 | Independent reproduction | ✗ |
 | Replication | ✗ |
 | External validation | ✗ |
@@ -52,12 +51,34 @@ _Last updated: 2026-07-03._
 | H4 | Untested | — | typed IR vs raw Python |
 | H5 | Untested | — | African-language formalization |
 
-## Immediate open item
+## Most important transferable finding (Gamma-2)
 
-**H1b-Gamma-2 (sampling robustness)** is registered-but-unexecuted: does
-the Gamma-1 conclusion survive when the seed is varied per rerun (genuine
-independent stochastic draws)? Distinct objective/criteria/config from
-Gamma-1 — a new experiment (`research/G2_csp_h1b/REPRODUCTION.md`,
-Resolution B). This is the next task that would produce new evidence.
-Governance carries one **Pending Clarification (PC-2026-07-03)** awaiting
-a second independent implementation before promotion.
+**Mechanism activation is itself an experimental variable, not a given.**
+"Feedback exists in the prompt" ≠ "the mechanism was exercised." Gamma-2
+showed the mechanism gate passing at one seed and failing at four others,
+so the pre-interpretation order — *intervention executed → behaviour
+changed → certificates sound → only then read statistics* — is not
+optional bookkeeping; a single-config mechanism pass does not certify the
+mechanism is live in general. Recorded as **PC-2026-07-03b**
+(`docs/EVIDENCE_PROTOCOL.md`), pending a second independent confirmation
+before promotion to a frozen rule.
+
+## Open items — NONE currently registered
+
+No experiment carries a filled-in `BEGIN IMPLEMENTATION` Task. Per the
+Execution Contract, nothing runs until one does. Candidate next
+experiments (each requires registration before execution):
+
+1. **Confirm PC-2026-07-03b** — does mechanism-gate seed-fragility
+   reproduce in a second configuration (different domain or temperature)?
+   Confirmation would promote the methodological finding to a frozen rule.
+2. **Certificate independence** — write a genuinely independent second
+   checker (not sharing `solve()`'s logic) and confirm it agrees; would
+   move the strongest claim's independence from Partial toward Confirmed.
+3. **Independent reproduction** — clone-and-run on a second machine
+   (structural; needs an external environment).
+4. H3 / H4 / H5 — untested hypotheses (see table above).
+
+Two governance Pending Clarifications stand recorded, awaiting a second
+independent implementation each: PC-2026-07-03 (temperature≠stochastic),
+PC-2026-07-03b (mechanism-gate fragility).
