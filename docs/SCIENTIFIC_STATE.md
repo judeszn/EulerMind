@@ -64,19 +64,23 @@ can ever earn: it shows outputs differ, never that feedback produced the
 difference. Recorded as **PC-2026-07-03b** (`docs/EVIDENCE_PROTOCOL.md`),
 pending a second independent confirmation before promotion to a frozen rule.
 
-**Sharper post-hoc analysis (2026-07-03): the Behaviour Variation Gate as
-operationalized measures TOTAL cross-attempt variation, not
-feedback-specific variation — this is exactly why it must not be called a
-"mechanism activation" gate.** At batch 0 the blind arm (B2, no feedback)
-already varied on 79% of multi-attempt problems from seed alone; the
-guided arm (B3) reached 100%. So the gate's "pass" mostly captured
-seed-driven sampling variation present without any feedback — the
-feedback-specific increment was ≤21 points and not cleanly attributable. A
-gate that isolated feedback would be **differential: B3-variation minus
-B2-variation at matched seeds.** Implication: even Gamma-1's satisfied gate
-established less about feedback than a causal reading implied. This is the
-key design fix for any PC-2026-07-03b confirmation experiment. (Analysis of
-existing evidence — not a governance change, not a re-run.)
+**Principle (config-independent, carried forward as knowledge): a
+Behaviour Variation Gate measures TOTAL cross-attempt variation and cannot
+distinguish sampling-driven from intervention-driven variation.** This is
+analytically true, not an empirical finding — attributing variation to the
+intervention requires a **differential gate (treatment variation − control
+variation at matched seeds)**, since a raw gate also captures the sampling
+variation present in the control arm. Consequence: a satisfied raw gate
+establishes less about the intervention than a causal reading implies, and
+the differential gate is the design fix for a PC-2026-07-03b confirmation
+experiment.
+
+The *config-specific numbers* that exhibited this in Gamma (blind-arm
+variation magnitude, feedback increment, seed-fragility) are **evidence**
+and live only in `research/G2b_sampling_robustness/RESULTS.md` — not
+restated here, per Evidence-vs-Knowledge separation. The number is
+evidence; the seed-fragility is pending evidence (PC-2026-07-03b); only the
+definitional principle above is settled knowledge.
 
 ## Open items — NONE currently registered
 
