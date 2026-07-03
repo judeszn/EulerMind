@@ -34,6 +34,17 @@ optimality over all feasible integer deployments under the extracted
 spec. Independently rechecked: **accepted** — "feasible, consistent, and
 optimal."
 
+**Update (2026-07-03, Gamma+1):** this certificate was later rechecked
+again by a *genuinely* independent checker — brute-force enumeration
+sharing no search code with the solver
+(`research/G3_cert_independence/independent_checker.py`) — as part of
+the full 60-instance edge_ai dev set, this instance included: **accepted**,
+matching the benchmark's separately-computed ground truth. Full result:
+`research/G3_cert_independence/RESULTS.md` (60/60 agreement, 0 false
+certifications). The original line above described the *production*
+recheck (shares logic with the solver, per `docs/EVIDENCE_PROTOCOL.md`'s
+correctness/independence distinction) — kept for history, not deleted.
+
 **Why XGBoost isn't in the plan** (the demo's key narrative beat, still
 true): XGBoost has the single highest per-unit accuracy (0.96) of any
 model in the catalog, yet the optimal deployment uses zero of it — it's
