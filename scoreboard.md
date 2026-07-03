@@ -267,6 +267,32 @@ verticals, kernel interfaces, benchmark, and all Gamma artifacts
 unchanged (verified via diff). Full report:
 [research/D2_lp_vertical/RESULTS.md](research/D2_lp_vertical/RESULTS.md).
 
+## Delta / D3 — Independent Pipeline Reproducibility (2026-07-03, GitHub Actions)
+
+Genuine independent run — [GitHub Actions run 28673053751](https://github.com/judeszn/EulerMind/actions/runs/28673053751)
+on `ubuntu-latest`, not a same-machine simulation: crosses OS
+(macOS→Linux), CPU architecture (arm64→x86_64), and Python patch version
+(3.11.13→3.11.15). Fresh checkout, no cache, zero manual intervention,
+zero third-party dependencies to install (certification path is
+stdlib-only).
+
+| Check | Result |
+|---|---|
+| `benchmark.selftest` | **PASS** |
+| edge_ai (Gamma+1) report | **bit-identical** (sha256 match) |
+| constraint_csp (Gamma+2) report | **bit-identical** (sha256 match) |
+| optimization_lp (D2) report | **bit-identical** (sha256 match) |
+| Certificate decisions / agreement matrices / false-cert counts | identical in all three |
+
+**Independent Reproducibility: Supported.** Raises the evidence ceiling
+for all three certified verticals simultaneously; introduces no new
+capability. Workflow (`.github/workflows/reproduce.yml`) now runs on
+every push to `main` — a standing check, not a one-off. Scope: one
+environment class demonstrated (not N independent environments =
+Replicability, which remains unchanged); certification path only (no
+LLM-dependent Gamma experiments, out of scope by design). Full report:
+[research/D3_independent_reproduction/RESULTS.md](research/D3_independent_reproduction/RESULTS.md).
+
 ## Scientific state snapshot (2026-07-03 — SUPERSEDED; live state is `docs/SCIENTIFIC_STATE.md`)
 
 | | Status |

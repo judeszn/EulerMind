@@ -1,0 +1,43 @@
+{
+  "environment": {
+    "python_version": "3.11.15 (main, Jun 16 2026, 21:41:52) [GCC 13.3.0]",
+    "platform": "Linux-6.17.0-1018-azure-x86_64-with-glibc2.39",
+    "machine": "x86_64",
+    "git_commit": "662468abe0bdc85d5a3d83c04421deb9106a48aa",
+    "git_working_tree_clean": true,
+    "third_party_dependencies": "none - certification path is stdlib-only (verified by import audit)",
+    "timestamp_utc": "2026-07-03T16:38:10.612368Z"
+  },
+  "selftest_passed": true,
+  "experiments": [
+    {
+      "name": "edge_ai (Gamma+1)",
+      "ran": true,
+      "match": true,
+      "fresh_hash": "cb2e21c58cf1cf45450a0b90ed805daea102ea0ae6ca05381105388b1131f2cd",
+      "frozen_hash": "cb2e21c58cf1cf45450a0b90ed805daea102ea0ae6ca05381105388b1131f2cd",
+      "content_identical_despite_hash": false,
+      "diff": null
+    },
+    {
+      "name": "constraint_csp (Gamma+2)",
+      "ran": true,
+      "match": true,
+      "fresh_hash": "682934f85216d6dbf785bd267e810f92a2dfc7f77e2f4b9a46134768bbac6267",
+      "frozen_hash": "682934f85216d6dbf785bd267e810f92a2dfc7f77e2f4b9a46134768bbac6267",
+      "content_identical_despite_hash": false,
+      "diff": null
+    },
+    {
+      "name": "optimization_lp (D2)",
+      "ran": true,
+      "match": true,
+      "fresh_hash": "302bc5eef6f71e83292062ec6ca5b1132411c4b7fb9c20a3b60e147d4af37774",
+      "frozen_hash": "302bc5eef6f71e83292062ec6ca5b1132411c4b7fb9c20a3b60e147d4af37774",
+      "content_identical_despite_hash": false,
+      "diff": null
+    }
+  ],
+  "all_deterministic_outputs_reproduced": true,
+  "decision": "KEEP"
+}

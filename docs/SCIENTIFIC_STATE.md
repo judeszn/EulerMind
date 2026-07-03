@@ -27,8 +27,8 @@ _Last updated: 2026-07-03._
 | Implementation | ✓ — three verticals (bounded optimization, constraint CSP, linear programming) |
 | Internal reproduction — deterministic | ✓ — includes H1b-Gamma-1, found 2026-07-03 to be deterministic (fixed seed pins output at temp 0.6), bit-identical rerun confirmed |
 | Sampling-robustness (H1b-Gamma-2) | ✓ tested — only **1 of 5 batches was a valid H1b measurement** (Behaviour Variation Gate seed-fragile), so this is not five independent confirmations (`research/G2b_sampling_robustness/RESULTS.md`) |
-| Independent reproduction | ✗ |
-| Replication | ✗ |
+| Independent reproduction | **✓ — certification path** (Delta D3, 2026-07-03): [GitHub Actions run 28673053751](https://github.com/judeszn/EulerMind/actions/runs/28673053751) on `ubuntu-latest` — crosses OS (macOS→Linux), CPU architecture (arm64→x86_64), Python patch version; all three verticals' reports bit-identical (sha256 match), selftest passed, 0 manual intervention (`research/D3_independent_reproduction/RESULTS.md`). Workflow now runs on every push to `main`. **✗ — LLM-dependent experiments** (Gamma's H1a/H1b/H1b-Gamma-2, which need Ollama) are out of D3's scope by design and remain unreproduced independently |
+| Replication | ✗ — pipeline level (D3 is the same code on a second machine, not a second independently-written implementation); Partial at certificate level (the G3/D2 independent checkers already are separately-written implementations agreeing with the primary pipeline, for the narrower "is this answer correct" claim) |
 | External validation | ✗ |
 
 ## Certificate properties (reported separately, per protocol)
@@ -142,16 +142,20 @@ Execution Contract, nothing runs until one does. Candidates, ranked:
    style. Next per the locked sequence is Δ3 (independent reproduction,
    CI), then Δ4 (reassess before calculus_poly) — not calculus
    immediately.**
-4. **Δ3 — Independent reproduction (CI)** — next up per the locked
-   sequence. Clone-and-run on a second machine/environment; nearly free
-   (the certification path is stdlib-only Python, no network dependency),
-   and raises the evidence ceiling for *all* existing results at once —
-   not exciting, but the highest information-gain-per-effort item on the
-   board (2026-07-03 planning review).
-5. **calculus_poly** — deferred to Δ4, pending Δ3 and a reassessment of
-   whether LP exposed anything worth addressing first (none found so far
-   — see D2 RESULTS §9 honest-scope notes, all pre-registered, none
-   blocking).
+4. ~~Δ3 — Independent reproduction (CI)~~ — **executed 2026-07-03,
+   Supported** (`research/D3_independent_reproduction/RESULTS.md`).
+   GitHub Actions run crossing OS/architecture/Python-patch-version;
+   all three verticals' reports bit-identical, selftest passed. Raises
+   the evidence ceiling for edge_ai/CSP/LP simultaneously. Now a standing
+   check (`.github/workflows/reproduce.yml` runs on every push to
+   `main`), not a one-off. Scope held: certification path only, one
+   environment class (Independent Reproducibility, not Replicability).
+5. **calculus_poly (Δ4)** — reassessment per the locked sequence: Δ3
+   exposed nothing needing repair (0 diffs, all hashes matched
+   first-try), and Δ2 (LP) surfaced no architectural weakness (D2
+   RESULTS §9's honest-scope notes are all pre-registered, none
+   blocking). Both gates the locked sequence required before calculus
+   are now clear — calculus_poly is unblocked, pending registration.
 6. **H5 — African-language formalization** (portability). Also the
    pre-registered reopening path for H3: its dataset is externally
    justified by the rubric's own +15% bonus, and multilingual

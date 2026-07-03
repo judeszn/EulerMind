@@ -1,0 +1,63 @@
+=== environment manifest ===
+{
+  "python_version": "3.11.15 (main, Jun 16 2026, 21:41:52) [GCC 13.3.0]",
+  "platform": "Linux-6.17.0-1018-azure-x86_64-with-glibc2.39",
+  "machine": "x86_64",
+  "git_commit": "662468abe0bdc85d5a3d83c04421deb9106a48aa",
+  "git_working_tree_clean": true,
+  "third_party_dependencies": "none - certification path is stdlib-only (verified by import audit)",
+  "timestamp_utc": "2026-07-03T16:38:10.612368Z"
+}
+=== benchmark.selftest ===
+harness self-test
+  PASS  oracle scores 100%
+  PASS  null scores 0%
+  PASS  null labels all Open
+  PASS  lp: wrong profit rejected
+  PASS  lp: infeasible plan rejected
+  PASS  calculus: flipped classification rejected
+  PASS  csp: non-distinct assignment rejected
+  PASS  csp unsat: invented assignment rejected (Law 1)
+  PASS  csp unsat: honest refusal accepted
+  PASS  csp unsat: minimal conflict recorded
+  PASS  oracle mode: 100% Verified through the kernel loop
+  PASS  oracle mode: every attempt logged with budget + cost fields
+  PASS  oracle mode: retry recovers from sabotaged first attempt
+  PASS  oracle mode: failures carry taxonomy + signals
+  PASS  oracle mode: FailureSignal shape is kind/location/evidence
+  PASS  oracle mode: exhausted budget returns Open (Guardrail 5)
+  PASS  policy: 'reformalize' actually loops back to the Formalizer
+  PASS  policy: the failed attempt's log records next_action == reformalize
+  PASS  policy: answer_shape escalates straight to reformalize
+  PASS  policy: fresh constraint_violation gets a patch, not an escalation
+  PASS  policy: repeated constraint_violation escalates patch -> rederive
+  PASS  policy: unsat_claim (fabricated certainty) escalates to reformalize
+  PASS  policy: DeterministicPolicy recovers an LP sabotage via patch
+  PASS  edge_ai: oracle scores 100%
+  PASS  edge_ai: null scores 0%
+  PASS  knapsack: over-budget plan rejected
+  PASS  knapsack: suboptimal-but-feasible plan rejected
+  PASS  knapsack: score inconsistent with counts rejected
+  PASS  mcnemar: no discordant pairs -> p=1
+  PASS  mcnemar: 10-0 discordant is significant
+  PASS  mcnemar: 6-4 discordant is not significant
+  PASS  compare_paired: oracle beats null decisively
+  PASS  generators deterministic
+
+all checks passed — the ruler is calibrated
+exit code: 0
+=== edge_ai (Gamma+1): research.G3_cert_independence.run ===
+exit code: 0
+fresh report:  research/G3_cert_independence/report_20260703-163811.json  sha256=cb2e21c58cf1cf45450a0b90ed805daea102ea0ae6ca05381105388b1131f2cd
+frozen report: research/G3_cert_independence/report_20260703-124811.json  sha256=cb2e21c58cf1cf45450a0b90ed805daea102ea0ae6ca05381105388b1131f2cd
+summary identical: True | rows identical: True
+=== constraint_csp (Gamma+2): research.G3_cert_independence.run_csp ===
+exit code: 0
+fresh report:  research/G3_cert_independence/report_csp_20260703-163812.json  sha256=682934f85216d6dbf785bd267e810f92a2dfc7f77e2f4b9a46134768bbac6267
+frozen report: research/G3_cert_independence/report_csp_20260703-161208.json  sha256=682934f85216d6dbf785bd267e810f92a2dfc7f77e2f4b9a46134768bbac6267
+summary identical: True | rows identical: True
+=== optimization_lp (D2): research.D2_lp_vertical.run ===
+exit code: 0
+fresh report:  research/D2_lp_vertical/report_20260703-163812.json  sha256=302bc5eef6f71e83292062ec6ca5b1132411c4b7fb9c20a3b60e147d4af37774
+frozen report: research/D2_lp_vertical/report_20260703-172506.json  sha256=302bc5eef6f71e83292062ec6ca5b1132411c4b7fb9c20a3b60e147d4af37774
+summary identical: True | rows identical: True
