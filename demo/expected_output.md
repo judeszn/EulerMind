@@ -1,35 +1,55 @@
-# Expected demo output — STATUS: NOT YET MEASURED
+# Expected demo output — STATUS: MEASURED (2026-07-02)
 
 Update discipline (mirrors `benchmark/datasets/CHANGELOG.md`): **never
-overwrite silently.** Once Phase 1C produces a real, reviewed run, this
-file becomes the frozen baseline for `actual_output.md` to diff against —
-but if the pipeline later legitimately improves (Phase 1D generalization
-touching the Edge AI path, a better formalizer prompt, etc.), the baseline
-may be deliberately updated, with a one-line dated reason appended below.
-A hard "never update, ever" would make this file stale the first time we
-make the system better.
+overwrite silently.** Updates require a one-line dated reason appended to
+the history below.
 
 ## Baseline history
 
-- (none yet — filled in on the first real Phase 1C run)
+- **2026-07-02** — First real baseline. Pipeline: `StructuredFormalizer`
+  (Intervention 1B, parser-first) → `SolverAttempter` (exhaustive
+  optimality search, `kernel/edge_ai_solver.py`) → `DeterministicExecutor`
+  → `OptimalityVerifier`. Not the LLM-attempter pipeline (that path was
+  run first, produced Open on this instance, and is superseded — see
+  `demo/actual_output.md`'s history for that record).
 
 ---
 
-This file is a placeholder until Phase 1C's real pipeline (Formalizer +
-Executor + Verifier + Policy against `llama3.2:1b`) actually runs
-`demo/prompt.md` end to end. It is intentionally empty of claims until
-then — writing a fabricated "expected" trace here before the real pipeline
-exists would be exactly the kind of certainty-fabrication Law 1 forbids
-the system from doing, applied to our own demo materials.
+## Result
 
-What this file will contain once Phase 1C produces a real run:
-- The formalization the LLM extracted (variables/budgets/constraint)
-- Each attempt's answer, verifier verdict, and FailureSignal (if any)
-- The policy's next_action decision at each failure
-- The final trust label and the reproducible trace log path
-- Peak RAM and wall-clock time for the run
+**Trust label: Verified.**
 
-Do not hand-author this file from Oracle Mode's output — Oracle Mode
-reads ground truth directly (it exists to validate the kernel loop, not
-to stand in for a real result) and using its trace here would misrepresent
-a mechanical validation as a measured demo result.
+**Formalization** (source: `parser`, zero LLM calls):
+- Models: XGBoost, KNN, SVM-linear, DecisionTree, CNN — all 5 extracted
+  correctly from the messy text (2 distractor sentences ignored).
+- Budgets: RAM 3.7GB (converted from the source's stated 3789MB), FLOPS
+  92 GFLOPS, latency 123ms.
+- High-accuracy threshold: 0.9.
+
+**Solved deployment:** KNN ×3, SVM-linear ×2 (all others ×0). Score **3249**
+— exact match to the dataset's ground-truth optimum.
+
+**Certificate:** `exhaustive_feasible_region_search`, certifying
+optimality over all feasible integer deployments under the extracted
+spec. Independently rechecked: **accepted** — "feasible, consistent, and
+optimal."
+
+**Why XGBoost isn't in the plan** (the demo's key narrative beat, still
+true): XGBoost has the single highest per-unit accuracy (0.96) of any
+model in the catalog, yet the optimal deployment uses zero of it — it's
+individually excellent but budget-inefficient at this instance's numbers.
+The system optimized, it didn't pattern-match on accuracy.
+
+**Instrumentation:** peak RSS 27.6–27.7 MB (run-to-run noise; see
+`research/V1_validation/RESULTS.md`'s reproducibility note), solve time
+sub-millisecond. This is one instance (`edge-00000-messy`) drawn from a
+60-problem run at 100% Verified-Correct, 0% false certification.
+
+## Scope note (carried from the original placeholder, still true)
+
+This is the deterministic-solver pipeline, not an LLM reasoning through
+the problem — that's the point (Guardrail 2: never trust LLM arithmetic
+or optimization). It has not been re-validated against paraphrased or
+unstructured phrasing of this exact instance; see
+`research/I1_validation/RESULTS.md` for what's known about formalization
+robustness on this domain more broadly.

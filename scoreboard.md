@@ -56,6 +56,28 @@ good case and one communicates the brand risk.)
 | L2 | ? | ? | ? |
 | L3 | ? | ? | ? |
 
+## Phase Gamma — constraint_csp H1 attempt (2026-07-02, n=52)
+
+Verification-asymmetric domain (checking O(constraints), finding a
+solution over 2520 permutations is not) — chosen because knapsack's
+exact-solvability made H1 untestable there.
+
+| Metric | B2 (blind) | B3 (guided) |
+|---|---|---|
+| Verified-Correct Rate | 19.23% | 19.23% |
+| False Certification Rate | 0.0% | 0.0% |
+| SAT solved (of 42) | 6 | **0** |
+| UNSAT solved (of 10) | 4 | **10** |
+
+Δ=0.0, McNemar p=1.0 (perfect 6-vs-6 discordant split). Verifier soundness
+and capability confounds from the knapsack run are both resolved here.
+**Decisive finding: 42/42 multi-attempt B3 cases show the identical
+failure signal on every retry** — the guided attempter is confirmed not
+to respond to temp-0 feedback. **Decision: DEFER** — this measured
+"single-shot vs multi-shot resampling," not "guided vs blind." H1 remains
+untested after two verticals. Full report:
+[research/G1_csp_validation/RESULTS.md](research/G1_csp_validation/RESULTS.md).
+
 ## Validation Phase 1 — first contract-valid result (2026-07-02, n=60)
 
 Deterministic solver + optimality-certifying verifier (contract v1.0),

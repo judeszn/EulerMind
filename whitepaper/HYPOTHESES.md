@@ -103,6 +103,27 @@ kind-to-action rule table; see H2 for whether the mapping itself is right).
 **Kill threshold.** Feedback must beat resampling with McNemar p < 0.05 and a
 delta ≥ 7 points on dev. Otherwise VGS is dead and the project pivots.
 
+**Phase Gamma / constraint_csp measured 2026-07-02**
+(`research/G1_csp_validation/RESULTS.md`), 52 problems (42 SAT, 10 UNSAT),
+a verification-asymmetric domain chosen specifically because knapsack's
+exact-solvability made H1 untestable there. Verifier soundness confirmed
+(0% false-certification both arms, every certificate independently
+rechecked) and real capability (19.23% coverage, not a floor) — the two
+confounds that invalidated the knapsack run are resolved. Result:
+Δ=0.0, McNemar p=1.0 (perfect 6-vs-6 discordant split). Composition:
+B3 (guided) solved 10/10 UNSAT and 0/42 SAT; B2 (blind) solved a mix
+(6 SAT + 4 UNSAT) — structurally different behavior summing to the same
+total. **Decisive finding: checked across all 52 problems, 42/42
+multi-attempt cases in B3 produced the IDENTICAL failure signal on every
+retry** — the guided attempter's output does not vary with temperature-0
+feedback. **Decision: DEFER**, narrower than the knapsack DEFER: not a
+verifier or capability confound this time, but a confirmed-inert feedback
+mechanism — this run tested "single-shot vs multi-shot resampling," not
+"guided vs blind," because feedback was never functionally exercised.
+Applying the kill threshold's literal numbers here would overclaim past
+what was measured. **H1 remains untested after two attempts on two
+verticals, both failures now precisely characterized.**
+
 **Intervention 2 measured 2026-07-02** (`research/H1_edge_ai/RESULTS.md`),
 60 problems, StructuredFormalizer (1B): Δ=0.0, McNemar p=1.0 — no
 measurable difference. **Decision: DEFER, not DELETE.** The kill
