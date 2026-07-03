@@ -113,16 +113,40 @@ confounds that invalidated the knapsack run are resolved. Result:
 Δ=0.0, McNemar p=1.0 (perfect 6-vs-6 discordant split). Composition:
 B3 (guided) solved 10/10 UNSAT and 0/42 SAT; B2 (blind) solved a mix
 (6 SAT + 4 UNSAT) — structurally different behavior summing to the same
-total. **Decisive finding: checked across all 52 problems, 42/42
-multi-attempt cases in B3 produced the IDENTICAL failure signal on every
-retry** — the guided attempter's output does not vary with temperature-0
-feedback. **Decision: DEFER**, narrower than the knapsack DEFER: not a
-verifier or capability confound this time, but a confirmed-inert feedback
-mechanism — this run tested "single-shot vs multi-shot resampling," not
-"guided vs blind," because feedback was never functionally exercised.
-Applying the kill threshold's literal numbers here would overclaim past
-what was measured. **H1 remains untested after two attempts on two
-verticals, both failures now precisely characterized.**
+total.
+
+**H1 decomposed by evidence (frozen wording, 2026-07-03 scientific
+review), not left as a single "untested" verdict — decomposition preserves
+what was actually measured instead of discarding it:**
+
+- **H1a** — does verifier feedback produce observable behavioural
+  variation? Checked across all 52 problems, not a sample: 42/42
+  multi-attempt B3 cases produced the identical failure signal on every
+  retry. **Frozen finding**: *under the registered intervention
+  (prompt-appended textual verifier feedback) and registered inference
+  configuration (llama3.2:1b, temperature 0), no observable behavioural
+  variation was detected across retries.* Explicitly behavioural, not
+  cognitive — identical outputs were observed; identical internal
+  processing was not and cannot be. Explicitly configuration-scoped, not
+  global — this is one point in the intervention/configuration space, not
+  "feedback doesn't work." The clean follow-up (not run, not proposed as
+  next work here) would vary feedback presence alone at fixed nonzero
+  temperature, since temp 0 is independently a predictor of low output
+  variation regardless of feedback.
+- **H1b** — if behaviour varies, does guided retry outperform blind under
+  equal compute? **Untested** — H1a's negative means the premise
+  (behavioural variation exists to compare) was never established at this
+  configuration.
+
+**Decision: DEFER on H1b; H1a answered-negative-at-one-configuration
+(not COMPLETE).** Applying the kill threshold's literal numbers
+(Δ=0.0, p=1.0) as if they answered the causal claim would overclaim past
+what was measured — the intervention was never functionally exercised in
+42/52 cases, so the outcome cannot bear on "does guided beat blind."
+**H1b remains untested after two attempts on two verticals**: knapsack
+(invalidated by verifier unsoundness) and constraint_csp (verifier sound,
+but the premise behind H1b was never established). Both failures are now
+precisely characterized rather than vague.
 
 **Intervention 2 measured 2026-07-02** (`research/H1_edge_ai/RESULTS.md`),
 60 problems, StructuredFormalizer (1B): Δ=0.0, McNemar p=1.0 — no

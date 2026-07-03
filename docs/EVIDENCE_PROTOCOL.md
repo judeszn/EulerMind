@@ -44,6 +44,31 @@ Bounded optimization (edge_ai_deployment), Validation Phase 1:
 - Replicability: not established.
 - External validation: not supported.
 
+## Standing rule for negative-result wording (added 2026-07-03)
+
+A negative result on a mechanism question must be recorded as
+**answered-negative-at-the-registered-configuration**, never as
+"COMPLETE" or a global negative. State it against the exact registered
+intervention and inference configuration, not the axes that happen to
+vary it (model choice, encoding, temperature, etc. are levers on the
+mechanism, not the mechanism itself — naming levers invites a false sense
+of completeness the moment someone finds a lever not on the list; naming
+the registered configuration bounds the claim by construction instead).
+Precedent: H1a in `whitepaper/HYPOTHESES.md` — "under the registered
+intervention (prompt-appended textual verifier feedback) and registered
+inference configuration (llama3.2:1b, temperature 0), no observable
+behavioural variation was detected across retries." Also keep every such
+claim strictly behavioural (what was observed), never cognitive (what the
+model "did internally") — the latter is unobservable by construction.
+
+When a mechanism check invalidates an outcome experiment (e.g. feedback
+never functionally exercised, so a policy-comparison result can't answer
+the policy question), **decompose the hypothesis rather than reporting
+"untested."** The mechanism sub-question may have a real, earned answer;
+collapsing it into "untested" discards evidence. Precedent: H1 → H1a
+(mechanism, answered-negative-at-configuration) + H1b (causal claim,
+still untested because H1a's negative removed the premise).
+
 ## Standing rule for architecture discussion
 
 Every architecture discussion must end with **either** a measurable

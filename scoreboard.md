@@ -71,11 +71,16 @@ exact-solvability made H1 untestable there.
 
 Δ=0.0, McNemar p=1.0 (perfect 6-vs-6 discordant split). Verifier soundness
 and capability confounds from the knapsack run are both resolved here.
-**Decisive finding: 42/42 multi-attempt B3 cases show the identical
-failure signal on every retry** — the guided attempter is confirmed not
-to respond to temp-0 feedback. **Decision: DEFER** — this measured
-"single-shot vs multi-shot resampling," not "guided vs blind." H1 remains
-untested after two verticals. Full report:
+
+**H1 decomposed, not left as "untested"** (frozen wording, 2026-07-03):
+**H1a** (does feedback produce observable behavioural variation?) —
+*under the registered intervention (prompt-appended textual verifier
+feedback) and registered inference configuration (llama3.2:1b,
+temperature 0), no observable behavioural variation was detected across
+retries* — checked on 42/42 multi-attempt cases, not a sample.
+Configuration-scoped, not global; behavioural, not cognitive. **H1b**
+(does guided beat blind, given variation?) — **untested**, premise never
+established. **Decision: DEFER on H1b.** Full report:
 [research/G1_csp_validation/RESULTS.md](research/G1_csp_validation/RESULTS.md).
 
 ## Validation Phase 1 — first contract-valid result (2026-07-02, n=60)
