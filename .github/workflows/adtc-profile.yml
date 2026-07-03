@@ -36,11 +36,12 @@ jobs:
           mkdir -p llama-dist
           tar -xzf llama.tar.gz -C llama-dist
           BENCH=$(find llama-dist -name llama-bench -type f | head -1)
-          echo "found llama-bench at $BENCH"
-          sudo cp "$BENCH" /usr/local/bin/
-          find llama-dist -name "*.so*" -exec sudo cp {} /usr/local/lib/ \;
-          sudo ldconfig
-          llama-bench --help | head -3
+          BENCH_DIR=$(cd "$(dirname "$BENCH")" && pwd)
+          echo "found llama-bench in $BENCH_DIR"
+          chmod +x "$BENCH_DIR"/llama-bench
+          echo "$BENCH_DIR" >> "$GITHUB_PATH"
+          echo "LD_LIBRARY_PATH=$BENCH_DIR:${LD_LIBRARY_PATH:-}" >> "$GITHUB_ENV"
+          PATH="$BENCH_DIR:$PATH" LD_LIBRARY_PATH="$BENCH_DIR" llama-bench --help | head -3
 
       - name: Install adtc-profiler (official)
         run: pip install --quiet "git+https://github.com/Africa-Deep-Tech-Foundation/adtc-profiler.git"
