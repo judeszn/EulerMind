@@ -27,7 +27,7 @@ _Last updated: 2026-07-03._
 | Implementation | ✓ — two verticals (bounded optimization, constraint CSP) |
 | Internal reproduction — deterministic | ✓ |
 | Internal reproduction — deterministic (corrected scope) | ✓ — includes H1b-Gamma-1, found 2026-07-03 to be deterministic (fixed seed pins output at temp 0.6), bit-identical rerun confirmed |
-| Sampling-robustness (new, distinct question) | ✗ — not tested for any result; requires seed-varied reruns (see `research/G2_csp_h1b/REPRODUCTION.md`) |
+| Sampling-robustness (H1b-Gamma-2) | ✓ tested — verdict robust across 5 seeds; but revealed the mechanism gate is itself seed-fragile (`research/G2b_sampling_robustness/RESULTS.md`) |
 | Independent reproduction | ✗ |
 | Replication | ✗ |
 | External validation | ✗ |
@@ -46,7 +46,7 @@ _Last updated: 2026-07-03._
 | H0 | Completed | Supported (formalization measurable; deterministic extraction reaches 100% on native format) | edge_ai native phrasing; degrades on unstructured |
 | H1a | Completed | Rejected by Registered Decision Rule (no behavioural variation) | llama3.2:1b, temp 0, prompt-appended textual feedback |
 | H1b-Gamma-1 | Completed | **Rejected by the Registered Decision Rule** (Δ=+3.85, p=0.79; does not clear Δ≥7/p<0.05), **internally reproduced under the deterministic registered configuration** (bit-identical rerun; the earlier "stochastic/Provisional" label was a misclassification, now corrected). Scope: this exact configuration only | llama3.2:1b, constraint_csp, temp 0.6 fixed-seed, DeterministicPolicy, prompt-appended feedback |
-| H1b-Gamma-2 (sampling robustness) | **Planned** (registered, not executed) | — is the H1b-Gamma-1 conclusion robust when seed is the independent variable (varied per rerun)? Different objective, criteria, and configuration from Gamma-1 — a new experiment, not a rerun | as Gamma-1 but seed varied across runs |
+| H1b-Gamma-2 (sampling robustness) | Completed | **Robustness Supported** — the Gamma-1 verdict survives sampling variation; no seed (of 5) overturns "Rejected by the Registered Decision Rule". Scope qualification: only 1 of 5 batches was a *valid* H1b measurement — the mechanism gate is seed-fragile (below) | as Gamma-1, seed varied (offsets 0/1000/2000/3000/4000) |
 | H2 | **Blocked** (on H1b showing a real effect to compare repair strategies against) | — | — |
 | H3 | Untested | — | formalization-checking on residual field-association errors |
 | H4 | Untested | — | typed IR vs raw Python |

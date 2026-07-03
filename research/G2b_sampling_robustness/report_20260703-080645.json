@@ -1,0 +1,90 @@
+{
+  "experiment": "H1b-Gamma-2 sampling robustness",
+  "n_batches": 5,
+  "seed_offsets": [
+    0,
+    1000,
+    2000,
+    3000,
+    4000
+  ],
+  "batches": [
+    {
+      "seed_offset": 0,
+      "b2_verified_correct_rate": 0.1923,
+      "b3_verified_correct_rate": 0.2308,
+      "delta_pts": 3.85,
+      "mcnemar_p": 0.790527,
+      "mechanism_b2": 0.7917,
+      "mechanism_b3": 1.0,
+      "mechanism_gate_passed": true,
+      "false_certifications": 0,
+      "all_verified_certs_recheck": true,
+      "verdict_this_batch": "rejected_by_decision_rule"
+    },
+    {
+      "seed_offset": 1000,
+      "b2_verified_correct_rate": 0.1923,
+      "b3_verified_correct_rate": 0.1923,
+      "delta_pts": 0.0,
+      "mcnemar_p": 1.0,
+      "mechanism_b2": 0.0,
+      "mechanism_b3": 0.0,
+      "mechanism_gate_passed": false,
+      "false_certifications": 0,
+      "all_verified_certs_recheck": true,
+      "verdict_this_batch": "rejected_by_decision_rule"
+    },
+    {
+      "seed_offset": 2000,
+      "b2_verified_correct_rate": 0.1923,
+      "b3_verified_correct_rate": 0.1923,
+      "delta_pts": 0.0,
+      "mcnemar_p": 1.0,
+      "mechanism_b2": 0.0,
+      "mechanism_b3": 0.0,
+      "mechanism_gate_passed": false,
+      "false_certifications": 0,
+      "all_verified_certs_recheck": true,
+      "verdict_this_batch": "rejected_by_decision_rule"
+    },
+    {
+      "seed_offset": 3000,
+      "b2_verified_correct_rate": 0.1923,
+      "b3_verified_correct_rate": 0.1538,
+      "delta_pts": -3.85,
+      "mcnemar_p": 0.5,
+      "mechanism_b2": 0.0455,
+      "mechanism_b3": 0.0,
+      "mechanism_gate_passed": false,
+      "false_certifications": 0,
+      "all_verified_certs_recheck": true,
+      "verdict_this_batch": "rejected_by_decision_rule"
+    },
+    {
+      "seed_offset": 4000,
+      "b2_verified_correct_rate": 0.1923,
+      "b3_verified_correct_rate": 0.1538,
+      "delta_pts": -3.85,
+      "mcnemar_p": 0.5,
+      "mechanism_b2": 0.0455,
+      "mechanism_b3": 0.0,
+      "mechanism_gate_passed": false,
+      "false_certifications": 0,
+      "all_verified_certs_recheck": true,
+      "verdict_this_batch": "rejected_by_decision_rule"
+    }
+  ],
+  "qualitative_verdict_unanimous": true,
+  "unanimous_verdict": "rejected_by_decision_rule",
+  "mechanism_gate_passed_all": false,
+  "false_certification_zero_all": true,
+  "delta_range_pts": [
+    -3.85,
+    3.85
+  ],
+  "p_range": [
+    0.5,
+    1.0
+  ]
+}

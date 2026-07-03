@@ -50,15 +50,16 @@ class BlindCSPAttempter:
     """B2 / H1 control: ignores prior FailureSignals, resamples at
     nonzero temperature - "blind resampling at temperature"."""
 
-    def __init__(self, model: str = "llama3.2:1b"):
+    def __init__(self, model: str = "llama3.2:1b", seed_offset: int = 0):
         self.model = model
+        self.seed_offset = seed_offset  # 0 reproduces Gamma-1 exactly (seed=state.attempt)
 
     def attempt(self, state) -> dict:
         spec = state.formalization.get("spec")
         if spec is None:
             return {"solution": None, "tokens": 0}
         parsed, tokens = _ollama_json(self.model, _prompt(spec), temperature=0.6,
-                                      seed=state.attempt)
+                                      seed=self.seed_offset + state.attempt)
         return {"solution": _to_solution(parsed), "tokens": tokens}
 
 
@@ -79,9 +80,11 @@ class GuidedCSPAttempter:
     does not alter the temperature=0 default's behavior or its already-
     registered, already-cited result."""
 
-    def __init__(self, model: str = "llama3.2:1b", temperature: float = 0.0):
+    def __init__(self, model: str = "llama3.2:1b", temperature: float = 0.0,
+                 seed_offset: int = 0):
         self.model = model
         self.temperature = temperature
+        self.seed_offset = seed_offset  # 0 reproduces Gamma-1 exactly (seed=state.attempt)
 
     def attempt(self, state) -> dict:
         spec = state.formalization.get("spec")
@@ -95,7 +98,7 @@ class GuidedCSPAttempter:
                 prompt += f"- {s['kind']} at {s['location']}: {s['evidence']}\n"
             prompt += "Propose a different assignment that fixes this specific problem."
         parsed, tokens = _ollama_json(self.model, prompt, temperature=self.temperature,
-                                      seed=state.attempt)
+                                      seed=self.seed_offset + state.attempt)
         return {"solution": _to_solution(parsed), "tokens": tokens}
 
 

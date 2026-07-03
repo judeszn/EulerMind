@@ -111,6 +111,18 @@ independent implementation** demonstrates the same issue.
   separate, seed-varied experiment. Promote to the frozen rule only on a
   second independent confirmation.
 
+- **PC-2026-07-03b (mechanism-gate fragility, one implementation so far):**
+  a mechanism gate that passes at one configuration may fail at others
+  differing only by seed. H1b-Gamma-2 (`research/G2b_sampling_robustness/`)
+  found the gate passed for the Gamma-1 seed triple (1,2,3) but failed for
+  4 other seed triples — at temperature 0.6 this model is only weakly
+  stochastic, so most seeds collapse to identical outputs and cross-attempt
+  variation is ~0. Implication (recorded, not promoted): a single-config
+  mechanism pass does not certify the mechanism is live in general; where
+  feasible, check the gate across ≥2 seeds before treating a result as a
+  valid test of the intervention. Narrow claim only — this model, this
+  temperature. Promote only on a second independent confirmation.
+
 **A stochastic result may not be recorded as confirmed on a single
 execution, no matter how clean the run looked.** Before treating a
 stochastic result as internally reproduced: **pre-register a fixed N of
