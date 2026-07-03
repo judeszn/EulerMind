@@ -24,7 +24,7 @@ _Last updated: 2026-07-03._
 | Level | Status |
 |---|---|
 | Architecture | ✓ |
-| Implementation | ✓ — two verticals (bounded optimization, constraint CSP) |
+| Implementation | ✓ — three verticals (bounded optimization, constraint CSP, linear programming) |
 | Internal reproduction — deterministic | ✓ — includes H1b-Gamma-1, found 2026-07-03 to be deterministic (fixed seed pins output at temp 0.6), bit-identical rerun confirmed |
 | Sampling-robustness (H1b-Gamma-2) | ✓ tested — only **1 of 5 batches was a valid H1b measurement** (Behaviour Variation Gate seed-fragile), so this is not five independent confirmations (`research/G2b_sampling_robustness/RESULTS.md`) |
 | Independent reproduction | ✗ |
@@ -35,9 +35,10 @@ _Last updated: 2026-07-03._
 
 | Property | Status |
 |---|---|
-| Certificate correctness | ✓ — 0% false-certification across both verticals; cross-validated vs the benchmark's independently-implemented ground truth |
+| Certificate correctness | ✓ — 0% false-certification across all three verticals; cross-validated vs the benchmark's independently-implemented ground truth |
 | Certificate independence — edge_ai (bounded optimization) | **Supported** (Gamma+1, 2026-07-03) — a brute-force checker sharing no search logic with the solver reached identical decisions on all 60 dev certificates, agreeing with a third independent enumeration (benchmark ground truth); controls pass, 0 false-cert (`research/G3_cert_independence/RESULTS.md`). Scope: implementation- + oracle-independent (not a different paradigm), native format, dev split |
 | Certificate independence — constraint_csp | **Supported** (Gamma+2, 2026-07-03) — a backtracking checker sharing no search algorithm and no evaluator code with the solver reached identical decisions on all 52 dev certificates (42 SAT + 10 UNSAT, both types), agreeing with a third independent enumeration (benchmark ground truth); controls pass for both cert types, 0 false-cert (`research/G3_cert_independence/RESULTS_CSP.md`). Scope: implementation-independent (different algorithm + different evaluator), not paradigm-independent (no CP/SAT solver used), native format, dev split |
+| Certificate independence — optimization_lp | **Supported** (Delta D2, 2026-07-03, first-measurement — no Partial interim stage needed) — the independent checker performs **zero search**, applying the LP Duality Theorem (complementary slackness + strong duality) instead of the solver's Fundamental-Theorem-of-LP vertex enumeration; a different *theorem*, not just a different algorithm. 80/80 agreement (dev+holdout, clean+messy), 80/80 match to `benchmark.metrics.grade()`, 0 false-cert (`research/D2_lp_vertical/RESULTS.md`). Scope: 2-variable LP with exactly 2 resource constraints (the only structure the generator produces) |
 
 ## Hypothesis state (Execution Status + Scientific Verdict, separated)
 
@@ -129,6 +130,36 @@ Execution Contract, nothing runs until one does. Candidates, ranked:
    judgment: a dataset is justified when chosen because the mission
    requires it, and is benchmark engineering when constructed so a
    hypothesis can run.
+3. ~~D2 — optimization_lp vertical~~ — **executed 2026-07-03, Supported**
+   (`research/D2_lp_vertical/RESULTS.md`). First theorem-backed
+   certification domain (Fundamental Theorem of LP for the solver, LP
+   Duality Theorem for the independent checker — two different theorems,
+   not two search styles); correctness and independence both Supported
+   from first measurement, 80/80 agreement dev+holdout. **Registered
+   sequencing (locked): LP was made its own milestone rather than bundled
+   with calculus_poly, because it changes the architecture's proof-style
+   count (1→2) where calculus would only add a domain within an existing
+   style. Next per the locked sequence is Δ3 (independent reproduction,
+   CI), then Δ4 (reassess before calculus_poly) — not calculus
+   immediately.**
+4. **Δ3 — Independent reproduction (CI)** — next up per the locked
+   sequence. Clone-and-run on a second machine/environment; nearly free
+   (the certification path is stdlib-only Python, no network dependency),
+   and raises the evidence ceiling for *all* existing results at once —
+   not exciting, but the highest information-gain-per-effort item on the
+   board (2026-07-03 planning review).
+5. **calculus_poly** — deferred to Δ4, pending Δ3 and a reassessment of
+   whether LP exposed anything worth addressing first (none found so far
+   — see D2 RESULTS §9 honest-scope notes, all pre-registered, none
+   blocking).
+6. **H5 — African-language formalization** (portability). Also the
+   pre-registered reopening path for H3: its dataset is externally
+   justified by the rubric's own +15% bonus, and multilingual
+   formalization will have a genuine, non-manufactured error rate.
+7. **H4 — typed IR vs raw Python** (representation as the limiting
+   factor) — lowest-ranked candidate on both the research and competition
+   rankings (2026-07-03 planning review); no current evidence points at
+   representation as a bottleneck.
 
 ## Transferable findings (Delta, 2026-07-03)
 
@@ -143,12 +174,21 @@ Execution Contract, nothing runs until one does. Candidates, ranked:
   end-to-end verified-correctness grading caught it. Any future
   formalization metric must include an extracted-vs-true name-set check,
   not only per-field accuracy on known names.
-3. **H4 — typed IR vs raw Python** (representation as the limiting
-   factor).
-4. **H5 — African-language formalization** (portability).
-5. **Independent reproduction** — clone-and-run on a second machine
-   (structural; needs an external environment; also the cheapest way to
-   raise the evidence ceiling for *all* existing results at once).
+- **Certificate correctness and independence can be built together from
+  the start** (D2) rather than requiring a two-pass history (edge_ai/CSP
+  needed Gamma, then separately Gamma+1/+2) — once a vertical has an
+  independent-checker pattern to follow, there is no reason to ship
+  Partial independence as an interim state. Apply this to any future
+  vertical (calculus_poly, and beyond).
+- **Two different theorems for two different verification jobs** (D2):
+  the Fundamental Theorem of LP establishes *where an optimum can be* (a
+  claim about the solver's search space); the LP Duality Theorem
+  establishes *that a specific point is optimal* (a claim checkable
+  without search at all, given the point). This is a stronger
+  independence property than "different algorithm, same paradigm"
+  (Gamma+1/+2) and is worth seeking again for calculus_poly if a
+  comparable duality-style theorem exists for constrained critical-point
+  verification.
 
 Not a ranked item but a standing design constraint: any future experiment
 using a variation gate must use the **differential** form (treatment −

@@ -1,0 +1,823 @@
+{
+  "summary": {
+    "n_certificates": 80,
+    "formalizer_fallback_specs": 0,
+    "degenerate_vertices_no_dual_witness": 0,
+    "primary_independent_agreement": 80,
+    "agreement_rate": 1.0,
+    "independent_matches_ground_truth": 80,
+    "ground_truth_match_rate": 1.0,
+    "false_certifications_under_independent_check": 0,
+    "positive_control_accepts_true_optimum": true,
+    "negative_controls": {
+      "infeasible_claim_rejected": true,
+      "suboptimal_feasible_claim_rejected": true,
+      "unbounded_instance_classified_correctly": true,
+      "infeasible_instance_classified_correctly": true
+    },
+    "negative_controls_all_reject": true,
+    "disagreements": []
+  },
+  "rows": [
+    {
+      "id": "lp-00000-clean",
+      "split": "dev",
+      "variant": "clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00000-messy",
+      "split": "dev",
+      "variant": "messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00001-clean",
+      "split": "dev",
+      "variant": "clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00001-messy",
+      "split": "dev",
+      "variant": "messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00002-clean",
+      "split": "holdout",
+      "variant": "clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00002-messy",
+      "split": "holdout",
+      "variant": "messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00003-clean",
+      "split": "holdout",
+      "variant": "clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00003-messy",
+      "split": "holdout",
+      "variant": "messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00004-clean",
+      "split": "dev",
+      "variant": "clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00004-messy",
+      "split": "dev",
+      "variant": "messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00005-clean",
+      "split": "dev",
+      "variant": "clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00005-messy",
+      "split": "dev",
+      "variant": "messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00006-clean",
+      "split": "dev",
+      "variant": "clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00006-messy",
+      "split": "dev",
+      "variant": "messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00007-clean",
+      "split": "dev",
+      "variant": "clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00007-messy",
+      "split": "dev",
+      "variant": "messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00008-clean",
+      "split": "dev",
+      "variant": "clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00008-messy",
+      "split": "dev",
+      "variant": "messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00009-clean",
+      "split": "holdout",
+      "variant": "clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00009-messy",
+      "split": "holdout",
+      "variant": "messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00010-clean",
+      "split": "holdout",
+      "variant": "clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00010-messy",
+      "split": "holdout",
+      "variant": "messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00011-clean",
+      "split": "dev",
+      "variant": "clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00011-messy",
+      "split": "dev",
+      "variant": "messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00012-clean",
+      "split": "dev",
+      "variant": "clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00012-messy",
+      "split": "dev",
+      "variant": "messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00013-clean",
+      "split": "holdout",
+      "variant": "clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00013-messy",
+      "split": "holdout",
+      "variant": "messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00014-clean",
+      "split": "dev",
+      "variant": "clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00014-messy",
+      "split": "dev",
+      "variant": "messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00015-clean",
+      "split": "holdout",
+      "variant": "clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00015-messy",
+      "split": "holdout",
+      "variant": "messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00016-clean",
+      "split": "dev",
+      "variant": "clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00016-messy",
+      "split": "dev",
+      "variant": "messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00017-clean",
+      "split": "dev",
+      "variant": "clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00017-messy",
+      "split": "dev",
+      "variant": "messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00018-clean",
+      "split": "dev",
+      "variant": "clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00018-messy",
+      "split": "dev",
+      "variant": "messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00019-clean",
+      "split": "dev",
+      "variant": "clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00019-messy",
+      "split": "dev",
+      "variant": "messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00020-clean",
+      "split": "holdout",
+      "variant": "clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00020-messy",
+      "split": "holdout",
+      "variant": "messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00021-clean",
+      "split": "dev",
+      "variant": "clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00021-messy",
+      "split": "dev",
+      "variant": "messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00022-clean",
+      "split": "holdout",
+      "variant": "clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00022-messy",
+      "split": "holdout",
+      "variant": "messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00023-clean",
+      "split": "dev",
+      "variant": "clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00023-messy",
+      "split": "dev",
+      "variant": "messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00024-clean",
+      "split": "dev",
+      "variant": "clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00024-messy",
+      "split": "dev",
+      "variant": "messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00025-clean",
+      "split": "dev",
+      "variant": "clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00025-messy",
+      "split": "dev",
+      "variant": "messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00026-clean",
+      "split": "dev",
+      "variant": "clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00026-messy",
+      "split": "dev",
+      "variant": "messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00027-clean",
+      "split": "dev",
+      "variant": "clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00027-messy",
+      "split": "dev",
+      "variant": "messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00028-clean",
+      "split": "dev",
+      "variant": "clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00028-messy",
+      "split": "dev",
+      "variant": "messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00029-clean",
+      "split": "dev",
+      "variant": "clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00029-messy",
+      "split": "dev",
+      "variant": "messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00030-clean",
+      "split": "dev",
+      "variant": "clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00030-messy",
+      "split": "dev",
+      "variant": "messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00031-clean",
+      "split": "dev",
+      "variant": "clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00031-messy",
+      "split": "dev",
+      "variant": "messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00032-clean",
+      "split": "dev",
+      "variant": "clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00032-messy",
+      "split": "dev",
+      "variant": "messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00033-clean",
+      "split": "dev",
+      "variant": "clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00033-messy",
+      "split": "dev",
+      "variant": "messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00034-clean",
+      "split": "holdout",
+      "variant": "clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00034-messy",
+      "split": "holdout",
+      "variant": "messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00035-clean",
+      "split": "holdout",
+      "variant": "clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00035-messy",
+      "split": "holdout",
+      "variant": "messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00036-clean",
+      "split": "dev",
+      "variant": "clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00036-messy",
+      "split": "dev",
+      "variant": "messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00037-clean",
+      "split": "dev",
+      "variant": "clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00037-messy",
+      "split": "dev",
+      "variant": "messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00038-clean",
+      "split": "holdout",
+      "variant": "clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00038-messy",
+      "split": "holdout",
+      "variant": "messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00039-clean",
+      "split": "dev",
+      "variant": "clean",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    },
+    {
+      "id": "lp-00039-messy",
+      "split": "dev",
+      "variant": "messy",
+      "primary": true,
+      "independent": true,
+      "agree": true,
+      "graded_correct": true,
+      "matches_ground_truth": true
+    }
+  ]
+}

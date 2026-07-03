@@ -241,6 +241,32 @@ Exactly the defect population changed (L3: 30/30) and nothing else
 (native/L1/L2: 0/120). Deterministic. Full report:
 [research/D1_parser_repair/RESULTS.md](research/D1_parser_repair/RESULTS.md).
 
+## Delta / D2 — optimization_lp vertical (2026-07-03, n=80, dev+holdout)
+
+Third certified vertical, and the first **theorem-backed** one: the
+solver's completeness rests on the Fundamental Theorem of LP (optimum at
+a feasible-region vertex), not exhaustive enumeration of a finite space
+that IS the problem. Correctness and independence built together from
+the start (unlike edge_ai/CSP's two-pass Gamma → Gamma+1/+2 history).
+
+| Metric | Result |
+|---|---|
+| Formalizer exact match vs ground truth | **80/80** (0 LLM fallback — parser-only formalizer) |
+| Solver (x,y,profit) exact match vs ground truth | **80/80** |
+| Primary (shared vertex search) vs Independent (LP Duality Theorem) | **80/80 agree** |
+| Independent-accepted vs `benchmark.metrics.grade()` | **80/80 match** — dev 58/58, holdout 22/22 |
+| False certifications under independent check | **0** |
+| Positive control (true optimum) | accept |
+| Negative controls (infeasible / suboptimal / synthetic unbounded / synthetic infeasible) | all classified correctly |
+
+**Independent checker performs zero search** — it solves the small linear
+system implied by Complementary Slackness for dual variables and checks
+Strong Duality, a different *theorem* (LP Duality) from the solver's
+(Fundamental Theorem of LP), not just a different search style. Existing
+verticals, kernel interfaces, benchmark, and all Gamma artifacts
+unchanged (verified via diff). Full report:
+[research/D2_lp_vertical/RESULTS.md](research/D2_lp_vertical/RESULTS.md).
+
 ## Scientific state snapshot (2026-07-03 — SUPERSEDED; live state is `docs/SCIENTIFIC_STATE.md`)
 
 | | Status |
