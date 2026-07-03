@@ -94,12 +94,33 @@ B2 79%, **B3 100%** — passed, feedback confirmed functionally live.
 | False Certification | 0.0% | 0.0% | 0.0 |
 | McNemar p | — | — | **0.79** |
 
-**Decision: DELETE, scoped to this configuration** — first H1b
+**Status: PROVISIONAL, rejected by the registered decision rule at n=1
+execution** (corrected 2026-07-03, confirmation review) — first H1b
 measurement to pass every validity gate (verifier sound, mechanism live,
 sanity-checked single-variable design); does not clear the pre-registered
-kill threshold (Δ≥7, p<0.05). Not a claim that feedback can't help under
-any model/encoding/policy — untested elsewhere. Full report:
+kill threshold (Δ≥7, p<0.05). "Falsified" softened to "rejected by the
+registered decision rule" — this tested one bundled configuration
+(model+policy+encoding+retry mechanism), not verifier-guided reasoning in
+the abstract; the practical consequence (don't pursue this exact
+configuration further without new evidence) is unchanged. **Stochastic
+result, confirmed by review to have exactly one execution on record —
+not yet internally reproduced.** Awaiting N=3 pre-registered reruns
+(not yet authorized/executed) before this can be called confirmed rather
+than provisional. Not a claim that feedback can't help under any
+model/encoding/policy — untested elsewhere. Full report:
 [research/G2_csp_h1b/RESULTS.md](research/G2_csp_h1b/RESULTS.md).
+
+## Scientific state (confirmed 2026-07-03)
+
+| | Status |
+|---|---|
+| Architecture | Locked |
+| Certificate Correctness | ✓ (negative controls + cross-validated against benchmark's independent ground truth) |
+| Certificate Independence | Partial (recheck shares `_check()`/`_enumerate_solutions()`/search logic with the solver in both verticals — a second, independently-written checker would close this) |
+| H1a | Negative, configuration-specific, internally reproduced |
+| H1b-Gamma-1 | Provisional — rejected by registered decision rule, 0/3 pre-registered reruns completed |
+| Internal Reproduction | Deterministic: ✓ · Stochastic: 0/3 (not yet established) |
+| Independent Reproduction / Replication / External Validation | Not established |
 
 ## Validation Phase 1 — first contract-valid result (2026-07-02, n=60)
 

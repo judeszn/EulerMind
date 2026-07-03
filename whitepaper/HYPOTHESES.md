@@ -160,21 +160,38 @@ exercised this time. Result: Verified-Correct 19.23% (B2) vs 23.08% (B3),
 Δ=+3.85pts, McNemar p=0.79 — far from the pre-registered kill threshold
 (Δ≥7, p<0.05).
 
-**Decision: DELETE, scoped precisely.** This is the first measurement of
-H1b to satisfy every validity precondition (verifier soundness, mechanism
-functional, single-variable design proven by the sanity gate), so the
-pre-registered kill threshold is applied as intended: verifier-guided
-retry with this feedback encoding does not beat blind retry, for
-`llama3.2:1b` on `constraint_csp` at temperature 0.6 with
-`DeterministicPolicy`'s current rule table. **Not** a claim that
-verifier-guided feedback cannot help under any configuration — a
-different model, a richer feedback encoding, or a learned policy (H2)
-remain untested.
+**Status (corrected 2026-07-03, confirmation review): PROVISIONAL —
+rejected by the registered decision rule at n=1 execution; not yet
+internally reproduced.** Two corrections from the original writeup:
+
+1. **"Falsified" → "Rejected by the registered decision rule."** What was
+   tested was not "verifier-guided reasoning" in the abstract — it was a
+   bundle: this model, this policy, this prompt encoding, this retry
+   mechanism. The pre-registered kill threshold converts a Δ and a
+   p-value into an actionable decision; that decision is real and binding
+   (the practical consequence is unchanged — this exact configuration is
+   not pursued further without new evidence), but the *ontological* claim
+   is narrower than "falsified" implies. Verifier-guided retry with this
+   feedback encoding was rejected by the rule that was committed to in
+   advance; the broader hypothesis was not falsified.
+2. **Result rests on stochastic sampling (temperature 0.6), confirmed by
+   this review to have exactly one execution on record**
+   (`report_20260703-064121.json`, single timestamp). Unlike deterministic
+   results in this project (solver outputs, certificate rechecks, H1a's
+   temp=0 sanity gate — all bit-identical on rerun), a stochastic result's
+   internal reproducibility means the *qualitative conclusion* is stable
+   across repeats, not that the exact numbers repeat. That has not yet
+   been checked even once. Classified PROVISIONAL, not confirmed, until a
+   pre-registered fixed N of independent reruns (proposed: N=3, chosen
+   before any are observed) unanimously agree on which side of the kill
+   threshold the result falls — not an open-ended "rerun until it looks
+   stable," which would reintroduce unprincipled optional stopping.
 
 **H1 status, final for Phase Gamma:** H1a — negative,
-configuration-specific. H1b — **tested and negative**,
-configuration-specific, for the first time backed by a measurement that
-passes every Evidence Protocol validity gate. Two verticals attempted
+configuration-specific, internally reproduced (the sanity gate re-derives
+it exactly). H1b — **rejected by the registered decision rule,
+configuration-specific, provisional pending stochastic reproduction**
+(0/3 pre-registered reruns completed). Two verticals attempted
 (knapsack: invalidated by verifier unsoundness; constraint_csp: first
 attempt invalidated by inert feedback, second attempt valid and negative)
 — the causal claim has now been given one fair, methodologically sound
@@ -228,15 +245,16 @@ machine-verified against a *wrong* formalization.
 variants; clean-vs-messy robustness delta.
 **Kill threshold.** Must reduce verified-wrong rate without cutting overall
 verified-correct rate; else delete.
-**Status.** Registered. **Blocked on H0** (not "Phase 1 formalizer" generically
-— H0's 2026-07-02 measurement shows the dominant errors are mechanical
-(fabrication, missing models, unit conversion), which Stage B's
-deterministic extraction targets directly, not H3's checking mechanism.
-H3's actual remaining scope, once Stage B lands, is the smaller residual:
-field-association errors (2.9% measured) that survive mechanical
-extraction — semantic misattribution, not transcription failure. Sequencing:
-H0 reduces deterministic formalization errors → H3 reduces the semantic
-formalization errors left over).
+**Status.** Registered. **Untested — reclassified from Blocked, 2026-07-03
+confirmation review.** H0's blocking condition (Stage B / Intervention 1B
+clearing the formalization threshold) was satisfied on 2026-07-02
+(100% native format, structure detection + extractors). H3's actual
+remaining scope, per H0's error taxonomy: not the mechanical errors
+(fabrication, missing models, unit conversion) Stage B already targets,
+but the smaller residual — field-association errors (2.9% measured) that
+survive mechanical extraction, i.e. semantic misattribution, not
+transcription failure. Nothing structurally prevents running this
+experiment now; it simply hasn't been attempted.
 
 ## H4 — Typed IR beats raw Python
 
