@@ -1,0 +1,104 @@
+name: ADTC Frontier Scan (Delta-1)
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  scan:
+    name: ${{ matrix.model.name }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        model:
+          - name: qwen2.5-0.5b-instruct
+            params: "0.5B"
+            url: https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct-GGUF/resolve/main/qwen2.5-0.5b-instruct-q4_k_m.gguf
+          - name: qwen2.5-1.5b-instruct
+            params: "1.5B"
+            url: https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF/resolve/main/qwen2.5-1.5b-instruct-q4_k_m.gguf
+          - name: qwen2.5-math-1.5b-instruct
+            params: "1.5B"
+            url: https://huggingface.co/bartowski/Qwen2.5-Math-1.5B-Instruct-GGUF/resolve/main/Qwen2.5-Math-1.5B-Instruct-Q4_K_M.gguf
+          - name: llama-3.2-1b-instruct
+            params: "1.2B"
+            url: https://huggingface.co/bartowski/Llama-3.2-1B-Instruct-GGUF/resolve/main/Llama-3.2-1B-Instruct-Q4_K_M.gguf
+          - name: gemma-3-1b-it
+            params: "1B"
+            url: https://huggingface.co/ggml-org/gemma-3-1b-it-GGUF/resolve/main/gemma-3-1b-it-Q4_K_M.gguf
+          - name: phi-3.5-mini-instruct
+            params: "3.8B"
+            url: https://huggingface.co/bartowski/Phi-3.5-mini-instruct-GGUF/resolve/main/Phi-3.5-mini-instruct-Q4_K_M.gguf
+          - name: deepseek-r1-distill-qwen-1.5b
+            params: "1.5B"
+            url: https://huggingface.co/bartowski/DeepSeek-R1-Distill-Qwen-1.5B-GGUF/resolve/main/DeepSeek-R1-Distill-Qwen-1.5B-Q4_K_M.gguf
+          - name: tinyllama-1.1b-chat
+            params: "1.1B"
+            url: https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF/resolve/main/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install llama.cpp (prebuilt ubuntu-x64 release binaries)
+        run: |
+          set -euo pipefail
+          URL=$(curl -s https://api.github.com/repos/ggml-org/llama.cpp/releases/latest \
+            | python3 -c "import json,sys; assets=json.load(sys.stdin)['assets']; print(next(a['browser_download_url'] for a in assets if a['name'].endswith('-bin-ubuntu-x64.tar.gz')))")
+          curl -sL "$URL" -o llama.tar.gz
+          mkdir -p llama-dist
+          tar -xzf llama.tar.gz -C llama-dist
+          BENCH=$(find llama-dist -name llama-bench -type f | head -1)
+          BENCH_DIR=$(cd "$(dirname "$BENCH")" && pwd)
+          chmod +x "$BENCH_DIR"/llama-bench
+          echo "$BENCH_DIR" >> "$GITHUB_PATH"
+          echo "LD_LIBRARY_PATH=$BENCH_DIR:${LD_LIBRARY_PATH:-}" >> "$GITHUB_ENV"
+
+      - name: Install adtc-profiler (official)
+        run: pip install --quiet "git+https://github.com/Africa-Deep-Tech-Foundation/adtc-profiler.git"
+
+      - name: Download candidate GGUF
+        run: |
+          set -euo pipefail
+          mkdir -p scan/model
+          echo "downloading ${{ matrix.model.url }}"
+          curl -L --fail -sS -o scan/model/candidate.gguf "${{ matrix.model.url }}"
+          ls -lh scan/model/candidate.gguf
+
+      - name: Generate scan metadata
+        run: |
+          python3 - <<'EOF'
+          import json
+          meta = json.load(open("competition/smoke_submission/metadata.json"))
+          meta["team_id"] = "FRONTIER-SCAN-NOT-A-SUBMISSION"
+          meta["model"]["name"] = "${{ matrix.model.name }}"
+          meta["model"]["parameters_estimate"] = "${{ matrix.model.params }}"
+          meta["_runtime"]["model_path"] = "model/candidate.gguf"
+          json.dump(meta, open("scan/metadata.json", "w"), indent=2)
+          EOF
+
+      - name: Run official profiler (skip accuracy)
+        run: |
+          adtc-profiler run --submission scan --mode participant \
+            --output "scan_${{ matrix.model.name }}.json" --skip-accuracy
+          python3 - <<'EOF'
+          import json, os
+          r = json.load(open("scan_${{ matrix.model.name }}.json"))
+          size_gb = os.path.getsize("scan/model/candidate.gguf") / 1e9
+          print(f"RESULT {r['submission']['model']['name']}: "
+                f"tps={r['throughput']['tokens_per_second_generation']} "
+                f"first_token_ms={r['throughput']['first_token_latency_ms']} "
+                f"peak_ram_mb={r['memory']['peak_rss_mb']} "
+                f"file_gb={size_gb:.2f}")
+          EOF
+
+      - name: Upload scan report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: scan-${{ matrix.model.name }}
+          path: scan_*.json
