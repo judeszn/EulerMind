@@ -32,6 +32,21 @@ The challenge page says validation sets are provided per domain; we
 haven't located the math set on the portal or Discord and want to test
 against it rather than a proxy.
 
+**4. What exactly should go in Devpost's required "Self Reported
+Profiler Score" field?**
+The profiler's output schema contains no overall score — its top-level
+fields are schema_version/profiler_version/submission/environment/
+throughput/memory/accuracy/cpu_thermal/reproducibility, and the only
+"score" anywhere is the per-benchmark `accuracy[].score` from lm_eval.
+The template's own REPORT.md says "Official scores are measured by the
+ADTC profiler on the standard evaluation machine." If the field means
+the lm_eval accuracy score from a full profiler run: the released
+accuracy invocation fails as shipped (`accuracy.py` passes
+`base_url=local` to lm_eval's gguf backend, which is not a usable
+endpoint), so participants cannot currently produce that number through
+the published code. Could you clarify what number is expected — and if
+it is the lm_eval score, the intended working invocation?
+
 Thank you — and thanks for publishing the profiler source; being able
 to read the actual measurement code is unusual for a competition and
 very much appreciated.

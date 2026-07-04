@@ -1,40 +1,51 @@
-# ADTC 2026 submission checklist (Sprint Δ2)
+# ADTC 2026 Submission Dashboard (Submission Manager Mode)
 
-Submission repository: **github.com/judeszn/eulermind-adtc-submission**
-(private until the deliberate go-public step below). Statuses honest;
-an item is ✅ only with an artifact behind it.
+**The living document.** Flow is one-directional: research repo →
+submission repo → profiler → Devpost. Nothing is 🟩 without evidence.
+Statuses: ⬜ Not Started · 🟨 In Progress · 🟩 Complete · 🟥 Blocked · ⏸ Deferred.
+Ordered by criticality.
 
-## Repository artifacts
+## Critical path (blockers first)
 
-| Item | Status | Notes |
-|---|---|---|
-| Template-conformant structure (metadata.json, download_model.sh, REPORT.md, model/, .gitignore) | ✅ | Matches the official template's required file structure exactly |
-| metadata.json valid JSON, all fields truthful | ✅ except one | **`team_id` = REPLACE-WITH-ADTF-TEAM-ID — blocked on user registering at the ADTF portal. The template requires zero placeholders at submission time** |
-| 2 test prompts, math domain, African-SME framed, certified-vertical shaped | ✅ | LP production mix (Lagos), CSP assignment (Nairobi); both hand-verified solvable with unique/valid answers; no simulated-tool prompting per PROMPT_STRATEGY.md |
-| african_alpha_claim = true with load-bearing pairing | ✅ | operations_research; description ties the pipeline to SME planning as the product's purpose |
-| download_model.sh idempotent, public URL, path matches _runtime | ✅ | Qwen2.5-Math-1.5B Q4_K_M via bartowski (URL already proven in 2 CI runs) |
-| *.gguf and model/ gitignored | ✅ | |
-| REPORT.md — every claim traceable | ✅ | Every number verified against committed evidence before writing (192/192 certs, 0% false-cert, 15.02 TPS, 1700MB, 68% GSM8K, run IDs cited) |
-| Official profiler passes on the repo | 🔶 | CI run 28691529653 in progress at time of writing — baseline submission.json committed once green |
-| submission.json baseline archived | 🔶 | From the CI workflow (clean x86 runner), not a dev machine |
+| Requirement | Official source | Status | Evidence | Owner | Blocking dependency | Next action |
+|---|---|---|---|---|---|---|
+| Self Reported Profiler Score (Devpost, required) | Devpost form ("Enter the score from the profiler") | 🟥 | Profiler schema has NO overall score field (top-level: schema_version/profiler_version/submission/environment/throughput/memory/accuracy/cpu_thermal/reproducibility); only `accuracy[].score` exists; template REPORT.md: "Official scores are measured by the ADTC profiler on the standard evaluation machine"; released accuracy path fails as shipped (A-12) | Organizers ← User | Organizer answer to email Q4 | **User sends email + posts Q4 in Discord. Leave the field empty until answered. Do not infer.** |
+| ADTF team_id → metadata.json | Template field reference ("Your unique team ID as registered on the ADTF portal") | 🟥 | `metadata.json` carries loud placeholder | User | ADTF portal registration (~10 min) | Register, then replace placeholder in submission repo (one commit) |
+| Devpost Test Prompts 1 & 2 mirror metadata.json | One-directional flow rule; template rule 7 (prompts are scored) | 🟨 | Screenshot 2026-07-04 shows OLD draft prompts ("factory products A and B" / "five engineers Alice, Ben…") — not the shipped Lagos LP / Nairobi CSP prompts | User (~5 min) | none | Copy both prompts verbatim from submission repo `metadata.json` → Devpost form |
+| 2-minute demo video | Devpost "What to Submit" | ⬜ | — | User (script: assistant) | Model + prompts final (done); script not yet written | Assistant drafts script from REPORT.md + demo scenes; user records (~half day) |
+| Screenshots of build in action | Devpost "What to Submit" | ⬜ | — | User (staging: assistant) | none | Assistant stages terminal/pipeline captures; user screenshots (~1 h) |
+| Devpost project overview + story | Devpost form | ⬜ | Domain dropdown already correct (screenshot) | User (draft: assistant) | none | Assistant drafts from REPORT.md; user pastes (~1 h) |
+| Repo public at evaluation | Template rule 1 | ⏸ deliberately | Private by design | User | Everything above | **The submission act. Flip last.** |
+| Devpost final submit (repo URL) | Devpost | ⬜ | — | User | All above | Before Aug 25, 2026 07:45 GMT+1 |
 
-## Human-only items (nobody else can do these)
+## Submission repository (github.com/judeszn/eulermind-adtc-submission)
 
-| Item | Owner | Notes |
-|---|---|---|
-| Register on ADTF portal → real team_id into metadata.json | **User** | Blocks final submission, nothing else |
-| Join Discord; attend knowledge session | **User** | Also: locate the official math validation set |
-| Send organizer email (competition/ORGANIZER_EMAIL_DRAFT.md) | **User** | A-02/A-05 answers can reopen the model choice and reshape prompt strategy |
-| Screenshots of the build in action | **User** (script/staging: assistant) | Devpost requirement |
-| 2-minute video | **User** (script: assistant, Δ4) | Devpost requirement |
-| Flip submission repo to **public** | **User** | This IS the submission act — deliberate, last |
-| Submit repo URL on Devpost | **User** | Before Aug 25, 2026 07:45 GMT+1 |
+| Requirement | Official source | Status | Evidence | Owner | Blocking dependency | Next action |
+|---|---|---|---|---|---|---|
+| Template file structure | Template README "Required File Structure" | 🟩 | Repo matches exactly (metadata.json, download_model.sh, REPORT.md, model/, .gitignore) | — | — | — |
+| metadata.json truthful, valid | Template field reference | 🟨 | Valid JSON, all fields real except team_id | User | team_id (above) | — |
+| Exactly 2 test prompts, domain-appropriate | Template rule 7 | 🟩 | Lagos LP (hand-verified: unique optimum 30+30, ₦345,000) + Nairobi CSP (hand-verified solvable); PROMPT_STRATEGY compliant | — | — | — |
+| download_model.sh idempotent, public, path-matched | Template rules | 🟩 | Green in CI run 28691529653 (and 2 prior runs of same URL) | — | — | — |
+| *.gguf / model/ gitignored | Template rule 2 | 🟩 | .gitignore in repo | — | — | — |
+| REPORT.md (problem/design/constraints/benchmarks) | Template README | 🟩 | Written; every number verified against committed evidence (192/192 recomputed, run IDs cited) | — | — | Revisit only if organizer answers change claims |
+| Official profiler passes (Gate 1) | Template "Local Testing" | 🟩 | CI run 28691529653 green: 15.68 TPS, 1,699 MB, fraud-check pass, no throttle | — | — | — |
+| submission.json baseline archived | Audit comparator (±25%/±15%) | 🟩 | `baseline_submission_ci_28691529653.json` in submission repo, produced on clean x86 CI | — | — | — |
+| accuracy[] populated in submission.json | Unclear — schema requires the key (empty array is schema-valid; `--skip-accuracy` path is the template's own smoke instruction) | 🟥 | Baseline has `accuracy: []`; released accuracy path broken as shipped (A-12/A-13) | Organizers ← User | Q4 answer | If organizers expect a populated accuracy row, use our working llama-server invocation (proven in run 28684426883) |
+| packaging value (binary_bundle vs docker_build_from_repo) | metadata schema | ⏸ | binary_bundle shipped | — | A-02/A-08 answer | Switch + wire pipeline as answering app only if World B confirmed |
 
-## Deliberately deferred (with reopening triggers)
+## Competition requirements
 
-- `packaging: binary_bundle` → switch to `docker_build_from_repo` only
-  if A-02/A-08 resolve to "application is judged" (World B) — that's
-  also the trigger to wire the EulerMind pipeline into the submission
-  as the answering application.
-- Model choice reopens automatically if A-05 = "max observed across
-  teams" (deepseek is the ranked alternate; see MODEL_CANDIDATES.md).
+| Requirement | Official source | Status | Evidence | Owner | Blocking dependency | Next action |
+|---|---|---|---|---|---|---|
+| Offline execution (zero network at inference) | Template rule 3 | 🟩 | Pipeline stdlib+llama.cpp; D3 cross-OS reproduction | — | — | — |
+| 8 GB compliance (OOM = DQ) | Template rule 5 | 🟩 | Peak 1,699 MB measured (24% of 7 GB budget) | — | — | — |
+| llama.cpp only, GGUF | Template rule 4 | 🟩 | Q4_K_M through llama-bench; fraud-check params_match=true | — | — | — |
+| African use case (bonus) | Devpost judging criteria | 🟩 (claim staged) | african_alpha_claim=true; load-bearing OR pairing; SME test prompts | Judges decide | — | Video/demo must show it |
+| Open source | Devpost "What to Submit" | 🟨 | Repo exists, private-first | User | go-public step | — |
+
+## Standing rules (this mode)
+
+- No new architecture, verticals, or research hypotheses. Ship-first.
+- Every Devpost edit flows FROM the submission repo, never the reverse.
+- Unknown values are marked 🟥 with an acquisition path — never invented.
+- Reopening triggers stand: A-05 → model choice; A-02/A-08 → packaging.
