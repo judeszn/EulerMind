@@ -131,13 +131,11 @@ def solve(text: str) -> dict:
                 result = _solve_edge(edge_spec)
 
     if result is None:
-        return {"domain": None, "label": "Open", "stages": [
-                    {"stage": "Formalized", "ok": False,
-                     "note": "no certified-domain formalizer parses this text"}],
-                "answer": ("Outside EulerMind's certified domains. Per Law 1, "
-                           "no certified answer is fabricated — the trust "
-                           "label is Open, and that is stated rather than "
-                           "hidden."),
+        return {"domain": None, "label": "Open", "tutor_eligible": True,
+                "stages": [
+                    {"stage": "Certified lane", "ok": False,
+                     "note": "not a certified-domain problem — handing to the tutor lane"}],
+                "answer": "",
                 "ms": round((time.perf_counter() - t0) * 1000, 1)}
 
     stages.append({"stage": "Solved", "ok": True, "note": "exact deterministic solver"})
@@ -176,7 +174,11 @@ _NAIROBI = ("A community health programme in Nairobi must assign four "
 
 def _examples() -> list[dict]:
     out = [{"name": "Lagos workshop (test prompt 1)", "text": _LAGOS},
-           {"name": "Nairobi clinics (test prompt 2)", "text": _NAIROBI}]
+           {"name": "Nairobi clinics (test prompt 2)", "text": _NAIROBI},
+           {"name": "Quadratic (tutor lane)",
+            "text": "Solve 2x^2 + 7x + 3 = 0. Show your working."},
+           {"name": "Differentiation (tutor lane)",
+            "text": "Differentiate x^2 sin(x) with respect to x."}]
     try:
         wanted = {"edge-00000-messy": "Edge-AI deployment (messy text)"}
         for p in read_jsonl(DATASET):
@@ -201,7 +203,7 @@ button.ex{background:#fff;color:#1a1a18;border:1px solid #ccc;font-size:.8rem;pa
 .answer{background:#fff;border:1px solid #ddd;border-radius:8px;padding:.8rem 1rem;font-size:.95rem}
 .meta{color:#888;font-size:.8rem}</style></head><body>
 <h1>EulerMind</h1>
-<p class="sub">Offline mathematical reasoning — every answer certified twice</p>
+<p class="sub">The offline maths tutor that knows the difference between what it has proved and what it has only inferred</p>
 <div class="badges"><span>✓ Offline</span><span>✓ CPU-only</span><span>✓ Deterministic certification</span><span>✓ Independent verification</span></div>
 <p class="meta">Examples: <span id="exbtns"></span></p>
 <textarea id="q" placeholder="Paste a resource-allocation, assignment, or production-planning problem…"></textarea><br>
@@ -212,16 +214,43 @@ const EXAMPLES = __EXAMPLES__;
 const exb = document.getElementById('exbtns');
 EXAMPLES.forEach(e=>{const b=document.createElement('button');b.className='ex';b.textContent=e.name;
   b.onclick=()=>{document.getElementById('q').value=e.text;};exb.appendChild(b);});
+function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
 async function go(){
+  const q=document.getElementById('q').value;
   const out=document.getElementById('out'); out.innerHTML='<p class="meta">solving…</p>';
-  const r=await fetch('/solve',{method:'POST',body:JSON.stringify({text:document.getElementById('q').value})});
-  const d=await r.json(); let h='';
-  if(d.domain) h+='<p class="meta">domain: '+d.domain+'</p>';
+  const r=await fetch('/solve',{method:'POST',body:JSON.stringify({text:q})});
+  const d=await r.json();
+  if(d.tutor_eligible){ return tutor(q, out, d); }
+  let h='';
+  if(d.domain) h+='<p class="meta">certified lane · '+d.domain+'</p>';
   h+='<div>'+d.stages.map(s=>'<div class="stage '+(s.ok?'ok':'fail')+'">'+(s.ok?'✓':'✗')+' '+s.stage+' <span class="meta">'+s.note+'</span></div>').join('')+'</div>';
   h+='<div class="label '+d.label+'">'+d.label+'</div>';
-  h+='<div class="answer">'+d.answer+'</div>';
+  h+='<div class="answer">'+esc(d.answer)+'</div>';
   h+='<p class="meta">'+d.ms+' ms, fully local</p>';
   out.innerHTML=h;
+}
+async function tutor(q, out, solved){
+  out.innerHTML='<p class="meta">tutor lane · local model, streaming — fully offline</p>'
+    +'<div class="answer" id="stream" style="white-space:pre-wrap;min-height:3rem"></div>'
+    +'<div id="verdict"></div>';
+  const streamEl=document.getElementById('stream');
+  const resp=await fetch('/tutor',{method:'POST',body:JSON.stringify({text:q})});
+  if(resp.status===503){
+    const e=await resp.json();
+    streamEl.innerHTML='<span class="fail">tutor lane offline</span> <span class="meta">'+esc(e.error)+'</span>'
+      +'<br><span class="meta">The certified lane still works without it.</span>';
+    return;
+  }
+  const reader=resp.body.getReader(); const dec=new TextDecoder(); let full='';
+  while(true){ const {done,value}=await reader.read(); if(done)break;
+    full+=dec.decode(value,{stream:true}); streamEl.textContent=full; }
+  document.getElementById('verdict').innerHTML='<p class="meta">checking the answer deterministically…</p>';
+  const c=await(await fetch('/check',{method:'POST',body:JSON.stringify({question:q,answer:full})})).json();
+  let v='<div class="label '+c.label+'">'+c.label+'</div> ';
+  if(c.checked&&c.passed) v+='<span class="ok">✓ machine-checked ('+esc(c.method)+'): '+esc(c.note)+'</span>';
+  else if(c.checked&&c.passed===false) v+='<span class="fail">✗ automatic check FAILED — '+esc(c.note)+'. Treat this answer as unreliable.</span>';
+  else v+='<span class="meta">not machine-checkable: '+esc(c.note)+'</span>';
+  document.getElementById('verdict').innerHTML=v;
 }
 </script></body></html>"""
 
@@ -239,25 +268,67 @@ class Handler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(body)
 
-    def do_POST(self):
-        if self.path != "/solve":
-            self.send_response(404)
-            self.end_headers()
-            return
-        n = int(self.headers.get("Content-Length", 0))
-        text = json.loads(self.rfile.read(n)).get("text", "")
-        try:
-            result = solve(text)
-        except Exception as e:
-            result = {"domain": None, "label": "Open", "stages": [],
-                      "answer": f"Pipeline error (reported, not hidden): {e}",
-                      "ms": 0}
-        body = json.dumps(result).encode()
-        self.send_response(200)
+    def _json(self, obj, status=200):
+        body = json.dumps(obj).encode()
+        self.send_response(status)
         self.send_header("Content-Type", "application/json")
         self.send_header("Content-Length", str(len(body)))
         self.end_headers()
         self.wfile.write(body)
+
+    def do_POST(self):
+        n = int(self.headers.get("Content-Length", 0))
+        try:
+            payload = json.loads(self.rfile.read(n)) if n else {}
+        except json.JSONDecodeError:
+            self._json({"error": "bad request"}, 400)
+            return
+        text = payload.get("text", "")
+
+        if self.path == "/solve":
+            try:
+                result = solve(text)
+            except Exception as e:
+                result = {"domain": None, "label": "Open", "stages": [],
+                          "answer": f"Pipeline error (reported, not hidden): {e}",
+                          "ms": 0}
+            self._json(result)
+            return
+
+        if self.path == "/tutor":
+            from .tutor import discover_server, stream_tutor_answer
+            server = discover_server()
+            if server is None:
+                self._json({"error": "no local model server. Start one with: "
+                            "llama-server -m model/<model>.gguf --port 8080"}, 503)
+                return
+            base, model = server
+            self.send_response(200)
+            self.send_header("Content-Type", "text/plain; charset=utf-8")
+            self.send_header("Cache-Control", "no-cache")
+            self.end_headers()
+            try:
+                for chunk in stream_tutor_answer(text, base, model):
+                    self.wfile.write(chunk.encode("utf-8"))
+                    self.wfile.flush()
+            except (BrokenPipeError, ConnectionError, OSError):
+                pass
+            return
+
+        if self.path == "/check":
+            from .answer_checker import check_answer
+            try:
+                result = check_answer(payload.get("question", ""),
+                                      payload.get("answer", ""))
+            except Exception as e:
+                result = {"label": "Heuristic", "checked": False,
+                          "passed": None, "method": None,
+                          "note": f"checker error (reported, not hidden): {e}"}
+            self._json(result)
+            return
+
+        self.send_response(404)
+        self.end_headers()
 
 
 def main() -> None:
