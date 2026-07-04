@@ -7,13 +7,13 @@ No percentage bars — a status either has an artifact behind it or it doesn't.
 
 | Requirement | Status | Evidence / next action |
 |---|---|---|
-| Public GitHub repo | ✅ | github.com/judeszn/EulerMind (verify visibility setting before submitting) |
-| Fork/derive from official template structure | 🔶 | `competition/smoke_submission/` created for CI smoke; the REAL submission repo layout decision (this repo restructured vs separate repo) is open |
-| `metadata.json` fully filled, no placeholders | ❌ | team_id requires ADTF portal registration — user action |
-| Exactly 2 test prompts (math domain) | 🔶 | Smoke pair drafted; final pair should be African-SME-themed math problems (African bonus is load-bearing here) |
-| `download_model.sh` → public GGUF URL | 🔶 | Smoke version uses template's SmolLM2 default; final version awaits model selection |
-| Model choice (GGUF) | ❌ | Blocked on CI leaderboard measurements — see MODEL_CANDIDATES.md |
-| `REPORT.md` (problem, design, constraints, benchmarks) | ❌ | The one place the entire Gamma/Delta evidence base earns S_acc credit — biggest writing task remaining |
+| Public GitHub repo | 🔶 | Submission repo **github.com/judeszn/eulermind-adtc-submission** created (private-first; go-public is the deliberate submission act — see SUBMISSION_CHECKLIST.md) |
+| Fork/derive from official template structure | ✅ | Submission repo matches the template's required structure exactly; research repo stays the evidence archive |
+| `metadata.json` fully filled, no placeholders | 🔶 | All fields truthful except `team_id` (loud placeholder) — blocked solely on user's ADTF portal registration |
+| Exactly 2 test prompts (math domain) | ✅ | Lagos LP production-mix + Nairobi CSP assignment; hand-verified solvable; African-SME framed; certified-vertical shaped; no simulated tools |
+| `download_model.sh` → public GGUF URL | ✅ | Qwen2.5-Math-1.5B Q4_K_M; URL proven across 3 CI runs |
+| Model choice (GGUF) | ✅ | **qwen2.5-math-1.5b ratified** (measured selection, escalation resolved; A-05 reopening trigger stands) |
+| `REPORT.md` (problem, design, constraints, benchmarks) | ✅ | Written; every number verified against committed evidence before inclusion (192/192, 0% false-cert, 15.02 TPS, 68% GSM8K, run IDs cited) |
 | 2-minute video | ❌ | User records; script derivable from demo/speaker_notes.md after model selection |
 | Profiler passes locally (Gate 1) | ✅ | Full official pipeline green end-to-end on CI x86 (run 28683560689): download → llama-bench → memory/thermal sampling → schema-valid submission.json. Evidence: `smoke_submission_report_ci_28683560689.json` |
 | `submission.json` with measured numbers | 🔶 | Smoke model measured (SmolLM2-135M: 91.77 TPS, 0.19 GB peak). Final numbers await model selection. **Bonus finding: the audit runs on a cloud VM (`measured_on: audit_cloud_vm` in the profiler), so CI-VM numbers are likely *closer* to audit numbers than a physical laptop's would be — the drift-tolerance mitigation is stronger than designed** |
