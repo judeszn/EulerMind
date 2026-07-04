@@ -29,7 +29,7 @@ a direct test — nothing is "should work."
 2. **Organizer answer** on the "Self Reported Profiler Score" field (email + Discord, drafted)
 3. **Devpost form updates** (prompts + story paste — 10 min)
 4. **Screenshots + 2-minute video** (user; all scripts/staging prepared)
-5. **Go-public** (the deliberate submission act)
+5. **Go-public — BOTH repos** (submission + research; red-team Critical finding #1: all evidence links target the research repo, which is also private)
 6. **Devpost submit** (before Aug 25, 2026 07:45 GMT+1)
 
 ## Release status
