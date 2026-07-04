@@ -1,13 +1,37 @@
 # EulerMind
 
 A verification-guided mathematical reasoning engine optimized for commodity
-hardware (4 GB RAM, CPU only, fully offline).
+hardware (CPU-only, fully offline, 1.7 GB peak RAM measured).
+
+**Current state:** three certified reasoning domains (edge-AI deployment,
+constraint CSP, linear programming), each with a deterministic
+parser-first formalizer, an exact solver, a certifying verifier, and a
+**second, independently-written checker** — 192/192 certificates agreed,
+0% false certification, reproduced byte-identically across OS and CPU
+architecture on every push. Current conclusions:
+[docs/SCIENTIFIC_STATE.md](docs/SCIENTIFIC_STATE.md) · measurements:
+[scoreboard.md](scoreboard.md) · research record:
+[whitepaper/GAMMA_FINAL_REPORT.md](whitepaper/GAMMA_FINAL_REPORT.md).
+
+**ADTC 2026:** this is the research/evidence repo. The competition
+submission lives in its own template-conformant repository; competition
+boards live in [competition/](competition/).
+
+**Try it (zero dependencies, stdlib only):**
+
+```bash
+python3 -m app.local_demo   # → http://localhost:7860, fully offline
+```
+
+Paste a production-planning, assignment, or deployment problem and watch
+each pipeline stage certify — or refuse honestly when the problem is
+outside the certified domains.
 
 The frozen vision, laws, guardrails, and phase plan live in
 [docs/VISION.md](docs/VISION.md). Pre-registered research hypotheses with kill
 thresholds live in [whitepaper/HYPOTHESES.md](whitepaper/HYPOTHESES.md).
 
-## Phase 0 (this repo, now): the research instrument
+## Phase 0 (historical — the research instrument)
 
 We build the ruler before the system it measures. Phase 0 ships exactly four
 things — benchmark harness, procedural dataset generator, metrics, logging —
