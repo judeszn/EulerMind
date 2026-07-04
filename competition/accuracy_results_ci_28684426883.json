@@ -1,0 +1,17 @@
+{
+  "qwen2.5-1.5b-instruct": {
+    "gsm8k_flexible": 0.52,
+    "gsm8k_strict": 0.52,
+    "arc_easy_acc_norm": null
+  },
+  "deepseek-r1-distill-qwen-1.5b": {
+    "gsm8k_flexible": 0.66,
+    "gsm8k_strict": 0.66,
+    "arc_easy_acc_norm": null
+  },
+  "qwen2.5-math-1.5b-instruct": {
+    "gsm8k_flexible": 0.68,
+    "gsm8k_strict": 0.68,
+    "arc_easy_acc_norm": null
+  }
+}

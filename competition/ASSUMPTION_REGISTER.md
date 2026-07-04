@@ -20,6 +20,12 @@ organizer answer) — never by plausibility.
 | A-10 | P_thermal is effectively 0 on the audit cloud VM (no exposed sensors) | **Likely, unmeasured** | Low | Smoke run: `core_temp_c_peak: null, throttled: false` on CI VM — same class of environment |
 | A-11 | The final submission must be a clean template-shaped repo (not this research repo restructured) | **Assumed, unconfirmed** | Medium | Template says "fork this repository"; a separate clean submission repo citing this one avoids the risk entirely — decision pending |
 
+| A-12 | The released profiler's accuracy invocation works as shipped | **Refuted (measured)** | Medium | Task-1 probe, CI run 28684426883, all 3 jobs: `accuracy.run_benchmark()` fails as released (`base_url=local` is not a usable endpoint). The audit must use a corrected invocation — so the *exact* audit accuracy mechanics differ from the published code in at least this detail |
+| A-13 | lm_eval gguf backend supports both generative and multiple-choice tasks against llama-server | **Refuted (measured)** | Medium | arc_easy (loglikelihood) fails with `ValueError: zip() argument 2 is longer than argument 1`; gsm8k (generative) works. Proxy suites through this path must be generative-format. Note tension with the S_acc description "multiple-choice benchmarks" — how the audit actually runs MC tasks is unknown |
+
 **Update rule:** an assumption moves to Confirmed/Refuted only with the
 source quoted in this table. Any design decision that depends on an
 Unknown assumption must name the assumption ID in its decision record.
+**Decision log:** the Phase 2 model recommendation (qwen2.5-math-1.5b,
+see MODEL_CANDIDATES.md) depends on **A-05** — if A-05 resolves to "max
+observed across teams," that recommendation re-opens automatically.

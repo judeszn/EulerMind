@@ -52,6 +52,45 @@ audit-like x86 runner, all URLs public, all architectures compatible:
 
 Raw reports: CI artifacts `scan-<model>` on run 28683815170.
 
+## Phase 2 accuracy results (measured, CI run 28684426883, seed 42, limit 50, identical settings)
+
+| Finalist | gsm8k flexible [primary] | gsm8k strict | Predicted S_total @ tps_max 15 / 25 / 50 |
+|---|---|---|---|
+| **qwen2.5-math-1.5b** | **68%** | 68% | **79.26** / 67.28 / 58.27 |
+| deepseek-r1-distill-1.5b | 66% | 66% | 77.93 / **68.74** / **58.33** |
+| qwen2.5-1.5b (control) | 52% | 52% | 70.91 / 59.93 / 50.42 |
+
+(arc_easy sanity check unavailable: lm_eval's gguf loglikelihood path
+fails against llama-server — `ValueError: zip() argument 2 is longer
+than argument 1` — generative tasks only through this backend. The
+DeepSeek strict-format risk did NOT materialize: strict = flexible for
+all three.)
+
+**Statistical honesty:** 68% vs 66% is one question out of fifty
+(stderr ±6.7pts each) — indistinguishable by this project's own
+statistics discipline. The specialization gap vs the control
+(+16/+14pts, 7–8 questions) is the real, directional finding.
+
+**Rule outcome (select_model.py, pre-registered at commit be22acf):
+ESCALATED, not silently picked** — the ranking inverts across tps_max
+scenarios: math-1.5b wins at the published reference (15), deepseek at
+25 and 50 (by ≤1.5 and 0.06 pts). Exactly the case the escalation
+clause was written for; decision depends on Unknown **A-05**.
+
+**Recommendation (pending ratification): qwen2.5-math-1.5b.**
+(a) wins at the only *published* anchor (TPS_REFERENCE=15);
+(b) never trails on the 50%-weighted accuracy component;
+(c) deepseek's scenario wins require A-05 to resolve adversarially AND
+are worth ≤1.5 pts there;
+(d) all qualitative surfaces favor it — concise math-tuned output for
+the demo, the 2 test_prompts, and formalizer integration, vs R1-style
+verbose chain-of-thought (slower wall-clock answers, harder to
+constrain to JSON);
+(e) coherent narrative: math-specialized model on the math track.
+**Hedge preserved:** deepseek is the ranked alternate; if the organizer
+answer to A-05 is "max observed across teams," this decision is
+re-opened by that trigger. Evidence: `accuracy_results_ci_28684426883.json`.
+
 | Model | Params | GGUF Q4_K_M size (approx) | TPS (CI) | Peak RAM (CI) | lm_eval proxy | Notes |
 |---|---|---|---|---|---|---|
 | SmolLM2-135M-Instruct | 135M | ~0.1 GB | **91.77** [measured, CI run 28683560689] | **0.19 GB** [measured] | ? (skipped) | Template default, smoke only. **Measured finding: a 135M model hits ~92 TPS and S_eff≈97 on audit-like hardware** — concretely confirms the tps_max adversarial exposure (any team shipping a tiny model can push TPS_max to ~90+), and confirms tiny models max the automated S_perf/S_eff while (presumably) dying on the 50%-weighted S_acc. Full report: `smoke_submission_report_ci_28683560689.json` |
