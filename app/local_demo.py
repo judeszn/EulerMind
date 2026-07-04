@@ -150,18 +150,41 @@ def solve(text: str) -> dict:
             "ms": round((time.perf_counter() - t0) * 1000, 1)}
 
 
+# The two shipped ADTC test prompts (verbatim from the submission repo's
+# metadata.json). They MUST work here - regression-tested in
+# research/D5_prompt_compat/.
+_LAGOS = ("A furniture workshop in Lagos makes two products: chairs and "
+          "tables. Each chair needs 3 hours of carpentry and 2 hours of "
+          "finishing; each table needs 5 hours of carpentry and 3 hours of "
+          "finishing. The workshop has 240 carpentry hours and 150 "
+          "finishing hours available this month. Each chair earns N4,500 "
+          "profit and each table N7,000. How many chairs and tables should "
+          "the workshop make to maximize profit, and what is the maximum "
+          "profit? Show your reasoning and verify that your plan stays "
+          "within both labour limits.")
+_NAIROBI = ("A community health programme in Nairobi must assign four "
+            "volunteers - Amina, Baraka, Chausiku, and David - to four "
+            "clinics: Kibera, Kasarani, Embakasi, and Westlands, with "
+            "exactly one volunteer per clinic. Amina cannot be assigned to "
+            "Kibera. Baraka must be assigned to either Kasarani or "
+            "Embakasi. If Chausiku is assigned to Kasarani, then David "
+            "must be assigned to Westlands. David cannot be assigned to "
+            "Embakasi. Find a valid assignment of volunteers to clinics, "
+            "or explain clearly why none exists, and check your answer "
+            "against every constraint.")
+
+
 def _examples() -> list[dict]:
+    out = [{"name": "Lagos workshop (test prompt 1)", "text": _LAGOS},
+           {"name": "Nairobi clinics (test prompt 2)", "text": _NAIROBI}]
     try:
-        wanted = {"lp-00000-clean": "Linear programming",
-                  "csp-00001-clean": "Constraint satisfaction",
-                  "edge-00000-messy": "Edge-AI deployment (messy text)"}
-        out = []
+        wanted = {"edge-00000-messy": "Edge-AI deployment (messy text)"}
         for p in read_jsonl(DATASET):
             if p["id"] in wanted:
                 out.append({"name": wanted[p["id"]], "text": p["text"]})
-        return out
     except Exception:
-        return []
+        pass
+    return out
 
 
 PAGE = """<!doctype html><html><head><meta charset="utf-8">

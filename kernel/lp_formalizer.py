@@ -22,11 +22,26 @@ from __future__ import annotations
 
 import re
 
+# Two closed phrasing families (benchmark-template + natural SME prose,
+# added 2026-07-04 as a submission-compliance fix so the shipped test
+# prompts parse - D5): "Each unit of X requires N hours of R..." and
+# "Each chair needs N hours of carpentry...". Still a closed vocabulary,
+# still fail-closed - not open-ended paraphrase handling.
 _REQUIRES_RE = re.compile(
-    r'each unit of ([A-Za-z0-9][\w\s\-]*?) requires ([\d.]+) hours of ([\w\s\-]+?) '
-    r'and ([\d.]+) hours of ([\w\s\-]+?)\.', re.IGNORECASE)
+    r'each (?:unit of )?([A-Za-z0-9][\w\s\-]*?) (?:requires|needs) ([\d,.]+) hours? of ([\w\s\-]+?) '
+    r'and ([\d,.]+) hours? of ([\w\s\-]+?)[.;]', re.IGNORECASE)
 _YIELDS_RE = re.compile(
-    r'each unit of ([A-Za-z0-9][\w\s\-]*?) yields \$([\d.]+) profit', re.IGNORECASE)
+    r'each (?:unit of )?([A-Za-z0-9][\w\s\-]*?) (?:yields|earns|generates) '
+    r'(?:\$|₦|N)?([\d,.]+)(?:\s*profit)?', re.IGNORECASE)
+# Elliptical second clause: "...and each table N7,000." (currency-anchored,
+# so a bare "and each X <number>" without a currency mark never matches).
+_YIELDS_ELLIPTIC_RE = re.compile(
+    r'and each (?:unit of )?([A-Za-z0-9][\w\s\-]*?)\s+(?:\$|₦|N)(?=\d)([\d,.]+)',
+    re.IGNORECASE)
+
+
+def _num(s: str) -> float:
+    return float(s.replace(",", ""))
 
 
 def _parse_products(text: str) -> list[dict] | None:
@@ -37,8 +52,8 @@ def _parse_products(text: str) -> list[dict] | None:
     matches = _REQUIRES_RE.findall(text)
     if len(matches) != 2:
         return None
-    products = [{"name": name.strip(), "res1": res1.strip(), "use1": float(a),
-                "res2": res2.strip(), "use2": float(b)}
+    products = [{"name": name.strip(), "res1": res1.strip(), "use1": _num(a),
+                "res2": res2.strip(), "use2": _num(b)}
                for name, a, res1, b, res2 in matches]
     if products[0]["res1"] != products[1]["res1"]:
         return None
@@ -52,19 +67,26 @@ def _capacity(text: str, resource: str) -> float | None:
     closed vocabulary) - handles both the clean combined phrasing
     ("N hours of RES capacity") and the messy split-with-unit-conversion
     phrasing ("RES department reports N minutes of available capacity")."""
-    m = re.search(rf'([\d.]+)\s*hours of {re.escape(resource)} capacity',
+    m = re.search(rf'([\d,.]+)\s*hours of {re.escape(resource)} capacity',
                   text, re.IGNORECASE)
     if m:
-        return float(m.group(1))
-    m = re.search(rf'{re.escape(resource)} department reports ([\d.]+)\s*minutes',
+        return _num(m.group(1))
+    m = re.search(rf'{re.escape(resource)} department reports ([\d,.]+)\s*minutes',
                   text, re.IGNORECASE)
     if m:
-        return round(float(m.group(1)) / 60.0, 6)
+        return round(_num(m.group(1)) / 60.0, 6)
+    # Natural phrasing: "240 carpentry hours" / "150 finishing hours available".
+    m = re.search(rf'([\d,.]+)\s*{re.escape(resource)}\s*hours?',
+                  text, re.IGNORECASE)
+    if m:
+        return _num(m.group(1))
     return None
 
 
 def _profits(text: str, names: list[str]) -> dict[str, float] | None:
-    found = {n.strip(): float(v) for n, v in _YIELDS_RE.findall(text)}
+    found = {n.strip(): _num(v) for n, v in _YIELDS_RE.findall(text)}
+    for n, v in _YIELDS_ELLIPTIC_RE.findall(text):
+        found.setdefault(n.strip(), _num(v))
     if not all(n in found for n in names):
         return None
     return found
