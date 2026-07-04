@@ -42,8 +42,32 @@ Optional, strictly after #1 lands clean: the learner passport
 claim without key management). Post-ADTC by constitution: everything in
 `future/FOUNDER_CONSTITUTION.md`.
 
-## Standing prohibition
+## The locked 50-day plan (decided 2026-07-04 — "no building yet" lock)
 
-Strategy discussion is closed until after submission (parked in
-`future/FOUNDER_CONSTITUTION.md`). Every further hour spent on vision
-is an hour taken from the three rows above, and only those rows score.
+**Product name (locked): EulerMind — Offline Mathematics Companion.**
+The verification engine is the technology; the companion is the product.
+
+**The promise (locked copy rule):** the demo *accepts* any
+secondary-school maths question and always says whether it could check
+itself. It never claims to *solve* WAEC — coverage claims are
+falsifiable by one judge question; the honesty claim is not. A stumped
+EulerMind labeling itself honestly is the product working.
+
+**Status correction on the record:** the "middle path" architecture
+(free question box → certified lane → tutor lane → checker → honest
+labels) shipped at commit 0d29f8e and is live. What remains is breadth,
+hardening, measurement, and presentation — not a new direction.
+
+| Wk | Work | Owner |
+|---|---|---|
+| 1 (now) | **User: organizer email + ADTF team_id + Devpost prompt/story paste (external latency — cannot wait).** Assistant: Σ1 hardening (simultaneous extraction, real-GGUF wiring via llama-server) | Both |
+| 2–3 | Author 50 syllabus-aligned questions across ~10 topics (African contexts, no copyrighted papers) → measure vs real Qwen2.5-Math GGUF on CI x86 → expand to 100 with weak topics oversampled. Headline: **confidently-wrong rate**; per-topic table becomes the REPORT capability map | Assistant |
+| 4 | Evidence-driven improvement ONLY where the benchmark points: routing, checking, extraction, prompting, explanations. **No fine-tuning. No new certified verticals unless the benchmark names one as cheap + high-yield** | Assistant |
+| 5 | Polish + re-vendor to submission repo + REPORT/Devpost/video-script updated with measured numbers. Stretch (only if clean): learner passport, honestly described | Assistant |
+| 6 | Screenshots, 2-minute video (staged honest-refusal beat mandatory), final audit re-run, dual go-public | User (scripts ready) |
+| 7+ | **Buffer (~10 days). Submit well before Aug 25 07:45 GMT+1** | User |
+
+**Locked non-goals until submission:** fine-tuning · new certified
+verticals (absent benchmark evidence) · evolution engine · platform/OS
+work · reopening strategy (constitution is parked) · any copy that
+promises coverage instead of honesty.
