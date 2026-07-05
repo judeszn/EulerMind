@@ -57,12 +57,28 @@ def _tokenize(expr: str) -> list[str]:
     return out
 
 
+def _split_var_products(toks: list[str], variables: tuple[str, ...]) -> list[str]:
+    """'ax' -> 'a*x', but ONLY when every letter is a known variable —
+    anything else stays a single unknown symbol and fails closed."""
+    out: list[str] = []
+    for t in toks:
+        if (t.isalpha() and len(t) > 1 and t not in _FUNCS and t not in _CONSTS
+                and t not in variables and all(c in variables for c in t)):
+            for j, c in enumerate(t):
+                if j:
+                    out.append("*")
+                out.append(c)
+        else:
+            out.append(t)
+    return out
+
+
 def _to_python(expr: str, variables: tuple[str, ...]) -> str:
     """Normalize and insert implicit multiplication: 2x -> 2*x,
     x sin(x) -> x*sin(x), (x+1)(x-1) -> (x+1)*(x-1), sin x -> sin(x)."""
     for a, b in _NORMALIZE:
         expr = expr.replace(a, b)
-    toks = _tokenize(expr)
+    toks = _split_var_products(_tokenize(expr), variables)
     out: list[str] = []
     for i, t in enumerate(toks):
         if out:
@@ -396,6 +412,175 @@ def _check_find_constants(question: str, answer: str,
             "note": f"{pretty} reproduce every given root ({roots_pretty})"}
 
 
+def _check_percentage(question: str, answer: str) -> dict | None:
+    """Percentage recomputation: '% of', 'increase/decrease N by p%', and
+    percentage profit/loss from cost & selling price. Fail-closed guards:
+    multi-'%' questions are refused (multi-step chains can't be re-derived
+    from one pattern), and a value that matches only under a /100 or x100
+    unit reading raises CheckError instead of loud-failing a possibly
+    correct answer."""
+    q = question.replace(",", "")
+    if q.count("%") > 1:
+        return None
+    expected, desc = None, None
+    m = re.search(r'(-?\d+(?:\.\d+)?)\s*%\s+of\s+(-?\d+(?:\.\d+)?)', q)
+    if m:
+        expected = float(m.group(1)) / 100.0 * float(m.group(2))
+        desc = f"{m.group(1)}% of {m.group(2)}"
+    if expected is None:
+        m = re.search(r'\b(increase|decrease)\s+(-?\d+(?:\.\d+)?)\s+by\s+'
+                      r'(\d+(?:\.\d+)?)\s*%', q, re.IGNORECASE)
+        if m:
+            a, p = float(m.group(2)), float(m.group(3))
+            sign = 1 if m.group(1).lower() == "increase" else -1
+            expected = a * (1 + sign * p / 100.0)
+            desc = f"{m.group(2)} {m.group(1).lower()}d by {m.group(3)}%"
+    if expected is None:
+        kind = re.search(r'percentage\s+(profit|gain|loss)', q, re.IGNORECASE)
+        if kind:
+            buy = re.search(r'\b(?:buys?|bought|cost(?:s)?)\b[^0-9]*'
+                            r'(\d+(?:\.\d+)?)', q, re.IGNORECASE)
+            sell = re.search(r'\b(?:sells?|sold|selling\s+price)\b[^0-9]*'
+                             r'(\d+(?:\.\d+)?)', q, re.IGNORECASE)
+            if not buy or not sell:
+                return None
+            c, s = float(buy.group(1)), float(sell.group(1))
+            if c == 0:
+                return None
+            k = kind.group(1).lower()
+            expected = (s - c) / c * 100 if k in ("profit", "gain") else (c - s) / c * 100
+            desc = f"percentage {k} (cost {c:g}, selling {s:g})"
+    if expected is None:
+        return None
+    nums = re.findall(_NUM, answer.replace(",", ""))
+    if not nums:
+        raise CheckError("no numeric value in final answer")
+    got = _parse_number(nums[-1])
+    tol = TOL * (1 + abs(expected))
+    if abs(got - expected) <= tol:
+        return {"checked": True, "passed": True,
+                "method": "percentage recomputation",
+                "note": f"recomputed {desc} independently: {expected:g}"}
+    if abs(got * 100 - expected) <= tol or abs(got / 100 - expected) <= tol:
+        raise CheckError("answer units ambiguous (percent vs fraction)")
+    return {"checked": True, "passed": False,
+            "method": "percentage recomputation",
+            "note": f"recomputed {desc} = {expected:g}, but the answer says {got:g}"}
+
+
+def _check_subject_of_formula(question: str, answer: str) -> dict | None:
+    """'Make x the subject of v = u + ax.' Roundtrip check: pick fixed
+    sample values for the target and the other variables, compute the
+    formula's lone-variable side, then feed everything into the model's
+    rearranged expression — it must return the original target value at
+    every sample point. A wrong rearrangement cannot survive this."""
+    m = re.search(r'[Mm]ake\s+([a-zA-Z])\s+the\s+subject\s*(?:of\s+(?:the\s+)?'
+                  r'formula)?\s*:?\s+(.+?)\s*(?:$|[.?])', question)
+    if not m:
+        return None
+    target, formula = m.group(1), m.group(2)
+    if "=" not in formula:
+        return None
+    lhs, rhs = (s.strip() for s in formula.split("=", 1))
+    # [a-zA-Z] here, unlike the x-excluding classes elsewhere: the subject
+    # target is routinely x itself, and formulas use uppercase vars (A, V, T)
+    letters = set(re.findall(
+        r'[a-zA-Z]', re.sub(r'sin|cos|tan|sqrt|log|ln|exp|pi', '', formula)))
+    if target not in letters:
+        return None
+    # one side must be a lone variable (the formula's output), not the target
+    if lhs in letters and lhs != target:
+        out_var, expr_side = lhs, rhs
+    elif rhs in letters and rhs != target:
+        out_var, expr_side = rhs, lhs
+    else:
+        return None
+    am = re.match(rf'\s*{target}\s*=\s*(.+)$', answer)
+    if not am:
+        raise CheckError(f"final answer is not of the form {target} = …")
+    rearranged = am.group(1).strip()
+    others = sorted(letters - {target, out_var})
+    ok = 0
+    for t_val in (0.6, 1.7, 2.9):
+        env = {v: 1.3 + 0.7 * i for i, v in enumerate(others)}
+        env[target] = t_val
+        try:
+            out_val = safe_eval(expr_side, **env)
+            env2 = {v: env[v] for v in others}
+            env2[out_var] = out_val
+            claimed = safe_eval(rearranged, **env2)
+        except CheckError:
+            continue
+        if abs(claimed - t_val) > TOL * (1 + abs(t_val)):
+            return {"checked": True, "passed": False,
+                    "method": "formula roundtrip",
+                    "note": f"rearrangement gives {target}={claimed:.5g} where "
+                            f"the original formula used {target}={t_val:g}"}
+        ok += 1
+    if ok < 2:
+        raise CheckError("too few evaluable sample points")
+    return {"checked": True, "passed": True, "method": "formula roundtrip",
+            "note": f"rearrangement returns the original {target} at {ok} "
+                    "independent sample points"}
+
+
+def _check_coordinate_geometry(question: str, answer: str) -> dict | None:
+    """Gradient / midpoint / equation of the line through two given points —
+    all recomputed or substitution-checked from the coordinates in the
+    question. Exactly two points required; anything else fails closed."""
+    pts = re.findall(r'\(\s*(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)\s*\)',
+                     question)
+    if len(pts) != 2:
+        return None
+    (x1, y1), (x2, y2) = ((float(a), float(b)) for a, b in pts)
+    ql = question.lower()
+    if "gradient" in ql or "slope" in ql:
+        if x2 == x1:
+            return None    # vertical line: no numeric gradient to compare
+        expected = (y2 - y1) / (x2 - x1)
+        nums = re.findall(_NUM, answer)
+        if not nums:
+            raise CheckError("no numeric value in final answer")
+        got = _parse_number(nums[-1])
+        if abs(got - expected) > TOL * (1 + abs(expected)):
+            return {"checked": True, "passed": False,
+                    "method": "gradient recomputation",
+                    "note": f"gradient from the given points is {expected:g}, "
+                            f"the answer says {got:g}"}
+        return {"checked": True, "passed": True,
+                "method": "gradient recomputation",
+                "note": f"recomputed from the two points: {expected:g}"}
+    if "midpoint" in ql:
+        pair = _pair_values(answer)
+        if pair is None:
+            raise CheckError("no coordinate pair in final answer")
+        ex, ey = (x1 + x2) / 2, (y1 + y2) / 2
+        if abs(pair[0] - ex) > TOL * (1 + abs(ex)) or \
+           abs(pair[1] - ey) > TOL * (1 + abs(ey)):
+            return {"checked": True, "passed": False,
+                    "method": "midpoint recomputation",
+                    "note": f"midpoint of the given points is ({ex:g}, {ey:g}), "
+                            f"the answer says ({pair[0]:g}, {pair[1]:g})"}
+        return {"checked": True, "passed": True,
+                "method": "midpoint recomputation",
+                "note": f"recomputed from the two points: ({ex:g}, {ey:g})"}
+    if re.search(r'equation of (?:the )?(?:straight )?line', ql):
+        am = re.match(r'\s*y\s*=\s*(.+)$', answer)
+        if not am:
+            raise CheckError("final answer is not of the form y = …")
+        expr = am.group(1).strip()
+        for px, py in ((x1, y1), (x2, y2)):
+            claimed = safe_eval(expr, x=px)
+            if abs(claimed - py) > TOL * (1 + abs(py)):
+                return {"checked": True, "passed": False,
+                        "method": "line through points",
+                        "note": f"the given point ({px:g}, {py:g}) does not lie "
+                                f"on the claimed line (y = {claimed:.5g})"}
+        return {"checked": True, "passed": True, "method": "line through points",
+                "note": "both given points satisfy the claimed equation"}
+    return None
+
+
 def _check_arithmetic(question: str, answer: str) -> dict | None:
     m = re.search(r'(?:[Ee]valuate|[Cc]ompute|[Cc]alculate)\s*:?\s*([^?]+?)\s*(?:$|[.?])',
                   question)
@@ -450,8 +635,10 @@ def _check_expand(question: str, answer: str) -> dict | None:
             "note": f"matches the original expression at {ok} sample points"}
 
 
-_CHECKERS = (_check_simultaneous, _check_find_constants, _check_solve_equation,
-             _check_derivative, _check_expand, _check_arithmetic)
+_CHECKERS = (_check_simultaneous, _check_find_constants,
+             _check_coordinate_geometry, _check_subject_of_formula,
+             _check_solve_equation, _check_derivative, _check_expand,
+             _check_percentage, _check_arithmetic)
 
 
 def check_answer(question: str, model_text: str) -> dict:
@@ -514,6 +701,21 @@ _TRUST_BULLETS = {
     "constant substitution": [
         "Put the found constants back into the original equation",
         "Every root the question gave still satisfies it exactly"],
+    "percentage recomputation": [
+        "Recomputed the percentage directly from the numbers in the question",
+        "Got exactly the same value"],
+    "formula roundtrip": [
+        "Fed sample values through the original formula",
+        "The rearranged formula returned the same values every time"],
+    "gradient recomputation": [
+        "Recomputed the gradient from the two given points",
+        "The claimed value matches exactly"],
+    "midpoint recomputation": [
+        "Recomputed the midpoint from the two given points",
+        "The claimed coordinates match exactly"],
+    "line through points": [
+        "Substituted both given points into the claimed equation",
+        "Both points lie exactly on the line"],
 }
 
 

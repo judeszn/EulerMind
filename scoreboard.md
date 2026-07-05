@@ -329,6 +329,22 @@ Heuristics = Slice 2 queue (percentage ×2, subject-of-formula, gradient) +
 1 proof (correctly never certifiable). Transcript:
 `competition/reality_check_transcript.md`.
 
+| **Σ4-S2** (families: percentage, subject-of-formula, coordinate geometry) | **11/12** | 1/12 | 0 | **0** | 8.3s |
+
+Σ4-S2 (2026-07-05): three new checker families — percentage recomputation
+(%-of, increase/decrease, profit/loss; multi-% questions refused fail-closed;
+percent-vs-fraction unit ambiguity raises CheckError rather than loud-failing
+a possibly-correct answer), formula roundtrip (subject-of-formula verified by
+feeding fixed sample values through the original formula and requiring the
+rearrangement to return them; hallucinated constants rejected), coordinate
+geometry (gradient/midpoint recomputation + line-equation by two-point
+substitution; vertical lines refused). 31-case regression battery (positives,
+loud-fail negatives, fail-closed rejections) all pass. **The 12-question set
+is saturated: the only Heuristic is the proof, which is correctly never
+certifiable.** Interest/ratio %-forms and bearings deferred to Slice 3
+(order-sensitive parsing = fabrication risk). Same seed-control caveat as
+above.
+
 ## Validation Phase 1 — first contract-valid result (2026-07-02, n=60)
 
 Deterministic solver + optimality-certifying verifier (contract v1.0),
