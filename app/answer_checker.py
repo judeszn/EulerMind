@@ -117,14 +117,21 @@ def safe_eval(expr: str, **vars: float) -> float:
 
 # (?![A-Za-z]) keeps prose like "the final answerS are:" from matching as the
 # marker and shearing the real answer in half (observed live, Sprint 2).
-_FINAL_RE = re.compile(r'(?:\*\*)?FINAL ANSWER(?![A-Za-z])\s*:?\s*(?:\*\*)?\s*',
-                       re.IGNORECASE)
+# '(?:is|was)?' consumes prose filler in "the final answer is: \boxed{…}" so
+# the first kept line is the answer, not the word "is" (observed live, Σ4-1).
+_FINAL_RE = re.compile(
+    r'(?:\*\*)?FINAL ANSWER(?![A-Za-z])(?:\s+(?:is|was))?\s*:?\s*(?:\*\*)?\s*',
+    re.IGNORECASE)
 _NUM = r'-?\d+(?:\.\d+)?(?:\s*/\s*-?\d+(?:\.\d+)?)?'
 
 
 def _delatex(s: str) -> str:
     """Math models answer in LaTeX; normalize the common forms to plain
     math before extraction. Anything this misses still fails closed."""
+    # unwrap \boxed{...} first (keeps content, tolerates one nesting level) —
+    # a marker-path tail like 'final answer is: \[ \boxed{-\frac{1}{2}, -3} \]'
+    # otherwise leaves an uneatable '\boxed(' shard in the extracted answer
+    s = re.sub(r'\\boxed\{([^{}]*(?:\{[^{}]*\}[^{}]*)*)\}', r'\1', s)
     for _ in range(3):  # nested \frac
         s = re.sub(r'\\frac\{([^{}]+)\}\{([^{}]+)\}', r'((\1)/(\2))', s)
     s = re.sub(r'\\(?:quad|qquad|,|;|!)', ' ', s)
@@ -247,6 +254,41 @@ def _check_solve_equation(question: str, answer: str) -> dict | None:
                     "(completeness not verified)"}
 
 
+def _pair_values(answer: str) -> tuple[float, float] | None:
+    """Parse a bare ordered pair like '(22/5, 7/5)' or '((22)/(5), (7)/(5))'
+    into two floats, honouring nested parentheses. None if not that shape."""
+    s = answer.strip()
+    while s.startswith("(") and s.endswith(")"):
+        depth = 0
+        wraps = True
+        for i, ch in enumerate(s):
+            depth += ch == "("
+            depth -= ch == ")"
+            if depth == 0 and i < len(s) - 1:
+                wraps = False
+                break
+        if not wraps:
+            break
+        s = s[1:-1].strip()
+    parts, depth, cur = [], 0, ""
+    for ch in s:
+        depth += ch == "("
+        depth -= ch == ")"
+        if ch == "," and depth == 0:
+            parts.append(cur)
+            cur = ""
+        else:
+            cur += ch
+    parts.append(cur)
+    parts = [p.strip() for p in parts if p.strip()]
+    if len(parts) != 2:
+        return None
+    try:
+        return safe_eval(parts[0]), safe_eval(parts[1])
+    except CheckError:
+        return None
+
+
 def _check_simultaneous(question: str, answer: str) -> dict | None:
     # Sides restricted to equation-term characters (no prose letters), so
     # "solve the simultaneous equations 2x + 3y = 12 and x - y = 1" yields
@@ -259,9 +301,15 @@ def _check_simultaneous(question: str, answer: str) -> dict | None:
         return None
     xs = _extract_values(answer, "x")
     ys = _extract_values(answer, "y")
-    if not xs or not ys:
-        raise CheckError("could not extract x and y from final answer")
-    x, y = xs[0], ys[0]
+    if xs and ys:
+        x, y = xs[0], ys[0]
+    else:
+        # bare ordered pair '(22/5, 7/5)' — x first, y second by convention;
+        # substitution into both equations still decides correctness
+        pair = _pair_values(answer)
+        if pair is None:
+            raise CheckError("could not extract x and y from final answer")
+        x, y = pair
     for l, r in eqs[:2]:
         residual = safe_eval(l, x=x, y=y) - safe_eval(r, x=x, y=y)
         if abs(residual) > TOL * (1 + abs(safe_eval(r, x=x, y=y))):

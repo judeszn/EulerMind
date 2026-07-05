@@ -357,8 +357,23 @@ async function tutor(q, out, solved){
     return;
   }
   const reader=resp.body.getReader(); const dec=new TextDecoder(); let full='';
+  const FIN=/\\n?⟪EULERMIND:FINISH=(\\w+)⟫/;
   while(true){ const {done,value}=await reader.read(); if(done)break;
-    full+=dec.decode(value,{stream:true}); renderStream(stepsEl, full); }
+    full+=dec.decode(value,{stream:true});
+    renderStream(stepsEl, full.replace(FIN,'')); }
+  const fm=full.match(FIN); const finish=fm?fm[1]:'stop';
+  full=full.replace(FIN,'');
+  renderStream(stepsEl, full);
+  if(finish==='length'){
+    // truncated generation: NEVER verify a clipped answer
+    document.getElementById('verdict').innerHTML=
+      '<div class="checkzone"><div class="zonelabel">EulerMind machine check</div>'
+      +'<div class="checkline">Not checked — the generation stopped at the token limit.</div>'
+      +'<div class="label Heuristic">Heuristic</div></div>'
+      +'<div class="why"><b>The explanation ended before a complete answer was produced.</b> '
+      +'Nothing was checked — ask the question again.</div>';
+    return;
+  }
   document.getElementById('verdict').innerHTML='<p class="meta">EulerMind is running the deterministic machine check…</p>';
   // Adapter: if the tag contract produced an <ANSWER>, pass that exact string
   // (raw, un-normalized) to the checker via the marker it parses. Contents
@@ -367,11 +382,12 @@ async function tutor(q, out, solved){
   const checkText = (tg.tagged && tg.answer) ? ('FINAL ANSWER: '+tg.answer) : full;
   const c=await(await fetch('/check',{method:'POST',body:JSON.stringify({question:q,answer:checkText})})).json();
   const pass=c.checked&&c.passed, fail=c.checked&&c.passed===false;
+  const unchecked_shape = !c.checked && c.note && c.note.indexOf('not in the checkable families')>=0;
   let v='<div class="checkzone"><div class="zonelabel">EulerMind machine check</div>';
   v+='<div class="checkline '+(pass?'ok':(fail?'fail':''))+'">';
   if(pass) v+='✓ '+esc(c.method)+' — '+esc(c.note);
-  else if(fail) v+='✗ check FAILED — '+esc(c.note)+'. Treat this answer as unreliable.';
-  else v+='Unable to verify by deterministic methods — '+esc(c.note);
+  else if(fail) v+='✗ verification FAILED — '+esc(c.note);
+  else v+='Not verified — '+esc(c.note);
   v+='</div>';
   v+='<div class="label '+c.label+'">'+c.label+'</div>';
   v+='</div>';
@@ -380,9 +396,11 @@ async function tutor(q, out, solved){
     c.rationale.forEach(b=>{ v+='<div class="tline">✓ '+esc(b)+'</div>'; });
     v+='</div>';
   } else if(fail){
-    v+='<div class="why">A deterministic check ran and the answer did not satisfy it — so EulerMind will not vouch for it.</div>';
+    v+='<div class="why"><b>Do not trust this answer.</b> EulerMind checked it and it does not survive the check — the model\\'s working contains an error.</div>';
+  } else if(unchecked_shape){
+    v+='<div class="why"><b>AI explanation only.</b> This question is beyond what EulerMind can check by deterministic mathematics. The working above comes from the AI model and may contain mistakes.</div>';
   } else {
-    v+='<div class="why">EulerMind cannot check this one mathematically — treat it as the teacher\\'s explanation, not a proven result.</div>';
+    v+='<div class="why"><b>Nothing was verified.</b> EulerMind found no machine-checkable final answer in the explanation.</div>';
   }
   document.getElementById('verdict').innerHTML=v;
 }
@@ -448,10 +466,16 @@ class Handler(BaseHTTPRequestHandler):
             self.send_header("Content-Type", "text/plain; charset=utf-8")
             self.send_header("Cache-Control", "no-cache")
             self.end_headers()
+            status: dict = {}
             try:
-                for chunk in stream_tutor_answer(text, base, model):
+                for chunk in stream_tutor_answer(text, base, model, status):
                     self.wfile.write(chunk.encode("utf-8"))
                     self.wfile.flush()
+                # end-of-stream sentinel: completion status for the client
+                # (⟪⟫ delimiters cannot occur in model output)
+                reason = status.get("finish_reason", "stop")
+                self.wfile.write(f"\n⟪EULERMIND:FINISH={reason}⟫".encode("utf-8"))
+                self.wfile.flush()
             except (BrokenPipeError, ConnectionError, OSError):
                 pass
             return

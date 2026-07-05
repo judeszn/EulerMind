@@ -50,10 +50,18 @@ QUESTIONS = [
 
 def _run_one(q: str, base: str, model: str) -> dict:
     t0 = time.perf_counter()
-    text = "".join(stream_tutor_answer(q, base, model))
+    status: dict = {}
+    text = "".join(stream_tutor_answer(q, base, model, status))
     dt = time.perf_counter() - t0
-    check = check_answer(q, text)
+    truncated = status.get("finish_reason") == "length"
+    if truncated:
+        # a clipped answer is NEVER verified — label it honestly instead
+        check = {"label": "Heuristic", "checked": False, "passed": None,
+                 "note": "incomplete generation (token limit) — nothing checked"}
+    else:
+        check = check_answer(q, text)
     return {"question": q, "explanation": text, "seconds": dt,
+            "truncated": truncated,
             "label": check["label"], "checked": check["checked"],
             "passed": check["passed"], "note": check["note"],
             "rationale": trust_rationale(check)}
@@ -63,12 +71,15 @@ def _render(rows: list[dict], model: str) -> str:
     n = len(rows)
     derived = sum(r["label"] == "Derived" for r in rows)
     heuristic = sum(r["label"] == "Heuristic" for r in rows)
+    truncated = sum(r.get("truncated", False) for r in rows)
+    mean_s = sum(r["seconds"] for r in rows) / n
     false_ver = sum(r["label"] == "Derived" and r["passed"] is False for r in rows)
     lines = [
         "# Σ3 Phase 1 — Reality Check transcript",
         "",
         f"Model: `{model}` · questions: {n} · "
         f"Derived: {derived} · Heuristic: {heuristic} · "
+        f"Truncated: {truncated} · mean {mean_s:.1f}s/question · "
         f"**False verifications: {false_ver}** (must be 0)",
         "",
         "> Phase 2 audit question for every explanation below: *Could a "

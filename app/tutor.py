@@ -120,15 +120,19 @@ def discover_server(timeout: float = 0.8) -> tuple[str, str] | None:
     return None
 
 
-def stream_tutor_answer(question: str, base: str, model: str):
-    """Yields text chunks from the local model. Raises on connection loss."""
+def stream_tutor_answer(question: str, base: str, model: str,
+                        status: dict | None = None):
+    """Yields text chunks from the local model. Raises on connection loss.
+    Pass a dict as `status` to receive the generation's finish_reason
+    ('stop' = completed; 'length' = truncated at the token cap — the caller
+    must NOT attempt verification on a truncated answer)."""
     payload = json.dumps({
         "model": model,
         "messages": [{"role": "system", "content": SYSTEM_PROMPT},
                      {"role": "user", "content": question}],
         "stream": True,
         "temperature": 0.1,  # format stability: the tag contract matters more than variety
-        "max_tokens": 900,
+        "max_tokens": 1600,  # qwen-math CoT is verbose; 900 clipped real answers
     }).encode()
     req = urllib.request.Request(
         f"{base}/v1/chat/completions", data=payload,
@@ -142,9 +146,12 @@ def stream_tutor_answer(question: str, base: str, model: str):
             if body == "[DONE]":
                 return
             try:
-                delta = json.loads(body)["choices"][0]["delta"]
+                choice = json.loads(body)["choices"][0]
             except (json.JSONDecodeError, KeyError, IndexError):
                 continue
-            chunk = delta.get("content")
+            reason = choice.get("finish_reason")
+            if reason and status is not None:
+                status["finish_reason"] = reason
+            chunk = choice.get("delta", {}).get("content")
             if chunk:
                 yield chunk

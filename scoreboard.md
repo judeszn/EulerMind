@@ -305,6 +305,30 @@ LLM-dependent Gamma experiments, out of scope by design). Full report:
 | Internal Reproduction | Deterministic: ✓ · Stochastic: 0/3 (not yet established) |
 | Independent Reproduction / Replication / External Validation | Not established |
 
+## Sigma — Tutor Lane reality check (2026-07-05, n=12 WAEC set, offline production stack)
+
+Real stack: Qwen2.5-Math-1.5B Q4_K_M GGUF → llama.cpp (127.0.0.1:8080) →
+tutor lane → deterministic `app/answer_checker.py`. Fixed 12-question set
+(`app/reality_check.py`); labels assigned only by deterministic code.
+**Caveat: runs are not seed-controlled** (llama.cpp default seed, temp 0.1),
+so per-run counts mix engineering effects with sampling variation; FVR and
+root-caused mechanisms are the hard results, exact counts are indicative.
+
+| Run | Derived | Heuristic | Truncated | False verifications | Mean latency |
+|---|---|---|---|---|---|
+| v0.9 baseline (cap 900, uninstrumented) | 6/12 | 6/12 | not instrumented (≥1 observed live) | **0** | not recorded |
+| Σ4-S1 interim (cap 1600, pre-extraction-fix) | 5/12 | 7/12 | 0 | **0** | 9.2s |
+| **Σ4-S1 final** (cap 1600 + extraction repairs) | **7/12** | 5/12 | **0** | **0** | 7.7s |
+
+The interim 6→5 drop is itself evidence: instrumentation exposed two
+extraction regressions on correct answers (marker-prose "final answer is:"
+tail, `\boxed{}` shard; bare ordered-pair answers) — root-caused and repaired
+at the parse layer, substitution logic and tolerances untouched, negative
+controls (wrong pair, wrong boxed root) still fail loudly. Remaining 5
+Heuristics = Slice 2 queue (percentage ×2, subject-of-formula, gradient) +
+1 proof (correctly never certifiable). Transcript:
+`competition/reality_check_transcript.md`.
+
 ## Validation Phase 1 — first contract-valid result (2026-07-02, n=60)
 
 Deterministic solver + optimality-certifying verifier (contract v1.0),

@@ -1,11 +1,11 @@
 # Σ3 Phase 1 — Reality Check transcript
 
-Model: `model/Qwen2.5-Math-1.5B-Instruct-Q4_K_M.gguf` · questions: 12 · Derived: 6 · Heuristic: 6 · **False verifications: 0** (must be 0)
+Model: `model/Qwen2.5-Math-1.5B-Instruct-Q4_K_M.gguf` · questions: 12 · Derived: 7 · Heuristic: 5 · Truncated: 0 · mean 7.7s/question · **False verifications: 0** (must be 0)
 
 > Phase 2 audit question for every explanation below: *Could a struggling SS2/SS3 student genuinely understand this?* If not, note exactly why (skipped reasoning / too symbolic / assumes prior knowledge / poor ordering / too verbose / too short).
 
 ## Q1. Solve 2x^2 + 7x + 3 = 0. Show your working.
-*label:* **Derived** · *7.8s* · *check:* all 2 given root(s) substitute correctly (completeness not verified)
+*label:* **Derived** · *8.0s* · *check:* all 2 given root(s) substitute correctly (completeness not verified)
 
 ```
 To solve the quadratic equation \(2x^2 + 7x + 3 = 0\), we can use the quadratic formula, which is given by:
@@ -30,7 +30,7 @@ and
 
 \[x = \frac{-7 - 5}{4} = \frac{-12}{4} = -3\]
 
-Therefore, the solutions to the equation \(2x^2 + 7x + 3 = 0\) are:
+So, the solutions to the equation \(2x^2 + 7x + 3 = 0\) are:
 
 \[\boxed{-\frac{1}{2}, -3}\]
 ```
@@ -40,7 +40,7 @@ Audit — understandable to a struggling SS3 student? __________  why / why not:
 ---
 
 ## Q2. Solve the simultaneous equations 3x + 2y = 16 and x - y = 3.
-*label:* **Heuristic** · *13.0s* · *check:* check not completable: could not extract x and y from final answer
+*label:* **Derived** · *13.2s* · *check:* (x=4.4, y=1.4) satisfies both equations
 
 ```
 To solve the simultaneous equations \(3x + 2y = 16\) and \(x - y = 3\), we can use the method of substitution or elimination. Here, we will use the elimination method.
@@ -83,6 +83,7 @@ To combine the terms on the right side, we need a common denominator:
 \[
 3 = \frac{15}{5}
 \]
+So,
 \[
 -y = \frac{15}{5} - \frac{22}{5}
 \]
@@ -96,7 +97,7 @@ To combine the terms on the right side, we need a common denominator:
 y = \frac{7}{5}
 \]
 
-So the solution to the system of equations is:
+Therefore, the solution to the system of equations is:
 \[
 \boxed{\left( \frac{22}{5}, \frac{7}{5} \right)}
 \]
@@ -107,17 +108,13 @@ Audit — understandable to a struggling SS3 student? __________  why / why not:
 ---
 
 ## Q3. Solve 5x - 7 = 2x + 8.
-*label:* **Derived** · *12.7s* · *check:* all 1 given root(s) substitute correctly (completeness not verified)
+*label:* **Derived** · *8.5s* · *check:* all 1 given root(s) substitute correctly (completeness not verified)
 
 ```
-To solve the equation \(5x - 7 = 2x + 8\), we will follow the steps outlined in the example and ensure each step is clearly explained and correctly formatted.
+To solve the equation \(5x - 7 = 2x + 8\), we will follow a step-by-step approach:
 
-1. ** down the problem:**
-   < down the problem: We need to find the value of \(x\) that satisfies the equation \(5x - 7 = 2x + 8\).**
-
-2. ** < < down the problem: Isolate the variable \(x\) on one side of the equation.**
-
-3. ** < < down the problem: Subtract \(2x\) from both sides to get all the \(x\)-terms on one side.**
+1. **Isolate the variable terms on one side of the equation:**
+   We start by getting all the \(x\)-terms on one side and the constant terms on the other side. To do this, we can subtract \(2x\) from both sides of the equation:
    \[
    5x - 7 - 2x = 2x + 8 - 2x
    \]
@@ -126,7 +123,8 @@ To solve the equation \(5x - 7 = 2x + 8\), we will follow the steps outlined in 
    3x - 7 = 8
    \]
 
-4. ** < < down the problem: Add 7 to both sides to isolate the term with \(x\).**
+2. **Isolate the variable term:**
+   Next, we need to get rid of the constant term \(-7\) on the left side. We do this by adding 7 to both sides of the equation:
    \[
    3x - 7 + 7 = 8 + 7
    \]
@@ -135,7 +133,8 @@ To solve the equation \(5x - 7 = 2x + 8\), we will follow the steps outlined in 
    3x = 15
    \]
 
-5. ** < < down the problem: Divide both sides by 3 to solve for \(x\).**
+3. **Solve for \(x\):**
+   Now, we need to isolate \(x\) by dividing both sides of the equation by 3:
    \[
    \frac{3x}{3} = \frac{15}{3}
    \]
@@ -144,22 +143,7 @@ To solve the equation \(5x - 7 = 2x + 8\), we will follow the steps outlined in 
    x = 5
    \]
 
-6. ** < < down the problem: Verify the solution by substituting \(x = 5\) back into the original equation.**
-
-   Substitute \(x = 5\) into \(5x - 7 = 2x + 8\):
-   \[
-   5(5) - 7 = 2(5) + 8
-   \]
-   Simplifying both sides, we get:
-   \[
-   25 - 7 = 10 + 8
-   \]
-   \[
-   18 = 18
-   \]
-   Since both sides are equal, the solution is verified.
-
-Therefore, the solution to the equation \(5x - 7 = 2x + 8\) is \(\boxed{5}\).
+So, the solution to the equation \(5x - 7 = 2x + 8\) is \(\boxed{5}\).
 ```
 
 Audit — understandable to a struggling SS3 student? __________  why / why not: __________
@@ -167,24 +151,32 @@ Audit — understandable to a struggling SS3 student? __________  why / why not:
 ---
 
 ## Q4. Expand (2x - 3)(x + 5).
-*label:* **Derived** · *6.7s* · *check:* matches the original expression at 5 sample points
+*label:* **Derived** · *7.9s* · *check:* matches the original expression at 5 sample points
 
 ```
 To expand the expression \((2x - 3)(x + 5)\), we will use the distributive property, which states that \(a(b + c) = ab + ac\). Here, we will distribute each term in the first binomial to each term in the second binomial.
 
-Let's start with the expression \((2x - 3)(x + 5)\).
+Let's break it down step by step:
 
-First, distribute \(2x\) to both \(x\) and \(5\):
-\[2x \cdot x + 2x \cdot 5 = 2x^2 + 10x.\]
+1. Distribute \(2x\) to both \(x\) and \(5\):
+   \[
+   2x \cdot x + 2x \cdot 5 = 2x^2 + 10x
+   \]
 
-Next, distribute \(-3\) to both \(x\) and \(5\):
-\[-3 \cdot x + (-3) \cdot 5 = -3x - 15.\]
+2. Distribute \(-3\) to both \(x\) and \(5\):
+   \[
+   -3 \cdot x + (-3) \cdot 5 = -3x - 15
+   \]
 
-Now, combine all the terms we have obtained:
-\[2x^2 + 10x - 3x - 15.\]
+3. Combine the results from the two distributions:
+   \[
+   2x^2 + 10x - 3x - 15
+   \]
 
-Combine the like terms \(10x\) and \(-3x\):
-\[2x^2 + 7x - 15.\]
+4. Combine like terms (the \(x\) terms):
+   \[
+   2x^2 + (10x - 3x) - 15 = 2x^2 + 7x - 15
+   \]
 
 So, the expanded form of \((2x - 3)(x + 5)\) is \(\boxed{2x^2 + 7x - 15}\).
 ```
@@ -194,35 +186,29 @@ Audit — understandable to a struggling SS3 student? __________  why / why not:
 ---
 
 ## Q5. Factorise x^2 - 5x + 6.
-*label:* **Derived** · *8.8s* · *check:* matches the original expression at 5 sample points
+*label:* **Derived** · *7.2s* · *check:* matches the original expression at 5 sample points
 
 ```
 To factorise the quadratic expression \(x^2 - 5x + 6\), we need to find two numbers that multiply to give the constant term (6) and add up to give the coefficient of the linear term (-5).
 
-Let's find these two numbers step by step:
+Let's find these two numbers:
+1. We need two numbers that multiply to 6.
+2. We need these same two numbers to add up to -5.
 
-1. Identify the constant term and the coefficient of the linear term:
-   - The constant term is 6.
-   - The coefficient of the linear term is -5.
+Let's list the pairs of factors of 6:
+- 1 and 6
+- 2 and 3
+- -1 and -6
+- -2 and -3
 
-2. List the pairs of factors of the constant term (6):
-   - \(1 \times 6\)
-   - \(2 \times 3\)
-   - \((-1) \times (-6)\)
-   - \((-2) \times (-3)\)
+Now, let's check which pair adds up to -5:
+- 1 + 6 = 7
+- 2 + 3 = 5
+- -1 + (-6) = -7
+- -2 + (-3) = -5
 
-3. Check which pair of factors adds up to -5:
-   - \(1 + 6 = 7\)
-   - \(2 + 3 = 5\)
-   - \(-1 + (-6) = -7\)
-   - \(-2 + (-3) = -5\)
-
-The pair \(-2\) and \(-3\) adds up to \(-5\).
-
-4. Rewrite the quadratic expression using these factors:
-   \[
-   x^2 - 5x + 6 = (x - 2)(x - 3)
-   \]
+The pair -2 and -3 adds up to -5. Therefore, we can write the quadratic expression as:
+\[x^2 - 5x + 6 = (x - 2)(x - 3)\]
 
 So, the factorized form of \(x^2 - 5x + 6\) is \(\boxed{(x - 2)(x - 3)}\).
 ```
@@ -232,7 +218,7 @@ Audit — understandable to a struggling SS3 student? __________  why / why not:
 ---
 
 ## Q6. Simplify 3(2x - 1) + 4(x + 2).
-*label:* **Derived** · *5.6s* · *check:* matches the original expression at 5 sample points
+*label:* **Derived** · *5.5s* · *check:* matches the original expression at 5 sample points
 
 ```
 To simplify the expression \(3(2x - 1) + 4(x + 2)\), we will follow these steps:
@@ -262,7 +248,7 @@ Audit — understandable to a struggling SS3 student? __________  why / why not:
 ---
 
 ## Q7. Differentiate y = x^3 - 4x^2 + 2x with respect to x.
-*label:* **Derived** · *8.8s* · *check:* claimed derivative matches numeric differentiation at 5 sample points
+*label:* **Derived** · *8.5s* · *check:* claimed derivative matches numeric differentiation at 5 sample points
 
 ```
 To differentiate the function \( y = x^3 - 4x^2 + 2x \) with respect to \( x \), we will apply the power rule of differentiation. The power rule states that if \( y = x^n \), then \( \frac{dy}{dx} = nx^{n-1} \).
@@ -289,7 +275,7 @@ Now, combine the derivatives of each term to get the derivative of the entire fu
 \frac{dy}{dx} = 3x^2 - 8x + 2
 \]
 
-Therefore, the derivative of \( y = x^3 - 4x^2 + 2x \) with respect to \( x \) is \(\boxed{3x^2 - 8x + 2}\).
+Thus, the derivative of \( y = x^3 - 4x^2 + 2x \) with respect to \( x \) is \(\boxed{3x^2 - 8x + 2}\).
 ```
 
 Audit — understandable to a struggling SS3 student? __________  why / why not: __________
@@ -297,37 +283,24 @@ Audit — understandable to a struggling SS3 student? __________  why / why not:
 ---
 
 ## Q8. Evaluate 15% of 240.
-*label:* **Heuristic** · *7.5s* · *check:* question shape not in the checkable families
+*label:* **Heuristic** · *4.4s* · *check:* question shape not in the checkable families
 
 ```
-To find 15% of 240, we can follow these steps:
+To evaluate 15% of 240, we can follow these steps:
 
-1. Convert the percentage to a decimal. Since 15% is the same as 15 out of 100, we can write it as:
+1. Convert the percentage to a decimal. Since 15% means 15 per 100, we can write it as:
    \[
    15\% = \frac{15}{100} = 0.15
    \]
 
-2. Multiply the decimal by the number 240:
+2. Multiply the decimal by 240 to find 15% of 240:
    \[
    0.15 \times 240
    \]
 
-3. To make the multiplication easier, we can break it down:
+3. Perform the multiplication:
    \[
-   0.15 \times 240 = \left(0.10 + 0.05\right) \times 240 = (0.10 \times 240) + (0.05 \times 240)
-   \]
-
-4. Calculate each part separately:
-   \[
-   0.10 \times 240 = 24
-   \]
-   \[
-   0.05 \times 240 = 12
-   \]
-
-5. Add the two results together:
-   \[
-   24 + 12 = 36
+   0.15 \times 240 = 36
    \]
 
 So, 15% of 240 is \boxed{36}.
@@ -369,7 +342,7 @@ Audit — understandable to a struggling SS3 student? __________  why / why not:
 ---
 
 ## Q10. A trader buys an item for 4500 naira and sells it for 5400 naira. Find the percentage profit.
-*label:* **Heuristic** · *7.1s* · *check:* question shape not in the checkable families
+*label:* **Heuristic** · *7.8s* · *check:* question shape not in the checkable families
 
 ```
 To find the percentage profit, we need to follow these steps:
@@ -380,23 +353,19 @@ To find the percentage profit, we need to follow these steps:
 Let's go through each step in detail:
 
 1. **Calculate the profit:**
+   The cost price (CP) is 4500 nairas and the selling price (SP) is 5400 nairas.
    \[
-   \text{Profit} = \text{Selling Price} - \text{Cost Price} = 5400 - 4500 = 900
+   \text{Profit} = \text{SP} - \text{CP} = 5400 - 4500 = 900 \text{ nairas}
    \]
 
 2. **Calculate the percentage profit:**
+   The percentage profit is given by the formula:
    \[
-   \text{Percentage Profit} = \left( \frac{\text{Profit}}{\text{Cost Price}} \right) \times 100 = \left( \frac{900}{4500} \right) \times 100
+   \text{Percentage Profit} = \left( \frac{\text{Profit}}{\text{CP}} \right) \times 100
    \]
-
-   Simplify the fraction:
+   Substituting the values we have:
    \[
-   \frac{900}{4500} = \frac{1}{5}
-   \]
-
-   Now, multiply by 100:
-   \[
-   \left( \frac{1}{5} \right) \times 100 = 20
+   \text{Percentage Profit} = \left( \frac{900}{4500} \right) \times 100 = \left( \frac{1}{5} \right) \times 100 = 20\%
    \]
 
 Therefore, the percentage profit is \boxed{20}.
@@ -407,7 +376,7 @@ Audit — understandable to a struggling SS3 student? __________  why / why not:
 ---
 
 ## Q11. Find the gradient of the line joining the points (1, 2) and (4, 11).
-*label:* **Heuristic** · *8.2s* · *check:* question shape not in the checkable families
+*label:* **Heuristic** · *7.7s* · *check:* question shape not in the checkable families
 
 ```
 To find the gradient of the line joining the points \((1, 2)\) and \((4, 11)\), we use the formula for the gradient (or slope) of a line passing through two points \((x_1, y_1)\) and \((x_2, y_2)\):
@@ -416,16 +385,13 @@ To find the gradient of the line joining the points \((1, 2)\) and \((4, 11)\), 
 \text{梯度} = \frac{y_2 - y_1}{x_2 - x_1}
 \]
 
-Here, the points are \((1, 2)\) and \((4, 11)\). Let's assign these coordinates to \((x_1, y_1)\) and \((x_2, y_2)\):
+Here, the points are \((1, 2)\) and \((4, 11)\). Let's identify the coordinates:
+- \(x_1 = 1\)
+- \(y_1 = 2\)
+- \(x_2 = 4\)
+- \(y_2 = 11\)
 
-\[
-(x_1, y_1) = (1, 2)
-\]
-\[
-(x_2, y_2) = (4, 11)
-\]
-
-Now, substitute these values into the gradient formula:
+Now, substitute these values into the formula:
 
 \[
 \text{梯度} = \frac{11 - 2}{4 - 1}
@@ -454,7 +420,7 @@ Audit — understandable to a struggling SS3 student? __________  why / why not:
 ---
 
 ## Q12. Prove that the sum of the angles in a triangle is 180 degrees.
-*label:* **Heuristic** · *9.7s* · *check:* question shape not in the checkable families
+*label:* **Heuristic** · *9.5s* · *check:* question shape not in the checkable families
 
 ```
 To prove that the sum of the angles in a triangle is 180 degrees, we can use the properties of parallel lines and the angles formed when a transversal intersects them. Here is a step-by-step proof:
