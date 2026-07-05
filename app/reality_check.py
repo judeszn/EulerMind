@@ -108,6 +108,20 @@ def _render(rows: list[dict], model: str) -> str:
 
 
 def main() -> None:
+    """Default: the fixed 12-question dev set. With a file argument
+    (`python3 -m app.reality_check holdout/waec_past_papers.txt`, one
+    question per line, '#' comments allowed): a HOLDOUT run — questions
+    must come from real past papers, not authored by anyone who wrote the
+    checkers, and the file is run ONCE (holdout discipline, WIN.md)."""
+    import sys
+    global QUESTIONS, OUT
+    if len(sys.argv) > 1:
+        src = Path(sys.argv[1])
+        QUESTIONS = [ln.strip() for ln in src.read_text(encoding="utf-8").splitlines()
+                     if ln.strip() and not ln.lstrip().startswith("#")]
+        OUT = Path(f"competition/holdout_{src.stem}_transcript.md")
+        if not QUESTIONS:
+            raise SystemExit(f"no questions found in {src}")
     server = discover_server()
     if server is None:
         print("No local model server found on 127.0.0.1:8080 or :11434.\n"

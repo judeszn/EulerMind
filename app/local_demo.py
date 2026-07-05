@@ -20,7 +20,6 @@ import json
 import time
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
-from benchmark.schema import read_jsonl
 from kernel.state import ExecutionState
 
 from kernel.lp_formalizer import try_parse as lp_try_parse
@@ -45,7 +44,6 @@ from research.G3_cert_independence.independent_checker import (
     independent_recheck as edge_independent)
 
 PORT = 7860
-DATASET = "benchmark/datasets/v1/problems.jsonl"
 
 
 class _StubFallback:
@@ -173,22 +171,16 @@ _NAIROBI = ("A community health programme in Nairobi must assign four "
 
 
 def _examples() -> list[dict]:
-    out = [{"name": "Quadratic equation (WAEC)",
-            "text": "Solve 2x^2 + 7x + 3 = 0. Show your working."},
-           {"name": "Simultaneous equations (WAEC)",
-            "text": "Solve the simultaneous equations 3x + 2y = 16 and x - y = 3."},
-           {"name": "Differentiation (WAEC)",
-            "text": "Differentiate x^2 sin(x) with respect to x."},
-           {"name": "Lagos workshop (certified lane)", "text": _LAGOS},
-           {"name": "Nairobi clinics (certified lane)", "text": _NAIROBI}]
-    try:
-        wanted = {"edge-00000-messy": "Edge-AI deployment (messy text)"}
-        for p in read_jsonl(DATASET):
-            if p["id"] in wanted:
-                out.append({"name": wanted[p["id"]], "text": p["text"]})
-    except Exception:
-        pass
-    return out
+    # Four buttons only: three tutor-lane maths examples + one certified
+    # example. Nairobi (test prompt 2) and the pinned Edge-AI instance still
+    # work when pasted — the router is unchanged; only discovery is curated.
+    return [{"name": "Quadratic equation (WAEC)",
+             "text": "Solve 2x^2 + 7x + 3 = 0. Show your working."},
+            {"name": "Simultaneous equations (WAEC)",
+             "text": "Solve the simultaneous equations 3x + 2y = 16 and x - y = 3."},
+            {"name": "Differentiation (WAEC)",
+             "text": "Differentiate x^2 sin(x) with respect to x."},
+            {"name": "Lagos workshop (certified)", "text": _LAGOS}]
 
 
 PAGE = """<!doctype html><html><head><meta charset="utf-8">
@@ -223,12 +215,12 @@ button.ex{background:#fff;color:#1a1a18;border:1px solid #ccc;font-size:.8rem;pa
 .meta{color:#888;font-size:.8rem}</style></head><body>
 <h1>EulerMind</h1>
 <p class="sub">The offline maths tutor that knows the difference between what it has proved and what it has only inferred</p>
-<div class="badges"><span>✓ Offline</span><span>✓ CPU-only</span><span>✓ Deterministic certification</span><span>✓ Independent verification</span></div>
-<div class="trustkey"><b>How to read the confidence label:</b><br>
-<span class="k Verified">Verified</span> proved by a re-checkable certificate ·
-<span class="k Derived">Derived</span> the model&#39;s answer, machine-checked numerically ·
-<span class="k Heuristic">Heuristic</span> explained, but not machine-verifiable ·
-<span class="k Open">Open</span> routed to the step-by-step tutor</div>
+<div class="badges"><span>✓ Works without internet</span><span>✓ Runs on ordinary school laptops</span><span>✓ Checks its own answers</span></div>
+<div class="trustkey">
+<span class="k Verified">Verified</span> independently certified ·
+<span class="k Derived">Derived</span> machine-checked ·
+<span class="k Heuristic">Heuristic</span> AI explanation only ·
+<span class="k Open">Open</span> solved step by step</div>
 <p class="meta">Examples: <span id="exbtns"></span></p>
 <textarea id="q" placeholder="Paste any secondary-school maths question (WAEC/SSCE) — equations, factorising, differentiation… or a resource-allocation problem for the certified lane"></textarea><br>
 <button onclick="go()">Solve</button>

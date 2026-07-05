@@ -17,15 +17,22 @@ architecture on every push. Current conclusions:
 submission lives in its own template-conformant repository; competition
 boards live in [competition/](competition/).
 
+**What it is:** an offline maths tutor that checks its own answers before
+asking students to trust them. A local model explains step by step; a
+deterministic checker verifies the final answer; every response carries an
+honest confidence label (Verified / Derived / Heuristic / Open). Wrong or
+unverifiable answers are labeled, never dressed up.
+
 **Try it (zero dependencies, stdlib only):**
 
 ```bash
-python3 -m app.local_demo   # → http://localhost:7860, fully offline
+./run_demo.sh               # llama.cpp + GGUF + UI, one command (see
+                            # competition/PRODUCTION_SETUP.md for the model)
+python3 -m app.local_demo   # UI only, certified lane works without a model
 ```
 
-Paste a production-planning, assignment, or deployment problem and watch
-each pipeline stage certify — or refuse honestly when the problem is
-outside the certified domains.
+Paste any secondary-school maths question and watch it explain, check, and
+label its confidence — or refuse honestly when it cannot verify.
 
 The frozen vision, laws, guardrails, and phase plan live in
 [docs/VISION.md](docs/VISION.md). Pre-registered research hypotheses with kill

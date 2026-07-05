@@ -691,7 +691,7 @@ _TRUST_BULLETS = {
         "Every equation balanced"],
     "numeric identity check": [
         "Compared the two expressions at several values of x",
-        "They agreed every time — so they are genuinely the same expression"],
+        "They agreed at every test point"],
     "recomputation": [
         "Worked the calculation out independently",
         "Got exactly the same result"],
