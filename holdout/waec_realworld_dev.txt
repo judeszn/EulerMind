@@ -1,0 +1,24 @@
+# Real WAEC past-paper questions, user-sourced 2026-07-05.
+# BURNED AS HOLDOUT: Slice 3 checker work was informed by the failures on
+# this set, so it is now DEV evidence. A fresh untouched set is required
+# for the final report.
+A number is selected at random from the set S = {1, 2, 3, ..., 24, 25}. Calculate the probability that the selected number is both even and prime
+Express 0.0000407, correct to 2 significant figures
+Convert 2π radians to degrees
+Find the least value of x which satisfies the equation 4x = 7 (mod 9)
+If cos x = 0.7431 where 0° < x < 90°, evaluate 2 sin x.
+Five years ago, Musah was twice as old as Sesay. If the sum of their present ages is 100, find Sesay's present age.
+Simplify: 3² × 3⁵ ÷ 3⁴
+Solve the inequality (1/3)(k - 4) - (1/2)(k + 1) < 1/6
+If a chord subtends an angle of 72° at the center of a circle of radius 24.5 m, calculate the perimeter of the minor segment. (Take π = 22/7)
+The interior angles of a pentagon are in the ratio 2:3:4:4:5. Find the value of the largest angle.
+Evaluate (2³ × 3²)/12
+Write 450 in standard form.
+Evaluate without using mathematical tables or a calculator: (73.8)² - (26.2)²
+Given that x = 3 and y = -1, evaluate the expression 2(x² - y³).
+If (7 - 2r), 9, and (5 + 17) are consecutive terms of a Geometric Progression (G.P) with a common ratio r > 0, find the values of r.
+Factorize the expression (2P - Q)² - (P + Q)²
+If two positive numbers are in the ratio 3:4, and the sum of thrice the first number and twice the second number is 68, find the smaller number.
+Find the value of y if log10 2 + log10 3 = log10 y
+Expand the brackets: (x - 4)(x + 3).
+What is the average age of four boys if their ages in years are 10, 12, 14, and 18?

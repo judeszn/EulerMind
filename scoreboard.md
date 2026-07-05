@@ -331,6 +331,33 @@ Heuristics = Slice 2 queue (percentage ×2, subject-of-formula, gradient) +
 
 | **Σ4-S2** (families: percentage, subject-of-formula, coordinate geometry) | **11/12** | 1/12 | 0 | **0** | 8.3s |
 
+## Sigma — REAL WAEC past-paper check (2026-07-05, n=20, user-sourced)
+
+**The co-evolution warning was real, measured, and then fixed.** 20 genuine
+past-paper questions (not authored by the checker authors) run through the
+live UI: **0/20 Derived** — checker coverage collapsed on real phrasing
+("Expand the brackets:", colon-prose Evaluate, unicode exponents ⁵⁴, \pmod,
+multi-variable factorising) while the model answered ~18/20 correctly and
+**FVR stayed 0**. Σ4-S3 (authorized by the pre-registered "holdout uncovers a
+critical issue" trigger) fixed the phrasing gaps and added six families
+(value substitution, modular, inequality boundary, standard form, rounding,
+unit conversion, average), all recompute-from-question, fail-closed,
+36-case battery.
+
+| Run | Derived | Heuristic | Truncated | False verifications | Mean latency |
+|---|---|---|---|---|---|
+| Real WAEC, pre-S3 (live UI session) | **0/20** | 20/20 | 0 | **0** | — |
+| Real WAEC, post-S3 | **12/20** | 8/20 | 0 | **0** | 8.3s |
+
+The 8 remaining Heuristics are honest: probability, two multi-step word
+problems, circle-segment geometry, polygon-ratio, a log equation (deferred
+families), one deliberately-refused trig-given case, and one question with a
+typo the model answered dubiously (protection working). **This set is now
+BURNED as holdout** (S3 was fixed against it → it is dev evidence,
+`holdout/waec_realworld_dev.txt`); a fresh untouched past-paper set is
+required for the submission report. Transcript:
+`competition/holdout_waec_realworld_dev_transcript.md`.
+
 Σ4-S2 (2026-07-05): three new checker families — percentage recomputation
 (%-of, increase/decrease, profit/loss; multi-% questions refused fail-closed;
 percent-vs-fraction unit ambiguity raises CheckError rather than loud-failing

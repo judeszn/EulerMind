@@ -39,8 +39,10 @@ _FUNCS = {"sin": math.sin, "cos": math.cos, "tan": math.tan,
           "exp": math.exp, "abs": abs}
 _CONSTS = {"pi": math.pi, "e": math.e}
 
-_NORMALIZE = [("\\", ""), ("×", "*"), ("·", "*"), ("−", "-"), ("²", "^2"),
-              ("³", "^3"), ("^", "**"), ("√", "sqrt")]
+_NORMALIZE = [("\\", ""), ("×", "*"), ("·", "*"), ("÷", "/"), ("π", "pi"),
+              ("−", "-"), ("⁰", "^0"), ("¹", "^1"), ("²", "^2"), ("³", "^3"),
+              ("⁴", "^4"), ("⁵", "^5"), ("⁶", "^6"), ("⁷", "^7"), ("⁸", "^8"),
+              ("⁹", "^9"), ("^", "**"), ("√", "sqrt")]
 
 _TOKEN = re.compile(r'\d+\.?\d*|[A-Za-z]+|\*\*|[+\-*/(),]')
 
@@ -151,7 +153,8 @@ def _delatex(s: str) -> str:
     for _ in range(3):  # nested \frac
         s = re.sub(r'\\frac\{([^{}]+)\}\{([^{}]+)\}', r'((\1)/(\2))', s)
     s = re.sub(r'\\(?:quad|qquad|,|;|!)', ' ', s)
-    s = s.replace(r'\cdot', '*').replace(r'\times', '*')
+    s = re.sub(r'\\pi\b', 'pi', s)
+    s = s.replace(r'\cdot', '*').replace(r'\times', '*').replace(r'\div', '/')
     s = re.sub(r'\\(?:left|right|text\{[^}]*\}|mathrm\{[^}]*\})', '', s)
     s = re.sub(r'\\[\[\]()]', ' ', s)          # \[ \] \( \)
     s = re.sub(r'\\sqrt\{([^{}]+)\}', r'sqrt(\1)', s)
@@ -306,6 +309,11 @@ def _pair_values(answer: str) -> tuple[float, float] | None:
 
 
 def _check_simultaneous(question: str, answer: str) -> dict | None:
+    # Guard against misrouting: "Given x = 3 and y = -1, evaluate ..." also
+    # contains two structural equations but is a substitution question, not
+    # a system to solve (observed live, Σ4-3 holdout).
+    if not re.search(r'\b(solve|simultaneous|system)\b', question, re.IGNORECASE):
+        return None
     # Sides restricted to equation-term characters (no prose letters), so
     # "solve the simultaneous equations 2x + 3y = 12 and x - y = 1" yields
     # exactly the two equations, not the surrounding words.
@@ -582,12 +590,18 @@ def _check_coordinate_geometry(question: str, answer: str) -> dict | None:
 
 
 def _check_arithmetic(question: str, answer: str) -> dict | None:
-    m = re.search(r'(?:[Ee]valuate|[Cc]ompute|[Cc]alculate)\s*:?\s*([^?]+?)\s*(?:$|[.?])',
-                  question)
-    if not m or re.search(r'[a-wyz]', re.sub(r'sin|cos|tan|sqrt|log|ln|exp|pi',
-                                             '', m.group(1))):
+    # colon-prose form first ("Evaluate without using tables: <expr>"),
+    # then the plain form; the captured expression may be raw LaTeX (\frac)
+    m = (re.search(r'(?:[Ee]valuate|[Cc]ompute|[Cc]alculate)[^:.\n]*:\s*'
+                   r'([^?]+?)\s*(?:$|[.?](?:\s|$))', question)
+         or re.search(r'(?:[Ee]valuate|[Cc]ompute|[Cc]alculate)\s*:?\s*'
+                      r'([^?]+?)\s*(?:$|[.?](?:\s|$))', question))
+    if not m:
         return None
-    expected = safe_eval(m.group(1))
+    expr = _delatex(m.group(1))
+    if re.search(r'[a-zA-Z]', re.sub(r'sin|cos|tan|sqrt|log|ln|exp|pi', '', expr)):
+        return None
+    expected = safe_eval(expr)
     nums = re.findall(_NUM, answer)
     if not nums:
         raise CheckError("no numeric value in final answer")
@@ -601,32 +615,43 @@ def _check_arithmetic(question: str, answer: str) -> dict | None:
 
 def _check_expand(question: str, answer: str) -> dict | None:
     """Verify 'expand', 'factorise' and 'simplify' by numeric identity: the
-    model's expression must agree with the original at several sample x
-    values. Single-variable x only; fail-closed on anything else. A wrong
-    expansion disagrees at the sample points, so this cannot certify a wrong
-    answer (identity of bounded-degree polynomials is decided by enough
-    points, and the points avoid the common roots)."""
-    m = re.search(r'(?:[Ee]xpand|[Ss]implify|[Ff]actori[sz]e)\s*:?\s*'
-                  r'([^.,;?=]+?)\s*(?:$|[.,;?])', question)
+    model's expression must agree with the original at several sample values
+    of every variable. Constant expressions (Simplify 3^2 x 3^5 / 3^4) are
+    recomputed outright. A wrong result disagrees at the sample points, so
+    this cannot certify a wrong answer; anything unevaluable fails closed."""
+    m = re.search(r'(?:[Ee]xpand|[Ss]implify|[Ff]actori[sz]e)\s*'
+                  r'(?:the\s+(?:brackets?|expressions?)\s*)?(?:fully|completely)?'
+                  r'\s*:?\s*([^.,;?=]+?)\s*(?:$|[.,;?])', question)
     if not m:
         return None
-    lhs = m.group(1)
+    lhs = _delatex(m.group(1))
     rhs = re.sub(r"^[A-Za-z]\w*\s*=\s*", "", answer).strip()  # drop 'y =' etc.
-    # single-variable x only: reject if any non-x letter survives (minus funcs)
     residue = re.sub(r'sin|cos|tan|sqrt|log|ln|exp|pi', '', lhs + " " + rhs)
-    if re.search(r'[a-wyz]', residue):
-        return None
+    vars_ = tuple(sorted(set(re.findall(r'[a-zA-Z]', residue))))
+    if not vars_:
+        expected = safe_eval(lhs)
+        nums = re.findall(_NUM, answer)
+        if not nums:
+            raise CheckError("no numeric value in final answer")
+        got = _parse_number(nums[-1])
+        if abs(got - expected) > TOL * (1 + abs(expected)):
+            return {"checked": True, "passed": False, "method": "recomputation",
+                    "note": f"recomputed value {expected:g} != stated {got:g}"}
+        return {"checked": True, "passed": True, "method": "recomputation",
+                "note": f"recomputed independently: {expected:g}"}
     pts, ok = [0.3, 1.1, 1.7, 2.3, 3.1], 0
-    for t in pts:
+    for k, t in enumerate(pts):
+        env = {v: t + 0.37 * i for i, v in enumerate(vars_)}
         try:
-            want = safe_eval(lhs, x=t)
-            got = safe_eval(rhs, x=t)
+            want = safe_eval(lhs, **env)
+            got = safe_eval(rhs, **env)
         except CheckError:
             continue
         if abs(got - want) > 1e-3 * (1 + abs(want)):
+            pretty = ", ".join(f"{v}={env[v]:g}" for v in vars_)
             return {"checked": True, "passed": False,
                     "method": "numeric identity check",
-                    "note": f"result disagrees with the original at x={t} "
+                    "note": f"result disagrees with the original at {pretty} "
                             f"({got:.5g} vs {want:.5g})"}
         ok += 1
     if ok < 3:
@@ -635,10 +660,210 @@ def _check_expand(question: str, answer: str) -> dict | None:
             "note": f"matches the original expression at {ok} sample points"}
 
 
+def _check_given_values(question: str, answer: str) -> dict | None:
+    """'Given that x = 3 and y = -1, evaluate 2(x^2 - y^3)' — substitute the
+    given values and recompute. Refused (fail closed) when the givens involve
+    trig/log ('If cos x = 0.7431 …'), where the assignment is to a function
+    value, not the variable."""
+    m = re.search(r'(?:[Gg]iven(?:\s+that)?|[Ii]f)\s+(.+?),\s*'
+                  r'(?:evaluate|find the value of)\s*(?:the\s+expression\s*)?'
+                  r'(.+?)\s*(?:$|[.?])', question)
+    if not m:
+        return None
+    givens, expr = m.group(1), _delatex(m.group(2))
+    if re.search(r'sin|cos|tan|log|ln|sqrt', givens):
+        return None
+    assigns = {v: _parse_number(val) for v, val in
+               re.findall(r'\b([a-zA-Z])\s*=\s*(-?\d+(?:\.\d+)?(?:\s*/\s*-?\d+)?)',
+                          givens)}
+    if not assigns:
+        return None
+    expected = safe_eval(expr, **assigns)
+    nums = re.findall(_NUM, answer)
+    if not nums:
+        raise CheckError("no numeric value in final answer")
+    got = _parse_number(nums[-1])
+    pretty = ", ".join(f"{v}={x:g}" for v, x in assigns.items())
+    if abs(got - expected) > TOL * (1 + abs(expected)):
+        return {"checked": True, "passed": False, "method": "value substitution",
+                "note": f"substituting {pretty} gives {expected:g}, "
+                        f"the answer says {got:g}"}
+    return {"checked": True, "passed": True, "method": "value substitution",
+            "note": f"substituted {pretty} independently: {expected:g}"}
+
+
+def _check_modular(question: str, answer: str) -> dict | None:
+    """'4x = 7 (mod 9)' — verify the model's x by direct residue check;
+    'least value' additionally requires 0 <= x < modulus."""
+    qn = re.sub(r'\\pmod\s*\{?\s*(\d+)\s*\}?', r'(mod \1)', question)
+    qn = qn.replace(r'\equiv', '=').replace('≡', '=')
+    m = re.search(r'(\d+)\s*\*?\s*([a-zA-Z])\s*=\s*(\d+)\s*\(\s*mod\s*(\d+)\s*\)',
+                  qn)
+    if not m:
+        return None
+    a, var, b, mod = int(m.group(1)), m.group(2), int(m.group(3)), int(m.group(4))
+    vals = _extract_values(answer, var)
+    if not vals:
+        raise CheckError(f"no value for {var} in final answer")
+    x = vals[-1]
+    if abs(x - round(x)) > TOL:
+        raise CheckError("answer is not an integer")
+    x = int(round(x))
+    if (a * x - b) % mod != 0:
+        return {"checked": True, "passed": False, "method": "modular substitution",
+                "note": f"{a}·{x} = {a*x} ≡ {(a*x) % mod} (mod {mod}), "
+                        f"not {b % mod}"}
+    if re.search(r'least|smallest', question, re.IGNORECASE) and not 0 <= x < mod:
+        return {"checked": True, "passed": False, "method": "modular substitution",
+                "note": f"{x} satisfies the congruence but is not the least "
+                        f"non-negative solution"}
+    return {"checked": True, "passed": True, "method": "modular substitution",
+            "note": f"{a}·{x} ≡ {b % mod} (mod {mod}) confirmed by direct "
+                    "substitution"}
+
+
+def _check_inequality(question: str, answer: str) -> dict | None:
+    """Linear inequality: the claimed boundary must make both sides equal,
+    a point inside the claimed region must satisfy the original inequality,
+    and a point outside must violate it."""
+    m = re.search(r'[Ss]olve\s+the\s+inequality\s*:?\s*(.+?)\s*(?:$|[.?](?:\s|$))',
+                  question)
+    if not m:
+        return None
+    ineq = _delatex(m.group(1))
+    sm = re.search(r'(<=|>=|<|>)', ineq)
+    if not sm:
+        return None
+    op = sm.group(1)
+    lhs, rhs = ineq[:sm.start()].strip(), ineq[sm.end():].strip()
+    am = re.search(r'([a-zA-Z])\s*(<=|>=|<|>)\s*(-?[\d./]+)', answer)
+    if not am:
+        raise CheckError("final answer is not of the form <variable> <op> <value>")
+    var, aop, bound = am.group(1), am.group(2), _parse_number(am.group(3))
+    def _holds(v: float) -> bool:
+        left, right = safe_eval(lhs, **{var: v}), safe_eval(rhs, **{var: v})
+        return left < right if op in ("<", "<=") else left > right
+    if abs(safe_eval(lhs, **{var: bound}) - safe_eval(rhs, **{var: bound})) \
+            > 1e-3 * (1 + abs(safe_eval(rhs, **{var: bound}))):
+        return {"checked": True, "passed": False, "method": "boundary check",
+                "note": f"at {var}={bound:g} the two sides are not equal — "
+                        "the boundary is wrong"}
+    inside = bound + 1 if ">" in aop else bound - 1
+    outside = bound - 1 if ">" in aop else bound + 1
+    if not _holds(inside):
+        return {"checked": True, "passed": False, "method": "boundary check",
+                "note": f"{var}={inside:g} is inside the claimed region but "
+                        "violates the original inequality"}
+    if _holds(outside):
+        return {"checked": True, "passed": False, "method": "boundary check",
+                "note": f"{var}={outside:g} is outside the claimed region but "
+                        "satisfies the original inequality"}
+    return {"checked": True, "passed": True, "method": "boundary check",
+            "note": f"boundary {var}={bound:g} balances both sides; the claimed "
+                    "side satisfies the inequality and the other side does not"}
+
+
+def _check_standard_form(question: str, answer: str) -> dict | None:
+    """'Write 450 in standard form' — the answer a x 10^k must equal the
+    number and satisfy 1 <= |a| < 10."""
+    m = re.search(r'(?:[Ww]rite|[Ee]xpress)\s+(-?\d+(?:\.\d+)?)\s+in\s+'
+                  r'standard\s+form', question)
+    if not m:
+        return None
+    n = float(m.group(1))
+    am = re.search(r'(-?\d+(?:\.\d+)?)\s*[×x*]\s*10\s*(?:\^|\*\*)?\s*'
+                   r'\(?(-?\d+)\)?', answer)
+    if not am:
+        raise CheckError("no a × 10^k value in final answer")
+    a, k = float(am.group(1)), int(am.group(2))
+    if not 1 <= abs(a) < 10:
+        return {"checked": True, "passed": False, "method": "standard form check",
+                "note": f"{a:g} is not between 1 and 10 — not standard form"}
+    if abs(a * 10 ** k - n) > TOL * (1 + abs(n)):
+        return {"checked": True, "passed": False, "method": "standard form check",
+                "note": f"{a:g} × 10^{k} = {a*10**k:g}, not {n:g}"}
+    return {"checked": True, "passed": True, "method": "standard form check",
+            "note": f"{a:g} × 10^{k} multiplies back to exactly {n:g}"}
+
+
+def _check_rounding(question: str, answer: str) -> dict | None:
+    """'Express 0.0000407 correct to 2 significant figures' (and the decimal-
+    places variant) — recompute the rounding. Accepts both half-up and
+    half-even conventions on exact ties, never anything else."""
+    m = re.search(r'(-?\d+(?:\.\d+)?)\s*,?\s*(?:correct\s+)?to\s+(\d+)\s+'
+                  r'(significant\s+figures?|decimal\s+places?|s\.?f\.?|d\.?p\.?)',
+                  question, re.IGNORECASE)
+    if not m:
+        return None
+    n, k, kind = float(m.group(1)), int(m.group(2)), m.group(3).lower()
+    if kind.startswith(("significant", "s")):
+        if n == 0:
+            return None
+        d = k - 1 - math.floor(math.log10(abs(n)))
+    else:
+        d = k
+    half_even = round(n, d)
+    half_up = math.floor(abs(n) * 10 ** d + 0.5) / 10 ** d * (1 if n >= 0 else -1)
+    nums = re.findall(_NUM, answer)
+    if not nums:
+        raise CheckError("no numeric value in final answer")
+    got = _parse_number(nums[-1])
+    tol = 10 ** (-d) * 1e-6 if d > 0 else 1e-6
+    if min(abs(got - half_even), abs(got - half_up)) > tol:
+        return {"checked": True, "passed": False, "method": "rounding recomputation",
+                "note": f"{n:g} to {k} {kind} is {half_up:g}, "
+                        f"the answer says {got:g}"}
+    return {"checked": True, "passed": True, "method": "rounding recomputation",
+            "note": f"recomputed the rounding independently: {half_up:g}"}
+
+
+def _check_unit_conversion(question: str, answer: str) -> dict | None:
+    """'Convert 2π radians to degrees' — recompute the conversion."""
+    m = re.search(r'[Cc]onvert\s+(.+?)\s*radians?\s+(?:to|into)\s+degrees',
+                  question)
+    if not m:
+        return None
+    expected = safe_eval(_delatex(m.group(1))) * 180.0 / math.pi
+    nums = re.findall(_NUM, answer)
+    if not nums:
+        raise CheckError("no numeric value in final answer")
+    got = _parse_number(nums[-1])
+    if abs(got - expected) > TOL * (1 + abs(expected)):
+        return {"checked": True, "passed": False, "method": "unit conversion",
+                "note": f"recomputed conversion is {expected:g}°, "
+                        f"the answer says {got:g}"}
+    return {"checked": True, "passed": True, "method": "unit conversion",
+            "note": f"recomputed independently: {expected:g}°"}
+
+
+def _check_average(question: str, answer: str) -> dict | None:
+    """'What is the average of ... are 10, 12, 14, and 18?' — recompute the
+    mean of the listed values. Requires an explicit 'are/is' list."""
+    if not re.search(r'\b(average|mean)\b', question, re.IGNORECASE):
+        return None
+    seg = re.split(r'\bare\b|\bis\b', question)[-1]
+    vals = [_parse_number(t) for t in re.findall(_NUM, seg)]
+    if len(vals) < 2:
+        return None
+    expected = sum(vals) / len(vals)
+    nums = re.findall(_NUM, answer)
+    if not nums:
+        raise CheckError("no numeric value in final answer")
+    got = _parse_number(nums[-1])
+    if abs(got - expected) > TOL * (1 + abs(expected)):
+        return {"checked": True, "passed": False, "method": "average recomputation",
+                "note": f"mean of {len(vals)} listed values is {expected:g}, "
+                        f"the answer says {got:g}"}
+    return {"checked": True, "passed": True, "method": "average recomputation",
+            "note": f"recomputed the mean of {len(vals)} values: {expected:g}"}
+
+
 _CHECKERS = (_check_simultaneous, _check_find_constants,
              _check_coordinate_geometry, _check_subject_of_formula,
+             _check_given_values, _check_modular, _check_inequality,
+             _check_standard_form, _check_rounding, _check_unit_conversion,
              _check_solve_equation, _check_derivative, _check_expand,
-             _check_percentage, _check_arithmetic)
+             _check_percentage, _check_average, _check_arithmetic)
 
 
 def check_answer(question: str, model_text: str) -> dict:
@@ -716,6 +941,27 @@ _TRUST_BULLETS = {
     "line through points": [
         "Substituted both given points into the claimed equation",
         "Both points lie exactly on the line"],
+    "value substitution": [
+        "Substituted the given values and recomputed the expression",
+        "Got exactly the same result"],
+    "modular substitution": [
+        "Put the answer back into the congruence",
+        "The remainder comes out exactly right"],
+    "boundary check": [
+        "Tested the boundary and a point on each side of it",
+        "The claimed region satisfies the inequality; the other side does not"],
+    "standard form check": [
+        "Multiplied the standard form back out",
+        "It equals the original number exactly"],
+    "rounding recomputation": [
+        "Recomputed the rounding from the original number",
+        "Got exactly the same result"],
+    "unit conversion": [
+        "Recomputed the conversion independently",
+        "Got exactly the same value"],
+    "average recomputation": [
+        "Recomputed the mean of the listed values",
+        "Got exactly the same result"],
 }
 
 
