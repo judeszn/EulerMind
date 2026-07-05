@@ -115,7 +115,10 @@ def safe_eval(expr: str, **vars: float) -> float:
 
 # ---------------------------------------------------------- answer parsing
 
-_FINAL_RE = re.compile(r'(?:\*\*)?FINAL ANSWER\s*:?\s*(?:\*\*)?\s*', re.IGNORECASE)
+# (?![A-Za-z]) keeps prose like "the final answerS are:" from matching as the
+# marker and shearing the real answer in half (observed live, Sprint 2).
+_FINAL_RE = re.compile(r'(?:\*\*)?FINAL ANSWER(?![A-Za-z])\s*:?\s*(?:\*\*)?\s*',
+                       re.IGNORECASE)
 _NUM = r'-?\d+(?:\.\d+)?(?:\s*/\s*-?\d+(?:\.\d+)?)?'
 
 
@@ -168,22 +171,54 @@ def _parse_number(s: str) -> float:
 
 
 def _extract_values(answer: str, var: str) -> list[float]:
-    """Values assigned to `var` ('x = -1/2 or x = -3', 'x = -((1)/(2))').
-    Each captured value is evaluated with the safe evaluator, so
-    fractions, parentheses and sqrt() all work."""
+    """Values assigned to `var` ('x = -1/2 or x = -3', 'x = -1/2, -3',
+    'x = -((1)/(2))'). 'or'/'and' are normalised to list separators so BOTH
+    roots of a quadratic are captured, not just the first. Each value is
+    evaluated with the safe evaluator, so fractions, parentheses and sqrt()
+    all work. Adding more roots can only make a check stricter (every root
+    must substitute correctly), so it never introduces a false verification."""
+    answer = re.sub(r'\b(?:or|and)\b', ',', answer, flags=re.IGNORECASE)
     vals: list[float] = []
-    for v in re.findall(rf'{var}\s*=\s*([^,;=\n]+?)(?=\s*(?:,|;|$|\b[a-wyz]\s*=))',
-                        answer):
-        v = v.strip()
+
+    def _add(tok: str) -> None:
+        tok = tok.strip().rstrip(".")
+        if not tok:
+            return
         try:
-            vals.append(_parse_number(v))
+            v = _parse_number(tok)
         except ValueError:
             try:
-                vals.append(safe_eval(v))
+                v = safe_eval(tok)
             except CheckError:
-                continue
+                return
+        if all(abs(v - u) > TOL for u in vals):   # dedupe repeated roots
+            vals.append(v)
+
+    # Primary: each "var = <expr>" occurrence (lookahead stops at the next
+    # variable, so space-separated 'x = 2 y = 3' still splits correctly).
+    for v in re.findall(rf'{var}\s*=\s*([^,;=\n]+?)(?=\s*(?:,|;|$|\b[a-wyz]\s*=))',
+                        answer):
+        _add(v)
+    # Additive: bare numeric roots in a "var = a, b" list (the second root
+    # written without repeating the variable). Numeric-only, so it cannot
+    # swallow another variable's assignment.
+    m = re.search(rf'{var}\s*=\s*(.+)$', answer)
+    if m:
+        for seg in re.split(r'[,;]', m.group(1)):
+            seg = seg.strip()
+            if seg and re.fullmatch(r'[-+0-9/.()\s]*', seg) and re.search(r'\d', seg):
+                _add(seg)
+    # Fallback: no '=' at all (math models answer '\\boxed{-1/2, -3}', which
+    # _delatex renders as '-((1)/(2)), -3'). Split on list separators and
+    # evaluate each segment whole — segment-wise safe_eval keeps parenthesised
+    # fractions intact where a bare-number regex would shred them into wrong
+    # roots (the x=1 misfire this replaces).
     if not vals and var == "x" and "=" not in answer:
-        vals = [_parse_number(v) for v in re.findall(rf'(?<![\d/.]){_NUM}', answer)]
+        for seg in re.split(r'[,;]|\band\b|\bor\b', answer):
+            _add(seg)
+        if not vals:
+            for tok in re.findall(rf'(?<![\d/.]){_NUM}', answer):
+                _add(tok)
     return vals
 
 
@@ -268,6 +303,51 @@ def _check_derivative(question: str, answer: str) -> dict | None:
                     f"at {ok_pts} sample points"}
 
 
+def _check_find_constants(question: str, answer: str,
+                          full_text: str = "") -> dict | None:
+    """WAEC classic: 'the roots of 2x^2 + (p+1)x + q = 0 are 1 and 3 — find
+    p and q.' Deterministic check: substitute the model's constants back into
+    the equation and confirm EVERY given root still satisfies it. Wrong
+    constants cannot balance the equation at the given roots, so this cannot
+    certify a wrong answer; values are read from the final answer first, then
+    from the last 'p = …' in the working (substitution, not location, decides
+    correctness)."""
+    m = re.search(r'roots?\s+of\s+(?:the\s+)?(?:equation\s+)?(.+?)\s*=\s*0\s+'
+                  r'(?:are|is)\s+(.+?)(?=,|\.|;|\?|$)', question, re.IGNORECASE)
+    if not m:
+        return None
+    lhs, roots_str = m.group(1).strip(), m.group(2)
+    letters = set(re.findall(r'[a-wyz]',
+                             re.sub(r'sin|cos|tan|sqrt|log|ln|exp|pi', '', lhs)))
+    if not letters or 'x' not in lhs:
+        return None
+    roots = [_parse_number(t) for t in re.findall(_NUM, roots_str)]
+    if not roots:
+        return None
+    consts: dict[str, float] = {}
+    for u in sorted(letters):
+        vals = _extract_values(answer, u) if answer else []
+        if not vals:
+            found = re.findall(rf'\b{u}\s*=\s*({_NUM})', full_text)
+            if found:
+                vals = [_parse_number(found[-1])]
+        if not vals:
+            raise CheckError(f"no value for constant {u!r} in the answer")
+        consts[u] = vals[-1]
+    for r in roots:
+        residual = safe_eval(lhs, x=r, **consts)
+        if abs(residual) > TOL * (1 + abs(r)):
+            pretty = ", ".join(f"{u}={v:g}" for u, v in consts.items())
+            return {"checked": True, "passed": False,
+                    "method": "constant substitution",
+                    "note": f"with {pretty}, x={r:g} is no longer a root "
+                            f"(residual {residual:.4g})"}
+    pretty = ", ".join(f"{u}={v:g}" for u, v in consts.items())
+    roots_pretty = ", ".join(f"x={r:g}" for r in roots)
+    return {"checked": True, "passed": True, "method": "constant substitution",
+            "note": f"{pretty} reproduce every given root ({roots_pretty})"}
+
+
 def _check_arithmetic(question: str, answer: str) -> dict | None:
     m = re.search(r'(?:[Ee]valuate|[Cc]ompute|[Cc]alculate)\s*:?\s*([^?]+?)\s*(?:$|[.?])',
                   question)
@@ -286,8 +366,44 @@ def _check_arithmetic(question: str, answer: str) -> dict | None:
             "note": f"recomputed independently: {expected:g}"}
 
 
-_CHECKERS = (_check_simultaneous, _check_solve_equation,
-             _check_derivative, _check_arithmetic)
+def _check_expand(question: str, answer: str) -> dict | None:
+    """Verify 'expand', 'factorise' and 'simplify' by numeric identity: the
+    model's expression must agree with the original at several sample x
+    values. Single-variable x only; fail-closed on anything else. A wrong
+    expansion disagrees at the sample points, so this cannot certify a wrong
+    answer (identity of bounded-degree polynomials is decided by enough
+    points, and the points avoid the common roots)."""
+    m = re.search(r'(?:[Ee]xpand|[Ss]implify|[Ff]actori[sz]e)\s*:?\s*'
+                  r'([^.,;?=]+?)\s*(?:$|[.,;?])', question)
+    if not m:
+        return None
+    lhs = m.group(1)
+    rhs = re.sub(r"^[A-Za-z]\w*\s*=\s*", "", answer).strip()  # drop 'y =' etc.
+    # single-variable x only: reject if any non-x letter survives (minus funcs)
+    residue = re.sub(r'sin|cos|tan|sqrt|log|ln|exp|pi', '', lhs + " " + rhs)
+    if re.search(r'[a-wyz]', residue):
+        return None
+    pts, ok = [0.3, 1.1, 1.7, 2.3, 3.1], 0
+    for t in pts:
+        try:
+            want = safe_eval(lhs, x=t)
+            got = safe_eval(rhs, x=t)
+        except CheckError:
+            continue
+        if abs(got - want) > 1e-3 * (1 + abs(want)):
+            return {"checked": True, "passed": False,
+                    "method": "numeric identity check",
+                    "note": f"result disagrees with the original at x={t} "
+                            f"({got:.5g} vs {want:.5g})"}
+        ok += 1
+    if ok < 3:
+        raise CheckError("too few evaluable sample points")
+    return {"checked": True, "passed": True, "method": "numeric identity check",
+            "note": f"matches the original expression at {ok} sample points"}
+
+
+_CHECKERS = (_check_simultaneous, _check_find_constants, _check_solve_equation,
+             _check_derivative, _check_expand, _check_arithmetic)
 
 
 def check_answer(question: str, model_text: str) -> dict:
@@ -298,12 +414,24 @@ def check_answer(question: str, model_text: str) -> dict:
     """
     answer = final_answer_line(model_text)
     if answer is None:
+        # constants-style answers ('p = -9 ... q = 6') often live in the
+        # working with no final-answer line; that family can still check.
+        try:
+            result = _check_find_constants(question, "", model_text)
+        except CheckError:
+            result = None
+        if result is not None:
+            label = "Derived" if result["passed"] else "Heuristic"
+            return {"label": label, **result}
         return {"label": "Heuristic", "checked": False, "passed": None,
                 "method": None,
                 "note": "no machine-readable final answer to check"}
     for checker in _CHECKERS:
         try:
-            result = checker(question, answer)
+            if checker is _check_find_constants:
+                result = checker(question, answer, model_text)
+            else:
+                result = checker(question, answer)
         except CheckError as e:
             return {"label": "Heuristic", "checked": False, "passed": None,
                     "method": checker.__name__.replace("_check_", ""),
@@ -314,3 +442,39 @@ def check_answer(question: str, model_text: str) -> dict:
     return {"label": "Heuristic", "checked": False, "passed": None,
             "method": None,
             "note": "question shape not in the checkable families"}
+
+
+# Plain-English, teacher-facing rationale for a PASSED check. Written for a
+# WAEC student, not an engineer. Never shown unless the deterministic check
+# actually ran and passed — so it can never overstate what EulerMind did.
+_TRUST_BULLETS = {
+    "root substitution": [
+        "Put the answer back into the original equation",
+        "Both sides came out equal — nothing left over"],
+    "substitution into both equations": [
+        "Put the values into both equations",
+        "Every equation balanced"],
+    "numeric identity check": [
+        "Compared the two expressions at several values of x",
+        "They agreed every time — so they are genuinely the same expression"],
+    "recomputation": [
+        "Worked the calculation out independently",
+        "Got exactly the same result"],
+    "numeric derivative comparison": [
+        "Measured the slope of the function directly from the graph",
+        "The claimed derivative matched that slope at every test point"],
+    "constant substitution": [
+        "Put the found constants back into the original equation",
+        "Every root the question gave still satisfies it exactly"],
+}
+
+
+def trust_rationale(result: dict) -> list[str]:
+    """Plain-English bullets explaining WHY a checked answer is trusted.
+    Empty unless the check ran and passed (Derived); the caller shows this
+    only in that case."""
+    if not (result.get("checked") and result.get("passed")):
+        return []
+    return _TRUST_BULLETS.get(result.get("method"), [
+        "Re-checked the answer with an independent deterministic method",
+        "It passed"])

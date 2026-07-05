@@ -77,7 +77,8 @@ scenarios: math-1.5b wins at the published reference (15), deepseek at
 25 and 50 (by ≤1.5 and 0.06 pts). Exactly the case the escalation
 clause was written for; decision depends on Unknown **A-05**.
 
-**Recommendation (pending ratification): qwen2.5-math-1.5b.**
+**RATIFIED — qwen2.5-math-1.5b** (2026-07-04, escalation resolved by the
+full-range tps_max sweep — see `competition/MODEL_DECISION.md`). Summary below.
 (a) wins at the only *published* anchor (TPS_REFERENCE=15);
 (b) never trails on the 50%-weighted accuracy component;
 (c) deepseek's scenario wins require A-05 to resolve adversarially AND

@@ -14,21 +14,92 @@ fabricated-certainty pattern).
 from __future__ import annotations
 
 import json
+import re
 import urllib.error
 import urllib.request
 
 CANDIDATE_SERVERS = ("http://127.0.0.1:8080", "http://127.0.0.1:11434")
 
+MULTI_QUESTION_MESSAGE = (
+    "I detected multiple independent questions. EulerMind verifies one "
+    "question at a time so each answer can be independently checked. "
+    "Please submit one question.")
+
+_TASK_VERB = re.compile(
+    r'\b(solve|factori[sz]e|differentiate|integrate|expand|simplify|'
+    r'evaluate|compute|calculate|prove|find)\b', re.IGNORECASE)
+
+
+def _is_command_position(text: str, i: int) -> bool:
+    """A task verb counts as a NEW command only at the start of the text, of
+    a sentence, of a line, or right after a joiner (and/also/then). 'to solve
+    this' in mid-prose does not count."""
+    head = text[:i]
+    stripped = head.rstrip()
+    if not stripped:
+        return True
+    if '\n' in head[len(stripped):]:
+        return True                     # verb begins a new line
+    if stripped[-1] in '.?!;':
+        return True                     # verb begins a new sentence
+    last_word = stripped.split()[-1].lower().strip('*_')
+    return last_word in ('and', 'also', 'then', 'plus')
+
+
+def detect_multiple_questions(text: str) -> bool:
+    """Deterministic gate: True when the text contains two or more separate
+    maths tasks. Two command verbs count as ONE task only when nothing but
+    joiner words sits between them ('expand and simplify (x+1)(x+2)');
+    any real content between them ('Solve 3x = 12. Then factorise…') means
+    two independent questions."""
+    matches = [m for m in _TASK_VERB.finditer(text)
+               if _is_command_position(text, m.start())]
+    clusters = 0
+    prev_end = None
+    for m in matches:
+        between = text[prev_end:m.start()] if prev_end is not None else None
+        joined = between is not None and re.fullmatch(
+            r'[\s,]*(?:and|or|also|then)?[\s,]*', between, re.IGNORECASE)
+        if not joined:
+            clusters += 1
+        prev_end = m.end()
+    return clusters >= 2
+
 SYSTEM_PROMPT = (
-    "You are a patient mathematics tutor for West African secondary school "
-    "students preparing for WAEC/SSCE-level exams. Explain step by step in "
-    "clear, simple language. Show the working, not just the result. "
-    "If the question asks for a computation, end your reply with exactly "
-    "one line in this format:\n"
-    "FINAL ANSWER: <the answer only>\n"
-    "If the question asks for an explanation rather than a computation, "
-    "end with:\nFINAL ANSWER: see explanation\n"
-    "If you cannot solve the problem, say so plainly instead of guessing."
+    "You are a patient mathematics teacher for West African secondary school "
+    "students preparing for WAEC/SSCE exams. A tired student must understand "
+    "your solution after reading it once.\n"
+    "\n"
+    "Reply using EXACTLY six tags in this order: <UNDERSTANDING> (1-2 "
+    "sentences: what the question asks), <METHOD> (3-5 short lines: the plan "
+    "and why it works), <CALCULATION> (only the algebra needed, one step per "
+    "line, saying WHY each step happens — 'subtract 3 from both sides so the "
+    "equation stays balanced', never 'move 3 across'), <ANSWER> (ONLY the "
+    "mathematical result — values like x = 5 or x = -1/2 or x = -3, or an "
+    "expression like (x - 2)(x - 3); NEVER a sentence, NEVER 'see "
+    "explanation', NEVER working — all explanation belongs in METHOD or "
+    "CALCULATION; for a proof, state the key result, e.g. sum of angles = "
+    "180 degrees), <MISTAKE> (one "
+    "sentence: the usual student mistake here), <TAKEAWAY> (one sentence: "
+    "the lesson to remember). Nothing outside the tags.\n"
+    "\n"
+    "Example — for the question 'Solve x + 2 = 5' you would reply exactly:\n"
+    "<UNDERSTANDING>We need the value of x that makes both sides "
+    "equal.</UNDERSTANDING>\n"
+    "<METHOD>Isolate x by removing the +2 from the left side.</METHOD>\n"
+    "<CALCULATION>Subtract 2 from both sides so the equation stays balanced: "
+    "x = 5 - 2 = 3</CALCULATION>\n"
+    "<ANSWER>x = 3</ANSWER>\n"
+    "<MISTAKE>Students sometimes add 2 instead of subtracting it.</MISTAKE>\n"
+    "<TAKEAWAY>Whatever you do to one side, do to the other.</TAKEAWAY>\n"
+    "\n"
+    "Write ALL mathematics in plain text: no LaTeX, no backslashes, no "
+    "\\frac, no \\boxed, no dollar signs. Fractions as a/b, powers as x^2, "
+    "roots as sqrt(...), plus-or-minus as ±.\n"
+    "Solve it once, correctly, and stop: one line of reasoning, never "
+    "restart, never apologise, never show a second method.\n"
+    "Never label your own answer as verified or correct — a separate program "
+    "checks it."
 )
 
 
@@ -56,7 +127,7 @@ def stream_tutor_answer(question: str, base: str, model: str):
         "messages": [{"role": "system", "content": SYSTEM_PROMPT},
                      {"role": "user", "content": question}],
         "stream": True,
-        "temperature": 0.2,
+        "temperature": 0.1,  # format stability: the tag contract matters more than variety
         "max_tokens": 900,
     }).encode()
     req = urllib.request.Request(
