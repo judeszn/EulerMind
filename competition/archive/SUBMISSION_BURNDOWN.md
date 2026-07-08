@@ -1,5 +1,11 @@
 # Submission burndown (SUBMISSION EXECUTION MODE)
 
+**Archived 2026-07-08 — merged into
+[`competition/SUBMISSION_CHECKLIST.md`](../SUBMISSION_CHECKLIST.md)**
+(same blocker list, same date, near-duplicate structure). The
+reconciliation audit and summary below were folded into that file; this
+copy is kept for history and is not updated further.
+
 _Last updated: 2026-07-04. Statuses: 🟩 can complete/completed now ·
 🟨 waiting on organizer · 🟥 waiting on user._
 

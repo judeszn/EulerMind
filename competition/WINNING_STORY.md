@@ -1,5 +1,12 @@
 # The winning story (Horizon 1 — the only document that matters until Aug 25)
 
+**Scope note:** `FINAL_SUBMISSION_AUDIT.md` found the submission
+repository template-compliant and ready; that status is not reopened by
+this document. Everything here is optional, further score-raising work
+in this research repo (the Σ1 eval harness, `EVAL_GUARDRAIL_HARNESS_PRD.md`,
+status PROPOSED/not yet built) — a stretch goal before the Aug 25
+deadline, not a submission blocker.
+
 **Rule #1 (Guardrail Zero, CLAUDE.md — frozen since day one):** every
 recommendation must increase the probability of winning ADTC 2026,
 justified against the published judging criteria. Anything excellent for
@@ -35,7 +42,7 @@ its answers it had proved."*
 |---|---|---|---|
 | 1 | Finish Σ1: simultaneous-extraction hardening + classroom benchmark (~50 syllabus-authored SS1–SS3 questions, African contexts) run against the real Qwen2.5-Math GGUF via llama-server, **headline metric = confidently-wrong rate** | Assistant (needs BEGIN IMPLEMENTATION) | Turns the trust story into a number no rival can match; feeds REPORT + demo + use-case bonus |
 | 2 | Admin blockers: organizer email (4 Qs), ADTF team_id, Devpost prompt/story paste | **User** | Unblocks the only unfillable required field; submission legality |
-| 3 | Screenshots + 2-minute video (scripts ready), dual go-public, submit | **User** | The judged artifacts themselves |
+| 3 | Screenshots + 2-minute video (scripts ready), ~~dual go-public~~ (done 2026-07-08), submit | **User** | The judged artifacts themselves |
 
 Optional, strictly after #1 lands clean: the learner passport
 (portable on-device evidence file — described honestly, no "encrypted"
@@ -64,7 +71,7 @@ hardening, measurement, and presentation — not a new direction.
 | 2–3 | Author 50 syllabus-aligned questions across ~10 topics (African contexts, no copyrighted papers) → measure vs real Qwen2.5-Math GGUF on CI x86 → expand to 100 with weak topics oversampled. Headline: **confidently-wrong rate**; per-topic table becomes the REPORT capability map | Assistant |
 | 4 | Evidence-driven improvement ONLY where the benchmark points: routing, checking, extraction, prompting, explanations. **No fine-tuning. No new certified verticals unless the benchmark names one as cheap + high-yield** | Assistant |
 | 5 | Polish + re-vendor to submission repo + REPORT/Devpost/video-script updated with measured numbers. Stretch (only if clean): learner passport, honestly described | Assistant |
-| 6 | Screenshots, 2-minute video (staged honest-refusal beat mandatory), final audit re-run, dual go-public | User (scripts ready) |
+| 6 | Screenshots, 2-minute video (staged honest-refusal beat mandatory), final audit re-run | User (scripts ready; dual go-public done 2026-07-08) |
 | 7+ | **Buffer (~10 days). Submit well before Aug 25 07:45 GMT+1** | User |
 
 **Locked non-goals until submission:** fine-tuning · new certified

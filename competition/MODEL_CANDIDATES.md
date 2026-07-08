@@ -78,19 +78,9 @@ scenarios: math-1.5b wins at the published reference (15), deepseek at
 clause was written for; decision depends on Unknown **A-05**.
 
 **RATIFIED — qwen2.5-math-1.5b** (2026-07-04, escalation resolved by the
-full-range tps_max sweep — see `competition/MODEL_DECISION.md`). Summary below.
-(a) wins at the only *published* anchor (TPS_REFERENCE=15);
-(b) never trails on the 50%-weighted accuracy component;
-(c) deepseek's scenario wins require A-05 to resolve adversarially AND
-are worth ≤1.5 pts there;
-(d) all qualitative surfaces favor it — concise math-tuned output for
-the demo, the 2 test_prompts, and formalizer integration, vs R1-style
-verbose chain-of-thought (slower wall-clock answers, harder to
-constrain to JSON);
-(e) coherent narrative: math-specialized model on the math track.
-**Hedge preserved:** deepseek is the ranked alternate; if the organizer
-answer to A-05 is "max observed across teams," this decision is
-re-opened by that trigger. Evidence: `accuracy_results_ci_28684426883.json`.
+full-range tps_max sweep). Full ratification memo, five reasons, and the
+reopening trigger: `competition/MODEL_DECISION.md`. Evidence:
+`accuracy_results_ci_28684426883.json`.
 
 | Model | Params | GGUF Q4_K_M size (approx) | TPS (CI) | Peak RAM (CI) | lm_eval proxy | Notes |
 |---|---|---|---|---|---|---|

@@ -15,7 +15,7 @@ Ordered by criticality.
 | 2-minute demo video | Devpost "What to Submit" | ⬜ | — | User (script: assistant) | Model + prompts final (done); script not yet written | Assistant drafts script from REPORT.md + demo scenes; user records (~half day) |
 | Screenshots of build in action | Devpost "What to Submit" | ⬜ | — | User (staging: assistant) | none | Assistant stages terminal/pipeline captures; user screenshots (~1 h) |
 | Devpost project overview + story | Devpost form | ⬜ | Domain dropdown already correct (screenshot) | User (draft: assistant) | none | Assistant drafts from REPORT.md; user pastes (~1 h) |
-| Repo public at evaluation | Template rule 1 | ⏸ deliberately | Private by design | User | Everything above | **The submission act. Flip last.** |
+| Repo public at evaluation | Template rule 1 | 🟩 | Both `EulerMind` and `eulermind-adtc-submission` confirmed public (`gh repo view`, 2026-07-08) | — | — | — |
 | Devpost final submit (repo URL) | Devpost | ⬜ | — | User | All above | Before Aug 25, 2026 07:45 GMT+1 |
 
 ## Submission repository (github.com/judeszn/eulermind-adtc-submission)
@@ -41,7 +41,7 @@ Ordered by criticality.
 | 8 GB compliance (OOM = DQ) | Template rule 5 | 🟩 | Peak 1,699 MB measured (24% of 7 GB budget) | — | — | — |
 | llama.cpp only, GGUF | Template rule 4 | 🟩 | Q4_K_M through llama-bench; fraud-check params_match=true | — | — | — |
 | African use case (bonus) | Devpost judging criteria | 🟩 (claim staged) | african_alpha_claim=true; load-bearing OR pairing; SME test prompts | Judges decide | — | Video/demo must show it |
-| Open source | Devpost "What to Submit" | 🟨 | Repo exists, private-first | User | go-public step | — |
+| Open source | Devpost "What to Submit" | 🟩 | Both repos public (confirmed 2026-07-08) | — | — | — |
 
 ## Standing rules (this mode)
 
@@ -49,3 +49,30 @@ Ordered by criticality.
 - Every Devpost edit flows FROM the submission repo, never the reverse.
 - Unknown values are marked 🟥 with an acquisition path — never invented.
 - Reopening triggers stand: A-05 → model choice; A-02/A-08 → packaging.
+
+## Reconciliation audit (2026-07-04, merged from archive/SUBMISSION_BURNDOWN.md)
+
+Every artifact pair checked for mismatch:
+
+| Mismatch | Where | Resolution |
+|---|---|---|
+| Devpost Test Prompts ≠ metadata.json | Devpost form has old drafts ("factory A/B", "five engineers") | 🟥 User pastes the Lagos/Nairobi prompts from submission-repo metadata.json (5 min) |
+| Devpost "Self Reported Profiler Score" has no source | Profiler emits no overall score (schema verified; template REPORT.md confirms audit-side scoring) | 🟨 Q4 in organizer email; leave empty |
+| ~~Shipped test prompts don't parse in our own certified pipeline~~ | metadata.json prompts vs formalizers | 🟩 **FIXED** (2026-07-04): formalizers extended with a second closed phrasing family (natural SME prose). Both prompts now certify end-to-end (Lagos: Verified, 30+30, ₦345,000 exact match to hand-solve; Nairobi: Verified assignment, both checkers accept). Full regression green: selftest ✓, D1 9/9 ✓, LP 80/80 exact ✓, D3 reproduction bit-identical ✓, D5 tests 4/4 ✓. |
+| Research README said "Phase 0 (this repo, now)" | Judge-visible via REPORT.md link | 🟩 **Fixed** — current-state summary + demo quickstart added |
+| smoke_submission carries SMOKE labels | competition/smoke_submission (research repo) | Intentional and correctly labeled — harness, not submission. No action |
+| REPORT.md numbers vs evidence | — | 🟩 Verified before writing (192/192 recomputed; run IDs cited). No mismatch found |
+| metadata.json vs download_model.sh vs submission.json | model name/path/quant consistent; baseline from CI | 🟩 Consistent (profiler fraud-check params_match=true) |
+
+**Summary as of 2026-07-04:** 14 of 19 tracked items done with evidence
+(~74%); all remaining items are human-action or organizer-answer.
+Critical blockers (4): team_id · profiler-score definition · video
+recording · go-public+submit. Next three actions (all user, ~30 min
+total): send the organizer email + Discord post, register on the ADTF
+portal, fix the two Devpost prompt fields.
+
+**This board predates Sprint 4/5 product work (2026-07-05 onward — tutor
+lane checker families, README rewrite, real-WAEC holdout run).** It
+reflects submission-repo status as of 2026-07-04, not the current state
+of this research repo; see [scoreboard.md](../scoreboard.md) for what has
+moved since.

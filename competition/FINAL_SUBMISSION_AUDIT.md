@@ -1,5 +1,12 @@
 # FINAL SUBMISSION AUDIT — 2026-07-04
 
+**Scope note:** this audit covers the separate submission repository's
+template compliance — it does not cover, and is not contradicted by,
+`WINNING_STORY.md`'s optional score-raising work (the Σ1 eval harness),
+which is a further-improvement track in this research repo, not a
+submission blocker. "Ready" below means the template requirements are
+met; it does not mean no further work is planned.
+
 Auditor stance: a judge with 750 submissions and five minutes, who has
 never met us. Every verdict below is backed by an artifact, a CI run, or
 a direct test — nothing is "should work."
@@ -29,7 +36,7 @@ a direct test — nothing is "should work."
 2. **Organizer answer** on the "Self Reported Profiler Score" field (email + Discord, drafted)
 3. **Devpost form updates** (prompts + story paste — 10 min)
 4. **Screenshots + 2-minute video** (user; all scripts/staging prepared)
-5. **Go-public — BOTH repos** (submission + research; red-team Critical finding #1: all evidence links target the research repo, which is also private)
+5. ~~Go-public — BOTH repos~~ **RESOLVED (2026-07-08)** — `github.com/judeszn/EulerMind` and `github.com/judeszn/eulermind-adtc-submission` both confirmed public (`gh repo view`, this audit). Red-team Critical finding #1 is closed.
 6. **Devpost submit** (before Aug 25, 2026 07:45 GMT+1)
 
 ## Release status

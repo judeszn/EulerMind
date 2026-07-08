@@ -10,7 +10,7 @@ The automated components score the **bare GGUF through llama.cpp** —
 `llama-bench` for S_perf, `lm_eval` for the automated part of S_acc.
 EulerMind's certification kernel is not in the automated path. It earns
 credit only through: REPORT.md quality, the demo video, the 2 test
-prompts (mechanism unconfirmed — see GAP_ANALYSIS open questions),
+prompts (mechanism unconfirmed — see `archive/GAP_ANALYSIS.md` open questions),
 cross-disciplinary pairing, and the African Use Case bonus.
 
 **Therefore: model selection is the dominant automated-score lever, and

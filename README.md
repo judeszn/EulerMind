@@ -1,101 +1,189 @@
 # EulerMind
 
-A verification-guided mathematical reasoning engine optimized for commodity
-hardware (CPU-only, fully offline, 1.7 GB peak RAM measured).
+An offline mathematics tutor that checks its own answers before asking a
+student to trust them.
 
-**Current state:** three certified reasoning domains (edge-AI deployment,
-constraint CSP, linear programming), each with a deterministic
-parser-first formalizer, an exact solver, a certifying verifier, and a
-**second, independently-written checker** — 192/192 certificates agreed,
-0% false certification, reproduced byte-identically across OS and CPU
-architecture on every push. Current conclusions:
-[docs/SCIENTIFIC_STATE.md](docs/SCIENTIFIC_STATE.md) · measurements:
-[scoreboard.md](scoreboard.md) · research record:
-[whitepaper/GAMMA_FINAL_REPORT.md](whitepaper/GAMMA_FINAL_REPORT.md).
-
-**ADTC 2026:** this is the research/evidence repo. The competition
-submission lives in its own template-conformant repository; competition
-boards live in [competition/](competition/).
-
-**What it is:** an offline maths tutor that checks its own answers before
-asking students to trust them. A local model explains step by step; a
-deterministic checker verifies the final answer; every response carries an
-honest confidence label (Verified / Derived / Heuristic / Open). Wrong or
-unverifiable answers are labeled, never dressed up.
-
-**Try it (zero dependencies, stdlib only):**
+CPU-only, fully offline, 1.7 GB peak RAM measured. Built for the
+[Africa Deep Tech Challenge 2026](https://africadeeptech.org/challenge-2026/).
 
 ```bash
-./run_demo.sh               # llama.cpp + GGUF + UI, one command (see
-                            # competition/PRODUCTION_SETUP.md for the model)
-python3 -m app.local_demo   # UI only, certified lane works without a model
+./run_demo.sh               # llama.cpp + GGUF + UI, one command
+python3 -m app.local_demo   # UI only — the certified lane works without a model
 ```
 
-Paste any secondary-school maths question and watch it explain, check, and
-label its confidence — or refuse honestly when it cannot verify.
+This is the research and evidence repository. The competition submission
+(template-conformant, model weights, `REPORT.md`) lives in
+[github.com/judeszn/eulermind-adtc-submission](https://github.com/judeszn/eulermind-adtc-submission),
+generated from this repo; internal submission tracking lives in
+[competition/](competition/).
 
-The frozen vision, laws, guardrails, and phase plan live in
-[docs/VISION.md](docs/VISION.md). Pre-registered research hypotheses with kill
-thresholds live in [whitepaper/HYPOTHESES.md](whitepaper/HYPOTHESES.md).
+## 1. Problem
 
-## Phase 0 (historical — the research instrument)
+Offline, low-bandwidth classrooms cannot rely on cloud-hosted AI tutors —
+no connection, no server, no service. A model small enough to run on
+commodity hardware without internet access is the only option, and small
+offline models make more arithmetic and algebra mistakes than the
+cloud-scale models people are used to.
 
-We build the ruler before the system it measures. Phase 0 ships exactly four
-things — benchmark harness, procedural dataset generator, metrics, logging —
-and is deliberately **stdlib-only** so the instrument never depends on the
-solvers (SymPy, Z3, llama.cpp) it will later measure.
+## 2. Why existing AI tutors are insufficient
 
-### Quickstart
+A chatbot that explains a wrong answer as confidently as a right one is not
+useful for learning — a student cannot tell which explanation to trust
+without already knowing the answer. Most offline tutors either state that
+limitation nowhere, or bury it in a generic disclaimer that never changes
+per answer. Neither tells a student, question by question, which specific
+output was checked and which was not.
+
+## 3. EulerMind approach
+
+Three rules, enforced in code, not in the prompt:
+
+1. **Never fabricate certainty.** Every answer carries one of four trust
+   labels (§6), assigned by deterministic code — never by the model
+   labeling itself.
+2. **Reasoning before generation.** Arithmetic, algebra, and constraint
+   checking are executed, never generated. The model proposes; code
+   verifies.
+3. **Everything measurable.** Every claim in this README traces to a
+   dated measurement in [scoreboard.md](scoreboard.md) or a
+   `research/*/RESULTS.md` report — see
+   [docs/SCIENTIFIC_STATE.md](docs/SCIENTIFIC_STATE.md) for the current,
+   evidence-backed state, including the tested hypothesis that did not
+   hold up (§9).
+
+Full design rationale and the frozen phase plan: [docs/VISION.md](docs/VISION.md).
+
+## 4. Architecture
+
+```
+                 question (text)
+                        |
+                        v
+              +-- Reasoning Kernel --+
+              |                      |
+              |   Formalize          |     natural language -> variables,
+              |       |              |     constraints, objective
+              |       v              |
+              |   Attempt / Execute  |     arithmetic and search run as
+              |       |              |     code, never generated
+              |       v              |
+              |   Verify             |     independently-written checker,
+              |       |              |     no shared code with the solver
+              +-------|--------------+
+                      v
+                Trust label
+             (Verified / Derived / Heuristic / Open)
+                      |
+                      v
+              Explanation (rendered from the logged trace)
+```
+
+Three domains carry a full Formalizer -> Solver -> Verifier ->
+Independent Checker chain today: bounded resource allocation
+(`edge_ai_deployment`), constraint satisfaction (`constraint_csp`), and
+linear programming (`optimization_lp`). A fourth path (`app/tutor.py` +
+`app/answer_checker.py`) routes free-form secondary-school questions to a
+deterministic answer checker (substitution, recomputation, or formula
+roundtrip, depending on question type) when they fall outside the three
+certified domains.
+
+## 5. Trust model
+
+Every answer carries exactly one label. Labels are assigned by
+`app/answer_checker.py` or the kernel's certificate logic — never
+self-reported by the model.
+
+| Label | Meaning | How it is earned |
+|---|---|---|
+| **Verified** | The kernel certified the answer against an executable model of the problem, and a second, independently-written checker agrees. | Formalizer + solver + two independent verifiers, all agreeing |
+| **Derived** | The model's answer survived a deterministic check (substitution, recomputation, or a formula roundtrip against fixed sample values). | `app/answer_checker.py` |
+| **Heuristic** | The answer could not be checked by any available method (open-ended proof, unsupported question shape). Shown as unverified, not as wrong. | No checker matched the question |
+| **Open** | The system could not produce or check an answer at all. | Refusal |
+
+A `Verified` label requires both the arithmetic *and* the formalization
+of the problem to pass a machine check — a correct calculation on a
+misread problem is still wrong, so formalization is gated too
+(`docs/VISION.md`, Law 1).
+
+## 6. Offline execution
+
+Inference runs through `llama.cpp` against a local GGUF file
+(`llama-server` on `127.0.0.1`); the certified kernel and the answer
+checker are pure Python standard library. Nothing in the solve path makes
+a network call. This has been checked two ways:
+
+- **Cross-machine, cross-architecture reproduction**: the certification
+  pipeline (all three domains) reproduces byte-for-byte on GitHub Actions
+  `ubuntu-latest` (macOS/arm64 -> Linux/x86_64), on every push
+  (`.github/workflows/reproduce.yml`,
+  [research/D3_independent_reproduction/RESULTS.md](research/D3_independent_reproduction/RESULTS.md)).
+- **Peak RAM measured at 1.7 GB** with the production model
+  (Qwen2.5-Math-1.5B, Q4_K_M) loaded — see
+  [competition/MODEL_DECISION.md](competition/MODEL_DECISION.md).
+
+## 7. Screenshots
+
+Not yet committed to this repo. Demo staging (terminal run, a `Verified`
+result, and an honest `Open` refusal) is described in
+[competition/FINAL_SUBMISSION_AUDIT.md](competition/FINAL_SUBMISSION_AUDIT.md);
+images will be added here once captured.
+
+## 8. Benchmarks
+
+All numbers below are measured and dated; the full ledger, including
+negative results, is [scoreboard.md](scoreboard.md).
+
+| Metric | Result | Source |
+|---|---|---|
+| Certificates checked (edge_ai 60 + CSP 52 + LP 80) | **192/192** primary/independent agreement, **0%** false certification | [docs/SCIENTIFIC_STATE.md](docs/SCIENTIFIC_STATE.md) |
+| Independent reproduction | Bit-identical across OS + CPU architecture, every push | [research/D3_independent_reproduction/RESULTS.md](research/D3_independent_reproduction/RESULTS.md) |
+| Tutor lane, real WAEC past-paper set (n=20, not authored by the checker's authors) | 12/20 `Derived`, 0 false verifications | [competition/holdout_waec_realworld_dev_transcript.md](competition/holdout_waec_realworld_dev_transcript.md) |
+| Release-candidate profiler run (Qwen2.5-Math-1.5B, Q4_K_M) | 15.68 TPS, 1,699 MB peak RAM, audit-like x86 CI, fraud-check pass | [competition/FINAL_SUBMISSION_AUDIT.md](competition/FINAL_SUBMISSION_AUDIT.md) |
+
+**What is not yet established:** the pre-registered hypothesis that
+verifier feedback improves on blind retry (H1) was tested and rejected at
+the configuration measured — reported in full, not hidden, in
+[docs/SCIENTIFIC_STATE.md](docs/SCIENTIFIC_STATE.md). The trust-labeling
+and dual-checker certification described above do not depend on that
+hypothesis being true.
+
+## 9. Run locally
+
+Requires Python 3.10+. The benchmark harness has zero dependencies; the
+tutor lane requires `llama.cpp` and a local GGUF file.
 
 ```bash
-# 1. Calibrate the ruler (oracle must score 100%, null must score 0%)
-python3 -m benchmark.selftest
+# Certified-domain harness (no model needed)
+python3 -m benchmark.selftest                                    # calibrate the ruler: 20/20
+python3 -m benchmark.generator.build --per-category 40           # generate a dataset version
+python3 -m benchmark.runner --solver oracle --split dev          # run + report
 
-# 2. Generate the dataset (40 base instances/category -> 240 problems,
-#    clean+messy pairs, ~25% held out by deterministic base_id hash)
-python3 -m benchmark.generator.build --per-category 40
-
-# 3. Run a reference solver and produce a report
-python3 -m benchmark.runner --solver oracle --split dev
-python3 -m benchmark.runner --solver null --split dev
+# Full tutor stack (model + UI)
+./run_demo.sh                 # starts llama-server + UI, downloads nothing automatically
+./run_demo.sh check           # preflight only, no servers started
+python3 -m app.local_demo     # UI only, certified lane works without a model
 ```
 
-### Layout
+Model setup and hardware notes: [competition/PRODUCTION_SETUP.md](competition/PRODUCTION_SETUP.md).
+
+## 10. Repository layout
 
 ```
-benchmark/
-  schema.py          problem schema, deterministic dev/holdout split
-  generator/         procedural generators (exact ground truth by construction)
-    lp.py            2-variable LP word problems (vertex enumeration, Fractions)
-    calculus.py      polynomial critical points (built backwards from the answer)
-    csp.py           assignment puzzles incl. UNSAT instances + minimal conflict sets
-    build.py         dataset builder CLI
-  metrics.py         re-verifying graders, McNemar paired comparison
-  runner.py          runner, RAM/latency profiling, JSONL traces, reports
-  selftest.py        harness calibration (adversarial grader checks)
-  datasets/          generated (git-ignore large versions)
-  reports/           generated
-kernel/
-  state.py           frozen Execution State schema (versioned) + failure taxonomy
-  api.py             frozen Kernel API v1 (stage protocols + Budget config)
-  loop.py            the reasoning loop: verify-in-the-loop, budgeted, fully logged
-  oracle.py          Oracle Mode — mechanical EulerMind, no LLM; Phase 1 gate
-research/            experiment quarantine, one dir per hypothesis
-docs/VISION.md       frozen vision + research question
-docs/LOGGING.md      frozen JSONL trace schemas (the execution-trace corpus)
-whitepaper/          pre-registered hypotheses (H1-H4)
+app/         tutor UI, local demo entry point, deterministic answer checker
+kernel/      frozen Kernel API: state schema, reasoning loop, formalizers,
+             solvers, Oracle Mode (mechanical validation, no LLM)
+benchmark/   the measurement instrument — schema, generators, metrics,
+             runner, selftest. Stdlib-only; never imports a solver.
+research/    one directory per experiment (hypothesis, run, RESULTS.md);
+             permanent record, never edited after the fact
+docs/        frozen architecture (VISION.md), rubric mapping (SCORING.md),
+             trace schema (LOGGING.md), live findings (SCIENTIFIC_STATE.md)
+whitepaper/  pre-registered hypotheses and their outcomes
+demo/        the pinned, rehearsed demo script and its recorded baseline
+competition/ submission tracking, model selection record, judge-facing docs
+scoreboard.md   the measurement ledger — every experiment, one row each
 ```
 
-### Design decisions worth knowing
+## 11. License
 
-- **Graders re-verify, never string-match.** Any feasible-and-optimal LP plan,
-  any valid CSP assignment passes — not just the stored example.
-- **Unsat instances are the epistemic test.** ~15% of CSP instances have no
-  solution; the correct answer is a refusal. Inventing an assignment is graded
-  wrong (Law 1, enforced mechanically).
-- **Messy variants share ground truth with clean twins**, so the clean-minus-
-  messy paired delta is the formalization-robustness metric.
-- **Kill decisions use `metrics.compare_paired`** (McNemar exact), never raw
-  rate comparison — at n≈100, differences under ~7 points are noise.
-- **Split hygiene:** dev for iteration, holdout run once per phase gate,
-  judges' problems assumed unseen.
+[MIT](LICENSE).

@@ -1,5 +1,10 @@
 # Submission gap analysis — the execution board (Sprint Δ0)
 
+**Archived 2026-07-08 — superseded by
+[`competition/SUBMISSION_CHECKLIST.md`](../SUBMISSION_CHECKLIST.md)**, which
+rebuilt this board the same day (commit `c746fae`, "dashboard rebuilt").
+Kept for history; do not update.
+
 Statuses are honest: ✅ done · 🔶 in progress · ❌ not started · ❓ unknown/blocked-on-answer.
 No percentage bars — a status either has an artifact behind it or it doesn't.
 
