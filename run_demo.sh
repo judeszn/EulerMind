@@ -5,12 +5,12 @@
 #   ./run_demo.sh check      preflight only (no servers started)
 #
 # Judge-facing promise: no cloud, no internet, no Ollama. Everything runs
-# from the GGUF under models/ through llama-server on 127.0.0.1.
+# from the GGUF under model/ through llama-server on 127.0.0.1.
 
 set -euo pipefail
 
-MODEL_DIR="models/qwen2.5-math-1.5b"
-MODEL_GGUF="$MODEL_DIR/model.gguf"
+MODEL_DIR="model"
+MODEL_GGUF="$MODEL_DIR/Qwen2.5-Math-1.5B-Instruct-Q4_K_M.gguf"
 LLAMA_PORT=8080
 APP_PORT=7860
 CTX=4096
@@ -31,7 +31,7 @@ command -v python3 >/dev/null 2>&1 || fail "python3 not found"
   Download it (one-time, ~1.0 GB) per competition/PRODUCTION_SETUP.md, e.g.:
   mkdir -p $MODEL_DIR
   curl -L -o $MODEL_GGUF \\
-    'https://huggingface.co/Qwen/Qwen2.5-Math-1.5B-Instruct-GGUF/resolve/main/qwen2.5-math-1.5b-instruct-q4_k_m.gguf'"
+    'https://huggingface.co/bartowski/Qwen2.5-Math-1.5B-Instruct-GGUF/resolve/main/Qwen2.5-Math-1.5B-Instruct-Q4_K_M.gguf'"
 
 say "preflight OK: llama-server + python3 + $(du -h "$MODEL_GGUF" | cut -f1) GGUF"
 [ "${1:-}" = "check" ] && exit 0

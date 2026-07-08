@@ -20,15 +20,18 @@ The ratified model (competition/MODEL_DECISION.md): **Qwen2.5-Math-1.5B-Instruct
 Q4_K_M GGUF.**
 
 ```sh
-mkdir -p models/qwen2.5-math-1.5b
-curl -L -o models/qwen2.5-math-1.5b/model.gguf \
-  'https://huggingface.co/Qwen/Qwen2.5-Math-1.5B-Instruct-GGUF/resolve/main/qwen2.5-math-1.5b-instruct-q4_k_m.gguf'
+mkdir -p model
+curl -L -o model/Qwen2.5-Math-1.5B-Instruct-Q4_K_M.gguf \
+  'https://huggingface.co/bartowski/Qwen2.5-Math-1.5B-Instruct-GGUF/resolve/main/Qwen2.5-Math-1.5B-Instruct-Q4_K_M.gguf'
 ```
 
-(If the exact filename 404s — Hugging Face occasionally renames — list the
-repo's files at huggingface.co/Qwen/Qwen2.5-Math-1.5B-Instruct-GGUF and take
-the `q4_k_m` one. This is the ONLY internet-requiring step; after it, the
-machine can go offline permanently.)
+(Same URL and path the submission repo's `download_model.sh` uses and
+CI has verified end-to-end — see
+[github.com/judeszn/eulermind-adtc-submission](https://github.com/judeszn/eulermind-adtc-submission).
+If the exact filename 404s — Hugging Face occasionally renames — list the
+repo's files at huggingface.co/bartowski/Qwen2.5-Math-1.5B-Instruct-GGUF
+and take the `Q4_K_M` one. This is the ONLY internet-requiring step;
+after it, the machine can go offline permanently.)
 
 ## 3. Run everything (1 command)
 
@@ -64,7 +67,7 @@ model. Then do the Phase 2 explanation audit on that transcript.
 ## 6. Benchmark numbers (record in scoreboard.md)
 
 ```sh
-llama-bench -m models/qwen2.5-math-1.5b/model.gguf     # tokens/sec
+llama-bench -m model/Qwen2.5-Math-1.5B-Instruct-Q4_K_M.gguf     # tokens/sec
 # peak RAM: run a reality check while watching:
 /usr/bin/time -l python3 -m app.reality_check 2>&1 | grep "maximum resident"  # macOS
 ```

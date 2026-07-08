@@ -3,3 +3,5 @@ __pycache__/
 benchmark/reports/
 .DS_Store
 .claude/
+model/
+*.gguf
