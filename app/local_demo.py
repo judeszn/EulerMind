@@ -284,7 +284,15 @@ const SYM_MAP={theta:'θ',Theta:'Θ',alpha:'α',beta:'β',gamma:'γ',Gamma:'Γ',
   infty:'∞',in:'∈',notin:'∉',forall:'∀',exists:'∃',
   sum:'∑',prod:'∏',int:'∫',partial:'∂',nabla:'∇',
   emptyset:'∅',subset:'⊂',supset:'⊃',subseteq:'⊆',supseteq:'⊇',cup:'∪',cap:'∩',
-  langle:'⟨',rangle:'⟩',circ:'∘'};
+  langle:'⟨',rangle:'⟩',circ:'∘',
+  // named functions: LaTeX's \sin etc. only mean "set upright roman type,
+  // don't italicize as three variables" — bare name is the correct reading.
+  sin:'sin',cos:'cos',tan:'tan',cot:'cot',sec:'sec',csc:'csc',
+  arcsin:'arcsin',arccos:'arccos',arctan:'arctan',
+  sinh:'sinh',cosh:'cosh',tanh:'tanh',coth:'coth',
+  log:'log',ln:'ln',exp:'exp',lim:'lim',
+  max:'max',min:'min',sup:'sup',inf:'inf',
+  gcd:'gcd',lcm:'lcm',det:'det',dim:'dim',ker:'ker',deg:'deg',mod:'mod'};
 function deLatex(s){
   // inner, brace-free forms first, so \\frac's [^{}] match then succeeds on
   // nested content like \\frac{-7 \\pm \\sqrt{25}}{4}
