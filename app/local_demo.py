@@ -280,11 +280,11 @@ button.ex{background:#fff;color:#1a1a18;border:1px solid #ccc;font-size:.8rem;pa
 .meta{color:#888;font-size:.8rem}</style></head><body>
 <h1>EulerMind</h1>
 <p class="sub">The offline maths tutor that knows the difference between what it has proved and what it has only inferred</p>
-<p class="sub2">Every answer clearly tells you whether it was mathematically verified or is an AI explanation.</p>
+<p class="sub2">Every answer tells you whether EulerMind checked it — or couldn't.</p>
 <div class="badges"><span>✓ Works without internet</span><span>✓ Runs on ordinary school laptops</span><span>✓ Checks its answers — and says when it can't</span></div>
 <div class="trustkey" id="trustkey"></div>
 <p class="meta"><span id="exlabel">Examples</span>: <span id="exbtns"></span></p>
-<textarea id="q" placeholder="Paste any secondary-school maths question (WAEC/SSCE) — equations, factorising, differentiation… or a resource-allocation problem for the certified lane"></textarea><br>
+<textarea id="q" placeholder="Paste any secondary-school maths question (WAEC/SSCE) — equations, factorising, differentiation… or a business planning question"></textarea><br>
 <button onclick="go()" id="solvebtn">Solve</button>
 <span class="langsw" id="langsw"></span>
 <div id="out"></div>
@@ -298,16 +298,17 @@ EXAMPLES.forEach(e=>{const b=document.createElement('button');b.className='ex';b
 function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
 
 // ---------------------------------------------------------------- i18n
-// UI labels only. Mathematics is NEVER translated, and the model's own
-// explanation is shown in whatever language it produced.
-// TRANSLATION STATUS: the Yoruba and Pidgin strings below are UNREVIEWED
-// drafts and must be checked by a fluent speaker before any demo. English
-// is the default so nothing depends on them.
+// UI labels only — two languages, LOCKED: English (default) + Nigerian
+// Pidgin (strings specified by the team, not machine-drafted). Yoruba was
+// deliberately dropped for the submission: Pidgin carries the African-first
+// story across Nigeria/Ghana/Cameroon with zero bad-translation risk.
+// Mathematics, equations, numbers and the model's own explanation are
+// NEVER translated.
 const I18N={
  en:{name:'English',
   solve:'Solve', examples:'Examples', supported:'Supported question types',
   supportedNote:'kinds of mathematics question currently checked',
-  machineCheck:'EulerMind machine check', method:'Method', result:'Result',
+  machineCheck:'Machine check', method:'Method', result:'Result',
   modelExplanation:'Model’s explanation', answer:'Answer',
   whyTrusted:'Why this answer is trusted',
   gen:'Generation time', ver:'Verification time', total:'Total time',
@@ -319,27 +320,15 @@ const I18N={
  pcm:{name:'Pidgin',
   solve:'Solve am', examples:'Example dem', supported:'Question wey EulerMind fit check',
   supportedNote:'kind maths question wey e dey check now',
-  machineCheck:'EulerMind machine check', method:'How e take check am', result:'Wetin e find',
+  machineCheck:'Machine Check', method:'How e take check am', result:'Wetin e find',
   modelExplanation:'Wetin di AI talk', answer:'Answer',
   whyTrusted:'Why you fit trust dis answer',
-  gen:'Time to write am', ver:'Time to check am', total:'Total time',
-  PROVED:'E DON PROVE', PROVED_d:'Dem check am two different ways. Di two agree.',
-  CHECKED:'E DON CHECK AM', CHECKED_d:'EulerMind check dis answer with mathematics.',
-  AIEXP:'NA AI TALK AM', AIEXP_d:'Na di AI write dis one, EulerMind no check am with mathematics. Read am well well.',
-  NOANS:'E NO FIT ANSWER', NOANS_d:'EulerMind no fit solve dis question. Instead make e guess, e tell you true true.',
-  FAILED:'CHECK FAIL', FAILED_d:'EulerMind check di answer, e find mistake for inside. No trust dis answer.'},
- yo:{name:'Yorùbá',
-  solve:'Yanjú', examples:'Àpẹẹrẹ', supported:'Irú ìbéèrè tí a ń ṣàyẹ̀wò',
-  supportedNote:'irú ìbéèrè ìṣirò ni a ń ṣàyẹ̀wò báyìí',
-  machineCheck:'Àyẹ̀wò ẹ̀rọ EulerMind', method:'Ọ̀nà', result:'Àbájáde',
-  modelExplanation:'Àlàyé AI', answer:'Ìdáhùn',
-  whyTrusted:'Ìdí tí o fi lè gbẹ́kẹ̀lé ìdáhùn yìí',
-  gen:'Àkókò ìkọ̀wé', ver:'Àkókò àyẹ̀wò', total:'Àpapọ̀ àkókò',
-  PROVED:'A TI FÍDÍ RẸ̀ MÚLẸ̀', PROVED_d:'A ṣàyẹ̀wò rẹ̀ ní ọ̀nà òmìnira méjì. Àwọn méjèèjì fara mọ́ ara wọn.',
-  CHECKED:'A TI ṢÀYẸ̀WÒ', CHECKED_d:'EulerMind ṣàyẹ̀wò ìdáhùn yìí pẹ̀lú ìṣirò.',
-  AIEXP:'ÀLÀYÉ AI', AIEXP_d:'AI ni ó kọ ìdáhùn yìí, a kò ṣàyẹ̀wò rẹ̀ pẹ̀lú ìṣirò. Ka á dáadáa.',
-  NOANS:'KÒ LÈ DÁHÙN', NOANS_d:'EulerMind kò lè yanjú ìbéèrè yìí. Dípò kí ó mán, ó sọ òtítọ́ fún ọ.',
-  FAILED:'ÀYẸ̀WÒ KÙNA', FAILED_d:'EulerMind ṣàyẹ̀wò ìdáhùn náà ó sì rí àṣìṣe ìṣirò. Má gbẹ́kẹ̀lé ìdáhùn yìí.'}
+  gen:'Time wey AI take solve', ver:'Time wey EulerMind take check am', total:'Total Time',
+  PROVED:'DON PROVE AM', PROVED_d:'Dem check am two different ways. Di two agree.',
+  CHECKED:'DON CHECK AM', CHECKED_d:'EulerMind check dis answer with mathematics.',
+  AIEXP:'AI EXPLAIN AM', AIEXP_d:'Na di AI write dis one, EulerMind no check am with mathematics. Read am well well.',
+  NOANS:'E NO FIT SOLVE AM', NOANS_d:'EulerMind no fit solve dis question. Instead make e guess, e tell you true true.',
+  FAILED:'CHECK FAIL', FAILED_d:'EulerMind check di answer, e find mistake for inside. No trust dis answer.'}
 };
 let LANG='en';
 function t(k){ return (I18N[LANG] && I18N[LANG][k]) || I18N.en[k] || k; }
@@ -601,7 +590,7 @@ function renderStream(el, text){
   el.innerHTML=h;
 }
 async function tutor(q, out, solved){
-  out.innerHTML='<p class="meta">tutor lane · local model, streaming — fully offline</p>'
+  out.innerHTML='<p class="meta">local AI model — fully offline</p>'
     +'<p class="legend">The sections below are the model\\'s explanation. '
     +'Only the final answer is machine-checked by EulerMind.</p>'
     +'<div id="steps"></div><div id="verdict"></div>';
