@@ -21,8 +21,14 @@ fail() { printf '\033[31mERROR: %s\033[0m\n' "$*" >&2; exit 1; }
 # ---------------------------------------------------------------- preflight
 command -v llama-server >/dev/null 2>&1 \
   || fail "llama-server not found. Install llama.cpp first:
-  macOS:  brew install llama.cpp
-  other:  see competition/PRODUCTION_SETUP.md"
+  macOS:    brew install llama.cpp
+  Linux:    brew install llama.cpp   (Homebrew works on Linux too), OR build
+            from source — see competition/PRODUCTION_SETUP.md for the
+            exact commands (no package-manager dependency required)
+  Windows:  install WSL2 and follow the Linux instructions above — this
+            also matches the x86 Linux environment the official ADTC
+            profiler audits on
+  Full guide: competition/PRODUCTION_SETUP.md"
 
 command -v python3 >/dev/null 2>&1 || fail "python3 not found"
 
